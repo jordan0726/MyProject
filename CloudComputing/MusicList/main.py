@@ -24,38 +24,38 @@ def main():
         "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
     }
 
-    # # TASK 1.1 -- Create a 'login' table and insert data
-    # db.create_table('login', login_table_schema)
-    #
-    # # Insert data
-    # for i in range(10):
-    #     email = f"s4068959{i}@student.rmit.edu.au"
-    #     user_name = f"JordanChiou{i}"
-    #     password = "".join(str((i+j) % 10) for j in range(6))
-    #
-    #     # data dict
-    #     user_data = {
-    #         'email': email,
-    #         'user_name': user_name,
-    #         'password': password
-    #     }
-    #
-    #     # insert data into the table
-    #     db.insert_data('login', user_data)
-    #
-    # # TASK 1.2 -- create a table titled 'music'
-    # db.create_table('music', music_table_schema)
-    #
-    # # TASK1.3 -- Load data from json file
-    # db.load_data_from_json_into_table('music', json_file, 'title', 'album')
+    # TASK 1.1 -- Create a 'login' table and insert data
+    db.create_table('login', login_table_schema)
 
-    # # TASK 2 -- Download from img_url and upload images to S3
-    # s3_manager = S3Manager()
-    # bucket_name = 'media-storage-s4068959'
-    # # Create a bucket
-    # s3_manager.create_s3_bucket(bucket_name)
-    # # Download and Upload images to S3
-    # s3_manager.download_and_upload(json_file, bucket_name)
+    # Insert data
+    for i in range(10):
+        email = f"s4068959{i}@student.rmit.edu.au"
+        user_name = f"JordanChiou{i}"
+        password = "".join(str((i+j) % 10) for j in range(6))
+
+        # data dict
+        user_data = {
+            'email': email,
+            'user_name': user_name,
+            'password': password
+        }
+
+        # insert data into the table
+        db.insert_data('login', user_data)
+
+    # TASK 1.2 -- create a table titled 'music'
+    db.create_table('music', music_table_schema)
+
+    # TASK1.3 -- Load data from json file
+    db.load_data_from_json_into_table('music', json_file, 'title', 'album')
+
+    # TASK 2 -- Download from img_url and upload images to S3
+    s3_manager = S3Manager()
+    bucket_name = 'media-storage-s4068959'
+    # Create a bucket
+    s3_manager.create_s3_bucket(bucket_name)
+    # Download and Upload images to S3
+    s3_manager.download_and_upload(json_file, bucket_name)
 
 
 if __name__ == "__main__":
