@@ -33,6 +33,8 @@ For team members using PyCharm (or any other IDE — as long as you have the **A
 aws_access_key_id = YOUR_ACCESS_KEY_ID
 aws_secret_access_key = YOUR_SECRET_ACCESS_KEY
 aws_session_token = YOUR_SESSION_TOKEN
+```
+4. 
 
 ### 📥 Download the following project files:
 
