@@ -1,10 +1,36 @@
-READ ME
-A collaborative cloud project in class - Cloud Computing
-Assigment specification please refer to file - COSC2626_2640_2025S1_A1
-Language use: Python 3.12.4
-IDE: Pychorm
+# ☁️ Cloud Computing Project - Assignment 1
 
-To Start:
-1. Make sure to connect to AWS account from local environment
-2. Download dynamo_manager.py, s3_manager.py, main.py and 2025a1.json
-3. Running main.py
+This is a collaborative cloud-based project developed as part of an in-class assignment for the **Cloud Computing** course.
+
+> **Assignment Specification:**  
+Please refer to the file: `COSC2626_2640_2025S1_A1`
+
+---
+
+## 📌 Project Info
+
+- **Language Used**: Python 3.12.4  
+- **IDE**: PyCharm  
+- **Cloud Platform**: AWS
+
+---
+
+## 🚀 Getting Started
+
+### ✅ Prerequisites
+
+Make sure your local environment is connected to your **AWS account**, and that necessary credentials are configured (e.g., via AWS CLI or environment variables).
+
+### 📥 Download the following project files:
+
+- `main.py`
+- `dynamo_manager.py`
+- `s3_manager.py`
+- `2025a1.json` (configuration or dataset)
+
+### ▶️ To Run the Program
+
+In terminal:
+
+```bash
+python main.py
