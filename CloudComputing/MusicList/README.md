@@ -61,6 +61,9 @@ Once your AWS connection is set:
 
 You can run the project in your local environment
 This will:
-    1. Create a DynamoDB table automatically
-    2. Load and populate data from 2025a1.json into the table
-    ⚠️ Currently, data insertion is done one-by-one, so performance might be slow for large datasets. Haven't refined it yet.
+
+1. Create a DynamoDB table automatically  
+2. Load and populate data from `2025a1.json` into the table  
+
+> ⚠️ **Note:** Currently, data insertion is done one-by-one, so performance might be slow for large datasets. Optimization is still in progress.
+
