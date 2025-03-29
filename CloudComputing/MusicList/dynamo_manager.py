@@ -72,27 +72,30 @@ class DynamoDBManager:
             songs = loaded_data['songs']
             print(f"🔄 Inserting {len(songs)} records into '{table_name}'...")
 
-            for item in songs:
-                if partition_key not in item:
-                    print(f"⚠️ Skipping item: Missing '{partition_key}' field.")
-                    continue # jump to the item if the partition key is missing
+            table = self.dynamodb.Table(table_name)
+            with table.batch_writer() as batch:
+                for item in songs:
+                    # Check if the partition key exists
+                    if partition_key not in item:
+                        print(f"⚠️ Skipping item: Missing '{partition_key}' field.")
+                        continue  # jump to the item if the partition key is missing
 
-                # build up the item
-                item_data = {partition_key: item[partition_key]}
+                    # Build the item with required keys and additional attributes
+                    item_data = {partition_key: item[partition_key]}
+                    # Add the sort key if it exists
+                    if sort_key:
+                        if sort_key not in item:
+                            print(f"⚠️ Skipping item: Missing '{sort_key}' field.")
+                            continue  # jump to the item if the sort key is missing
+                        item_data[sort_key] = item[sort_key]
 
-                # Add the sort key if it exists
-                if sort_key:
-                    if sort_key not in item:
-                        print(f"⚠️ Skipping item: Missing '{sort_key}' field.")
-                        continue # jump to the item if the sort key is missing
-                    item_data[sort_key] = item[sort_key]
+                    # Include additional attributes
+                    for key, value in item.items():
+                        if key not in (partition_key, sort_key):  # Avoid duplicating primary keys
+                            item_data[key] = value
 
-                # Include additional attributes
-                for key, value in item.items():
-                    if key not in (partition_key, sort_key): #Avoid duplicating primary keys
-                        item_data[key] = value
-
-                self.insert_data(table_name, item_data)
+                    # Add the item to the batch
+                    batch.put_item(Item=item_data)
 
             print(f"✅ Successfully inserted all records into '{table_name}'.")
         except Exception as e:

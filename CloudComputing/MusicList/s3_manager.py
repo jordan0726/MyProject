@@ -1,6 +1,7 @@
 # Third-party dependencies (Need to install via `pip install requests`)
 import requests
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 import boto3
 import json
@@ -38,7 +39,87 @@ class S3Manager:
         except Exception as e:
             print(f"❌ Failed to create bucket: {e}")
 
-    def upload_file_to_bucket(self, file_path: str, bucket_name: str, s3_key: str) -> None:
+    def upload_from_url_to_bucket(self, img_url: str, bucket_name: str, s3_key: str) -> None:
+        """
+        Uploads an image from a URL to the specified S3 bucket without saving it locally.
+        :param img_url: The URL of the image to upload.
+        :param bucket_name: The name of the S3 bucket.
+        :param s3_key: The S3 object key (file path in S3).
+        :return: None
+        """
+        try:
+            # Download image content as a stream to avoid loading the entire file into memory
+            response = requests.get(img_url, stream=True, timeout=10)
+            response.raise_for_status() # Raise an exception for any non-200 HTTP responses
+
+            # Ensure raw content is decoded correctly, especially for compressed responses
+            response.raw.decode_content = True
+
+            self.s3_client.upload_fileobj(response.raw, bucket_name, s3_key)
+            print(f"📤 Successfully uploaded {img_url} to s3://{bucket_name}/{s3_key}")
+
+        except Exception as e:
+            print(f"❌ Failed to upload image from {img_url} to S3: {e}")
+
+    def upload_img_from_json(self, json_file: str, bucket_name: str, max_workers: int =10) -> None:
+        """
+        Reads image URLs from a JSON file and uploads each image directly to S3.
+
+        :param str json_file: The path to the JSON file containing song data.
+                              Expected format:
+                              {
+                                  "songs": [
+                                      {
+                                          "artist": "Artist Name",
+                                          "img_url": "https://example.com/image.jpg"
+                                      },
+                                      ...
+                                  ]
+                              }
+        :param str bucket_name: The name of the destination S3 bucket.
+        :return: None
+        """
+        try:
+            # Load the JSON file
+            with open(json_file, 'r', encoding='utf-8') as file:
+                loaded_data = json.load(file)
+
+            if 'songs' not in loaded_data or not isinstance(loaded_data['songs'], list):
+                raise ValueError("❌ Invalid JSON format: 'songs' key is missing or is not a list.")
+
+            songs = loaded_data['songs']
+            tasks = []
+
+            # Set up a ThreadPoolExecutor to upload images concurrently
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+
+                # Loop through each song in the list to get the image URL
+                for each_song in songs:
+                    img_url = each_song.get("img_url", None) # Get the image URL
+                    artist = each_song.get("artist", "unknown").replace(" ", "_") # Get the artist name and replace spaces with underscores
+
+                    if not img_url:
+                        print(f"⚠️ Skipping {artist}: No image URL provided.")
+                        continue
+
+                    s3_key = f"artist-images/{artist}.jpg"
+                    print(f"⏳ Queuing upload for {artist} from URL: {img_url}")
+
+                    # Submit the upload task to the thread pool
+                    task = executor.submit(self.upload_from_url_to_bucket, img_url, bucket_name, s3_key)
+                    tasks.append(task)
+
+                # Optionally wait for all tasks to complete
+                for future in as_completed(tasks):
+                    # The upload_from_url_to_bucket function prints its own success/failure messages.
+                    pass
+
+            print("✅ All uploads completed.")
+
+        except Exception as e:
+            print(f"❌ Error while processing JSON file: {e}")
+
+    def upload_local_file_to_bucket(self, file_path: str, bucket_name: str, s3_key: str) -> None:
         """
         Uploads a file to the specified S3 bucket.
 
@@ -53,7 +134,7 @@ class S3Manager:
         except Exception as e:
             print(f"❌ Failed to upload {file_path} to S3: {e}")
 
-    def download_and_upload(self, json_file: str, bucket_name:str, local_folder: str = 'images') -> None:
+    def download_locally_and_upload(self, json_file: str, bucket_name:str, local_folder: str = 'images') -> None:
         """
       Downloads artist images from the given JSON file and uploads them to an S3 bucket.
 
@@ -120,10 +201,6 @@ class S3Manager:
 
         except Exception as e:
             print(f"❌ Error processing JSON: {e}")
-
-
-
-
 
 
 

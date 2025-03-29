@@ -55,7 +55,7 @@ def main():
     # Create a bucket
     s3_manager.create_s3_bucket(bucket_name)
     # Download and Upload images to S3
-    s3_manager.download_and_upload(json_file, bucket_name)
+    s3_manager.upload_img_from_json(json_file, bucket_name)
 
 
 if __name__ == "__main__":
