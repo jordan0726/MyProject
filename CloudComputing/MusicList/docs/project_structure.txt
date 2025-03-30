@@ -1,0 +1,53 @@
+MusicList/
+│
+├── backend/              ← Backend code (FastAPI)
+│   ├── api/              ← API routers (REST API endpoints)
+│   │   ├── __init__.py
+│   │   ├── auth.py       ← Authentication routes (login/register)
+│   │   └── music.py      ← Music-related routes
+│   │
+│   ├── core/             ← Core logic (e.g., DynamoDB, S3 interactions)
+│   │   ├── __init__.py
+│   │   ├── dynamo.py
+│   │   └── s3.py
+│   │
+│   ├── models/           ← Data models (Pydantic models)
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   └── music.py
+│   │
+│   ├── schemas/          ← API input/output validation schemas
+│   │   ├── __init__.py
+│   │   ├── user_schema.py
+│   │   └── music_schema.py
+│   │
+│   ├── services/         ← Business logic and complex operations
+│   │   ├── __init__.py
+│   │   ├── auth_service.py
+│   │   └── music_service.py
+│   │
+│   ├── tests/            ← Unit/integration tests (optional)
+│   │   └── test_api.py
+│   │
+│   ├── main.py           ← Application entry point for FastAPI
+│   └── requirements.txt  ← Python dependencies list
+│
+├── frontend/             ← Frontend code (HTML, CSS, JS)
+│   ├── css/
+│   │   └── styles.css
+│   ├── js/
+│   │   └── scripts.js
+│   └── index.html
+│
+├── data/                 ← Data files (e.g., your 2025a1.json)
+│   └── 2025a1.json
+│
+├── docs/                 ← Documentation (requirements, API docs, etc.)
+│   └── API_documentation.md
+│
+├── images/               ← Project images (non-dynamically loaded)
+│
+├── scripts/              ← Deployment scripts and utility scripts
+│
+├── README.md             ← Project README (instructions & setup)
+└── .gitignore            ← Git ignore file

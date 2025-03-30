@@ -1,9 +1,9 @@
-from dynamo_manager import DynamoDBManager  # Import only the class
-from s3_manager import S3Manager
+from backend.core.dynamo_manager import DynamoManager  # Import only the class
+from backend.core.s3_manager import S3Manager
 
 def main():
-    db = DynamoDBManager()
-    json_file = '2025a1.json'
+    db = DynamoManager()
+    json_file = '../data/2025a1.json'
     login_table_schema = {
         "KeySchema": [{"AttributeName": "email", "KeyType": "HASH"}],
         "AttributeDefinitions": [{"AttributeName": "email", "AttributeType": "S"}],

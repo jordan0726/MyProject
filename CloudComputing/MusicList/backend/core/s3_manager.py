@@ -7,9 +7,6 @@ import os
 import boto3
 import json
 
-from jinja2.bccache import Bucket
-
-
 class S3Manager:
     def __init__(self, region='us-east-1'):
         """
@@ -191,17 +188,17 @@ class S3Manager:
 
         # Define the bucket policy JSON
         s3_bucket_policy = {
-            "Version": "2012-10-17",
+            "Version": "2012-10-17", # Policy language version (AWS standard version)
             "Statement":[
                 {
                     "Sid": "DenyPublicRead",
-                    "Effect": "Deny",
-                    "Principal": "*",
-                    "Action": "s3:GetObject",
+                    "Effect": "Deny",   # Explicitly deny access (as opposed to allow)
+                    "Principal": "*",   # Applies to everyone (all anonymous users)
+                    "Action": "s3:GetObject", # Action being denied (reading objects from bucket)
                     "Resource": f"arn:aws:s3:::{bucket_name}/*",
                     "Condition": {
                         "Bool": {
-                            "aws:SecureTransport": "false"
+                            "aws:SecureTransport": "false" # Condition: deny if NOT using secure transport (HTTPS)
                         }
                     }
                 }
