@@ -1,5 +1,5 @@
-from backend.core.dynamo_manager import DynamoManager  # Import only the class
-from backend.core.s3_manager import S3Manager
+from backend.core.dynamo import DynamoManager  # Import only the class
+from backend.core.s3 import S3Manager
 
 def main():
     db = DynamoManager()
@@ -16,18 +16,18 @@ def main():
                       ],
         "AttributeDefinitions":[
             {"AttributeName": "title", "AttributeType": "S"},
-            # {"AttributeName": "artist", "AttributeType": "S"},
-            # {"AttributeName": "year", "AttributeType": "N"},
             {"AttributeName": "album", "AttributeType": "S"},
-            # {"AttributeName": "image_url", "AttributeType": "S"}
         ],
         "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
     }
 
     # TASK 1.1 -- Create a 'login' table and insert data
-    db.create_table('login', login_table_schema)
+    if db.create_table('login', login_table_schema):
+        print("✅ Login table created.")
+    else:
+        print("⚠️ Login table already exists or failed to create.")
 
-    # Insert data
+    ## Insert data
     for i in range(10):
         email = f"s4068959{i}@student.rmit.edu.au"
         user_name = f"JordanChiou{i}"
@@ -41,28 +41,51 @@ def main():
         }
 
         # insert data into the table
-        db.insert_data('login', user_data)
+        if db.insert_data('login', user_data):
+            print(f"✅ Inserted data: {user_data}")
+        else:
+            print(f"⚠️ Failed to insert data: {user_data}")
 
     # TASK 1.2 -- create a table titled 'music'
-    db.create_table('music', music_table_schema)
+    if db.create_table('music', music_table_schema):
+        print("✅ Music table created.")
+    else:
+        print("⚠️ Music table already exists or failed to create.")
 
     # TASK1.3 -- Load data from json file
-    db.load_data_from_json_into_table('music', json_file, 'title', 'album')
+    if db.load_data_from_json_into_table('music', json_file, 'title', 'album'):
+        print(f"✅ Loaded data from {json_file} into the 'music' table.")
+    else:
+        print(f"⚠️ Failed to load data from {json_file} into the 'music' table.")
 
     # TASK 2 -- Download from img_url and upload images to S3
     s3_manager = S3Manager()
     bucket_name = 'media-storage-s4068959'
-    # Create a bucket
-    s3_manager.create_s3_bucket(bucket_name)
+    ## Create a bucket
+    if s3_manager.create_s3_bucket(bucket_name):
+        print(f"✅ Created bucket: {bucket_name}")
+    else:
+        print(f"⚠️ Bucket '{bucket_name}' already exists or failed to create.")
 
     ## completely block public access to prevent any accidental public exposure
-    s3_manager.enable_block_public_access(bucket_name)
+    if s3_manager.enable_block_public_access(bucket_name):
+        print(f"✅ Enabled block public access for bucket: {bucket_name}")
+    else:
+        print(f"⚠️ Failed to enable block public access for bucket: {bucket_name}")
 
     ## set a more detailed bucket policy (e.g., enforcing HTTPS access)
-    s3_manager.set_bucket_policy_block_public_access(bucket_name)
+    if s3_manager.set_bucket_policy_block_public_access(bucket_name):
+        print(f"✅ Set bucket policy to block public access for bucket: {bucket_name}")
+    else:
+        print(f"⚠️ Failed to set bucket policy to block public access for bucket: {bucket_name}")
 
     # Download and Upload images to S3
-    s3_manager.upload_img_from_json(json_file, bucket_name)
+    succeed_upload, skipped_count = s3_manager.upload_img_from_json(json_file, bucket_name)
+    if succeed_upload:
+        print(f"✅ Uploaded images from {json_file} to S3 bucket: {bucket_name}")
+        print(f"Skipped {skipped_count} images.")
+    else:
+        print(f"⚠️ Failed to upload images from {json_file} to S3 bucket: {bucket_name}")
 
 
 if __name__ == "__main__":

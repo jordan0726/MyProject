@@ -1,6 +1,5 @@
 import boto3
 import json
-
 from botocore.exceptions import ClientError
 
 
@@ -69,7 +68,7 @@ class DynamoManager:
 
             # Check if the JSON file contains a list of songs
             if 'songs' not in loaded_data or not isinstance(loaded_data['songs'], list):
-                raise ValueError(f"❌ Invalid JSON format: Missing 'songs' key or it's not a list.")
+                raise ValueError("Invalid JSON format: missing or incorrect 'songs' key.")
 
             songs = loaded_data['songs']
             table = self.dynamodb.Table(table_name)
@@ -102,3 +101,6 @@ class DynamoManager:
             print(f"❌ Fail to load data from JSON file: {e}")
             return False
 
+
+# To-do:
+# 1. No checking logic for duplicate data in json，後者會覆蓋前者
