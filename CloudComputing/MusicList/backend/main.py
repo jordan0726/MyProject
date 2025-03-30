@@ -1,50 +1,26 @@
 from backend.core.dynamo import DynamoManager  # Import only the class
 from backend.core.s3 import S3Manager
+from scripts import seed_data
+from backend.schemas.login_table_schema import login_table_schema
+from backend.schemas.music_table_schema import music_table_schema
 
 def main():
     db = DynamoManager()
     json_file = '../data/2025a1.json'
-    login_table_schema = {
-        "KeySchema": [{"AttributeName": "email", "KeyType": "HASH"}],
-        "AttributeDefinitions": [{"AttributeName": "email", "AttributeType": "S"}],
-        "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
-    }
 
-    music_table_schema = {
-        "KeySchema": [{"AttributeName": "title", "KeyType": "HASH"}, # Partition key
-                      {"AttributeName": "album", "KeyType": "RANGE"} # Sort key
-                      ],
-        "AttributeDefinitions":[
-            {"AttributeName": "title", "AttributeType": "S"},
-            {"AttributeName": "album", "AttributeType": "S"},
-        ],
-        "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
-    }
 
-    # TASK 1.1 -- Create a 'login' table and insert data
+    # TASK 1.1 -- Create a 'login' table and populate the user data
     if db.create_table('login', login_table_schema):
         print("✅ Login table created.")
     else:
         print("⚠️ Login table already exists or failed to create.")
 
-    ## Insert data
-    for i in range(10):
-        email = f"s4068959{i}@student.rmit.edu.au"
-        user_name = f"JordanChiou{i}"
-        password = "".join(str((i+j) % 10) for j in range(6))
-
-        # data dict
-        user_data = {
-            'email': email,
-            'user_name': user_name,
-            'password': password
-        }
-
-        # insert data into the table
-        if db.insert_data('login', user_data):
-            print(f"✅ Inserted data: {user_data}")
+    user_dummy_data = seed_data.generate_dummy_login_data()
+    for user in user_dummy_data:
+        if db.insert_data("login", user):
+            print(f"✅ Inserted user: {user['email']}")
         else:
-            print(f"⚠️ Failed to insert data: {user_data}")
+            print(f"❌ Failed to insert user: {user['email']}")
 
     # TASK 1.2 -- create a table titled 'music'
     if db.create_table('music', music_table_schema):
@@ -79,7 +55,7 @@ def main():
     else:
         print(f"⚠️ Failed to set bucket policy to block public access for bucket: {bucket_name}")
 
-    # Download and Upload images to S3
+    ## Download and Upload images to S3
     succeed_upload, skipped_count = s3_manager.upload_img_from_json(json_file, bucket_name)
     if succeed_upload:
         print(f"✅ Uploaded images from {json_file} to S3 bucket: {bucket_name}")

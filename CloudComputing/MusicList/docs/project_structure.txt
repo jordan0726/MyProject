@@ -17,8 +17,7 @@ MusicList/
 │   │   └── music.py
 │   │
 │   ├── schemas/          ← API input/output validation schemas
-│   │   ├── __init__.py
-│   │   ├── user_schema.py
+│   │   ├── login_schema.py
 │   │   └── music_schema.py
 │   │
 │   ├── services/         ← Business logic and complex operations
