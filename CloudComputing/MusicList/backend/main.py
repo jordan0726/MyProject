@@ -1,13 +1,11 @@
 from backend.core.dynamo import DynamoManager  # Import only the class
 from backend.core.s3 import S3Manager
 from scripts import seed_data
-from backend.schemas.login_table_schema import login_table_schema
-from backend.schemas.music_table_schema import music_table_schema
+from backend.schemas import login_table_schema, music_table_schema
 
 def main():
     db = DynamoManager()
     json_file = '../data/2025a1.json'
-
 
     # TASK 1.1 -- Create a 'login' table and populate the user data
     if db.create_table('login', login_table_schema):
