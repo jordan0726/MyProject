@@ -2,9 +2,12 @@
 import requests
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from botocore.exceptions import ClientError
 import os
 import boto3
 import json
+
+from jinja2.bccache import Bucket
 
 
 class S3Manager:
@@ -63,8 +66,8 @@ class S3Manager:
 
     def upload_img_from_json(self, json_file: str, bucket_name: str, max_workers: int =10) -> None:
         """
-        Reads image URLs from a JSON file and uploads each image directly to S3.
-
+        Reads image URLs from a JSON file and uploads each image directly to S3 concurrently.
+        Uses a pre-check of existing objects in S3 to avoid duplicate uploads.
         :param str json_file: The path to the JSON file containing song data.
                               Expected format:
                               {
@@ -77,6 +80,7 @@ class S3Manager:
                                   ]
                               }
         :param str bucket_name: The name of the destination S3 bucket.
+        :param max_workers: Maximum number of threads to run concurrently.
         :return: None
         """
         try:
@@ -89,6 +93,23 @@ class S3Manager:
 
             songs = loaded_data['songs']
             tasks = []
+
+            # Create an empty set to store the keys (filenames) of existing S3 objects, using to check duplicates in subsequent upload actions
+            existing_keys = set()
+
+            ## Call the S3 API to list objects in the bucket that start with the prefix 'artist-images/'
+            response = self.s3_client.list_objects_v2(Bucket=bucket_name, Prefix='artist-images/')
+
+            ## The API response is a dictionary. If there are any matching objects,
+            ## it will include a key 'Contents', which is a list of objects.
+            if 'Contents' in response:
+                for obj in response['Contents']:
+                    existing_keys.add(obj['Key'])
+            print(f"ℹ️ Found {len(existing_keys)} existing objects in S3 with prefix 'artist-images/'")
+
+            # CHECK FOR FIRST RUN
+            # Create a set to track keys already queued during this run
+            queued_keys = set()
 
             # Set up a ThreadPoolExecutor to upload images concurrently
             # max_workers is the number of threads to run concurrently, default is 10
@@ -106,17 +127,18 @@ class S3Manager:
                     s3_key = f"artist-images/{artist}.jpg"
                     # print(f"⏳ Queuing upload for {artist} from URL: {img_url}")
 
-                    #Check duplicate
-                    try:
-                        self.s3_client.head_object(Bucket=bucket_name, Key=s3_key) # Read the metadata of the object, if not exist will raise 404 error
-                        print(f"⚠️ Skipping {artist}: S3 object already exists at '{s3_key}'")
-                        continue # Skip this image because it already exists
-                    except self.s3_client.Exceptions.ClientError as e:
-                        # If error is 404 (Not Found), it means the object doesn't exist, so we can upload
-                        if e.response['Error']['Code'] != '404':
-                            print(f"❌ Error checking S3 object: {e}")
-                            continue # Skip this image on error
+                    # First, check against S3 pre-fetched keys
+                    if s3_key in existing_keys:
+                        # print(f"⚠️ Skipping {artist}: S3 object already exists at '{s3_key}'")
+                        continue
 
+                    # Then, check if this key has already been queued for upload during this run
+                    if s3_key in queued_keys:
+                        # print(f"⚠️ Skipping {artist}: Duplicate entry in JSON file for key '{s3_key}'")
+                        continue
+
+                    # Mark this key as queued for upload
+                    queued_keys.add(s3_key)
 
                     # Submit the upload task to the thread pool
                     task = executor.submit(self.upload_from_url_to_bucket, img_url, bucket_name, s3_key)
@@ -126,11 +148,76 @@ class S3Manager:
                 for future in as_completed(tasks):
                     # The upload_from_url_to_bucket function prints its own success/failure messages.
                     pass
-
+            print(f"⚠️ Total skipping '{len(existing_keys) + len(queued_keys)}' duplicate img_url entry in JSON file")
             print("✅ All uploads completed.")
 
         except Exception as e:
             print(f"❌ Error while processing JSON file: {e}")
+
+    def enable_block_public_access(self, bucket_name: str) -> None:
+        """
+       Enables AWS S3's Block Public Access settings to fully restrict public access to the bucket.
+
+       This setting prevents any accidental public exposure of bucket content, overriding any public ACLs or bucket policies.
+
+       :param bucket_name: The name of the S3 bucket to secure.
+       :return: None
+       """
+        try:
+            self.s3_client.put_public_access_block(
+                Bucket=bucket_name,
+                PublicAccessBlockConfiguration={
+                    'BlockPublicAcls':True,
+                    'IgnorePublicAcls':True,
+                    'BlockPublicPolicy':True,
+                    'RestrictPublicBuckets':True
+                }
+            )
+            print(f"✅ Public access successfully blocked for bucket '{bucket_name}'!")
+
+        except ClientError as e:
+            print(f"❌ Error setting public access block: {e}")
+
+    def set_bucket_policy_block_public_access(self, bucket_name: str) -> None:
+        """
+        Sets a bucket policy to deny public read access to objects via non-HTTPS requests.
+
+        This policy ensures that all objects stored in the bucket can only be accessed securely using HTTPS.
+        It's an extra layer of security to prevent accidental events of enable_block_public_access settings.
+
+        :param bucket_name: The name of the S3 bucket to secure.
+        :return: None
+        """
+
+        # Define the bucket policy JSON
+        s3_bucket_policy = {
+            "Version": "2012-10-17",
+            "Statement":[
+                {
+                    "Sid": "DenyPublicRead",
+                    "Effect": "Deny",
+                    "Principal": "*",
+                    "Action": "s3:GetObject",
+                    "Resource": f"arn:aws:s3:::{bucket_name}/*",
+                    "Condition": {
+                        "Bool": {
+                            "aws:SecureTransport": "false"
+                        }
+                    }
+                }
+            ]
+        }
+
+        s3_bucket_policy_json = json.dumps(s3_bucket_policy) # Convert the policy to a JSON string
+
+        try:
+            self.s3_client.put_bucket_policy(Bucket=bucket_name, Policy=s3_bucket_policy_json)
+            print(f"✅ Bucket policy successfully set for bucket '{bucket_name}'!")
+        except ClientError as e:
+            print(f"❌ Failed to set bucket policy: {e}")
+
+
+
 
 
 

@@ -54,6 +54,13 @@ def main():
     bucket_name = 'media-storage-s4068959'
     # Create a bucket
     s3_manager.create_s3_bucket(bucket_name)
+
+    ## completely block public access to prevent any accidental public exposure
+    s3_manager.enable_block_public_access(bucket_name)
+
+    ## set a more detailed bucket policy (e.g., enforcing HTTPS access)
+    s3_manager.set_bucket_policy_block_public_access(bucket_name)
+
     # Download and Upload images to S3
     s3_manager.upload_img_from_json(json_file, bucket_name)
 
