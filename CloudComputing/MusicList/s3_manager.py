@@ -56,7 +56,7 @@ class S3Manager:
             response.raw.decode_content = True
 
             self.s3_client.upload_fileobj(response.raw, bucket_name, s3_key)
-            print(f"📤 Successfully uploaded {img_url} to s3://{bucket_name}/{s3_key}")
+            # print(f"📤 Successfully uploaded {img_url} to s3://{bucket_name}/{s3_key}")
 
         except Exception as e:
             print(f"❌ Failed to upload image from {img_url} to S3: {e}")
@@ -91,6 +91,7 @@ class S3Manager:
             tasks = []
 
             # Set up a ThreadPoolExecutor to upload images concurrently
+            # max_workers is the number of threads to run concurrently, default is 10
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
 
                 # Loop through each song in the list to get the image URL
@@ -103,7 +104,19 @@ class S3Manager:
                         continue
 
                     s3_key = f"artist-images/{artist}.jpg"
-                    print(f"⏳ Queuing upload for {artist} from URL: {img_url}")
+                    # print(f"⏳ Queuing upload for {artist} from URL: {img_url}")
+
+                    #Check duplicate
+                    try:
+                        self.s3_client.head_object(Bucket=bucket_name, Key=s3_key) # Read the metadata of the object, if not exist will raise 404 error
+                        print(f"⚠️ Skipping {artist}: S3 object already exists at '{s3_key}'")
+                        continue # Skip this image because it already exists
+                    except self.s3_client.Exceptions.ClientError as e:
+                        # If error is 404 (Not Found), it means the object doesn't exist, so we can upload
+                        if e.response['Error']['Code'] != '404':
+                            print(f"❌ Error checking S3 object: {e}")
+                            continue # Skip this image on error
+
 
                     # Submit the upload task to the thread pool
                     task = executor.submit(self.upload_from_url_to_bucket, img_url, bucket_name, s3_key)
@@ -118,6 +131,8 @@ class S3Manager:
 
         except Exception as e:
             print(f"❌ Error while processing JSON file: {e}")
+
+
 
     def upload_local_file_to_bucket(self, file_path: str, bucket_name: str, s3_key: str) -> None:
         """
