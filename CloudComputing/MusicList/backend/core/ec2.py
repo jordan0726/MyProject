@@ -31,7 +31,7 @@ class EC2Manager:
         sudo bash -c 'cat > /etc/nginx/sites-available/fastapi <<EOF
         server {
             listen 80;
-            server_name ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com;
+            server_name _;
         
             location / {
                 proxy_pass http://127.0.0.1:8000;
@@ -42,7 +42,6 @@ class EC2Manager:
                 proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
             }
         }
-        EOF
         '
         
         sudo ln -s /etc/nginx/sites-available/fastapi /etc/nginx/sites-enabled/fastapi
