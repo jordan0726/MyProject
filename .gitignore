@@ -1,0 +1,24 @@
+# macOS system files
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+
+# AWS credentials or sensitive keys
+*.pem
+*.key
+.vockey.pem
+
+# IDE files (PyCharm / IntelliJ)
+.idea/
+*.iml
+
+# Log files
+*.log
