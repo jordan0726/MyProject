@@ -78,7 +78,11 @@ if __name__ == "__main__":
     main()  # Run the script
 # ssh -i ~/.ssh/vockey.pem ubuntu@
 # cat /var/log/cloud-init-output.log
-# ls /home/ubuntu/MyProject
-# ps aux | grep uvicorn
+# cd ~/MyProject/CloudComputing/MusicList/backend
+# source venv/bin/activate
+# pip list
+# uvicorn main:app --host 0.0.0.0 --port 8000
+# curl http://localhost:8000
+
 
 

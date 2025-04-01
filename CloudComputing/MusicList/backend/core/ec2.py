@@ -6,23 +6,50 @@ class EC2Manager:
         self.ec2_client = boto3.client('ec2', region_name=region)
 
     def create_instance(self, ami_image_ig, instance_type, key_name, security_group_ids, name='MyLinuxServer' ):
-        user_data_script = """#!/bin/bash
-        # 1. Update & install
+        user_data_script =r"""#!/bin/bash
+        # 1. Update & install system packages
         sudo apt update -y
-        sudo apt install python3-venv python3-pip git -y
-
-        # 2. Clone repo
+        sudo apt install python3-venv python3-pip git nginx -y
+        
+        # 2. Clone your repo
         cd /home/ubuntu
         git clone https://github.com/jordan0726/MyProject.git
-
+        
         # 3. Setup venv & install
         cd /home/ubuntu/MyProject/CloudComputing/MusicList/backend
         python3 -m venv venv
         /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install --upgrade pip
         /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install -r requirements.txt
-
-        # 4. Launch
+        
+        # 4. Launch uvicorn on 0.0.0.0:8000
         nohup /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > nohup.out 2>&1 &
+        
+        # 5. Configure Nginx
+        sudo rm /etc/nginx/sites-enabled/default
+        
+        # Create a new Nginx config
+        sudo bash -c 'cat > /etc/nginx/sites-available/fastapi <<EOF
+        server {
+            listen 80;
+            server_name ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com;
+        
+            location / {
+                proxy_pass http://127.0.0.1:8000;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade \$http_upgrade;
+                proxy_set_header Connection \"upgrade\";
+                proxy_set_header Host \$host;
+                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            }
+        }
+        EOF
+        '
+        
+        sudo ln -s /etc/nginx/sites-available/fastapi /etc/nginx/sites-enabled/fastapi
+        
+        # Test & restart Nginx
+        sudo nginx -t
+        sudo systemctl restart nginx
         """
 
         instances = self.ec2.create_instances(
