@@ -69,10 +69,16 @@ def main():
         ami_image_ig= 'ami-084568db4383264d4', # Ubuntu 20.04
         instance_type = 't2.micro', # free tier
         key_name='vockey',
-        security_group_ids=['sg-031dbd74f3d1eddd7']
+        security_group_ids=['sg-097c28d8eac2a3446']
     )
     print(f"🚀 EC2 instance launched at {public_dns} (ID: {instance_id})")
 
 
 if __name__ == "__main__":
     main()  # Run the script
+# ssh -i ~/.ssh/vockey.pem ubuntu@
+# cat /var/log/cloud-init-output.log
+# ls /home/ubuntu/MyProject
+# ps aux | grep uvicorn
+
+
