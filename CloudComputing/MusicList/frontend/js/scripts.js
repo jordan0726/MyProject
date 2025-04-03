@@ -1,6 +1,5 @@
 async function loadMusic() {
-  // TODO: replace with your backend EC2 public DNS
-  const backendURL = "http://ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com/api/music";
+  const backendURL = "http://ec2-3-83-136-27.compute-1.amazonaws.com/api/music";
   try {
     const response = await fetch(backendURL);
     const data = await response.json();

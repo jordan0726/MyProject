@@ -1,11 +1,12 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from backend.api import auth
 
 app = FastAPI()
 
 origins = [
-    "http://前端EC2的PublicDNS",  # e.g. http://ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com
-    "http://前端EC2的IP"         # 或者直接 "*"
+    "http://ec2-3-83-136-27.compute-1.amazonaws.com",  # e.g. http://ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com
+    "http://3.83.136.27"        # Frontend IP
 ]
 
 app.add_middleware(

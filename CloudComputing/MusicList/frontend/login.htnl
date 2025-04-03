@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Login
+        </title>
+    </head>
+<body>
+    <h1>
+        Login
+    </h1>
+    <label>Email:</label>
+        </input type="text" id="email" />
+    <label>Password:</label>
+        </input type="password" id="password" />
+    <button onclick="doLogin()">Login</button>
+    <a href="register.html">Register</a>
+
+    <script>
+        async function doLogin(){
+            const emailVal = document.getElementById('email').value;
+            const passwordVal = document.getElementById('password').value;
+            const backendUrl = 'http://ec2-52-90-89-254.compute-1.amazonaws.com/auth/login';
+
+            try{
+                const resp = await fetch(backendUrl, {
+                    method: 'POST',
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ email: emailVal, password: passwordVal })
+                })
+                if (!resp.ok) {
+                    const errData = await resp.json()
+                    alert(errData.detail) // "email or password is invalid"
+                    return
+                }
+                const data = await resp.json()
+                console.log("Login success", data)
+                //redirect to main page
+                window.location.href = "main.html"
+            } catch (err) {
+                console.error(err)
+                alert("Network error")
+            }
+        }
+    </script>
+</body>
+</html>
