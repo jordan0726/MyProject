@@ -5,70 +5,104 @@ class EC2Manager:
         self.ec2 = boto3.resource('ec2', region_name=region)
         self.ec2_client = boto3.client('ec2', region_name=region)
 
-    def create_instance(self, ami_image_ig, instance_type, key_name, security_group_ids, name='MyLinuxServer' ):
-        user_data_script =r"""#!/bin/bash
-        # 1. Update & install system packages
-        sudo apt update -y
-        sudo apt install python3-venv python3-pip git nginx -y
-        
-        # 2. Clone your repo
-        cd /home/ubuntu
-        git clone https://github.com/jordan0726/MyProject.git
-        
-        # 3. Setup venv & install
-        cd /home/ubuntu/MyProject/CloudComputing/MusicList/backend
-        python3 -m venv venv
-        /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install --upgrade pip
-        /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install -r requirements.txt
-        
-        # 4. Launch uvicorn on 0.0.0.0:8000
-        nohup /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > nohup.out 2>&1 &
-        
-        # 5. Configure Nginx
-        sudo rm /etc/nginx/sites-enabled/default
-        
-        # Create a new Nginx config
-        sudo bash -c 'cat > /etc/nginx/sites-available/fastapi <<EOF
-        server {
-            listen 80;
-            server_name _;
-        
-            location / {
-                proxy_pass http://127.0.0.1:8000;
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade \$http_upgrade;
-                proxy_set_header Connection \"upgrade\";
-                proxy_set_header Host \$host;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-            }
+    def create_backend_instance(self, ami_image, instance_type, key_name, security_group_ids, name='MyBackend'):
+        user_data_script = r"""#!/bin/bash
+    # 1. Update & install system packages
+    sudo apt update -y
+    sudo apt install python3-pip python3-venv git nginx -y
+
+    # 2. Clone your repo 
+    cd /home/ubuntu
+    git clone https://github.com/jordan0726/MyProject.git
+
+    # 3. Setup Python venv & install dependencies
+    cd /home/ubuntu/MyProject/CloudComputing/MusicList/backend
+    python3 -m venv venv
+    /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install --upgrade pip
+    /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install -r requirements.txt
+
+    # 4. Run FastAPI on port 8000 (0.0.0.0)
+    nohup /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > nohup.out 2>&1 &
+
+    # 5. Configure Nginx to expose port 80 -> proxy to 127.0.0.1:8000
+    sudo rm /etc/nginx/sites-enabled/default
+    sudo bash -c 'cat > /etc/nginx/sites-available/backend.conf <<EOF
+    server {
+        listen 80;
+        server_name _;
+
+        location / {
+            proxy_pass http://127.0.0.1:8000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection \"upgrade\";
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
-        '
-        
-        sudo ln -s /etc/nginx/sites-available/fastapi /etc/nginx/sites-enabled/fastapi
-        
-        # Test & restart Nginx
-        sudo nginx -t
-        sudo systemctl restart nginx
-        """
+    }
+    '
+
+    sudo ln -s /etc/nginx/sites-available/backend.conf /etc/nginx/sites-enabled/backend.conf
+    sudo nginx -t
+    sudo systemctl restart nginx
+    """
 
         instances = self.ec2.create_instances(
-            ImageId = ami_image_ig,
-            MinCount =1,
-            MaxCount =1,
-            InstanceType = instance_type,
-            KeyName = key_name,
-            SecurityGroupIds = security_group_ids,
-            TagSpecifications=[
-                {
-                    'ResourceType': 'instance',
-                    'Tags': [{'Key': 'Name', 'Value': name}]
-                }
-            ],
+            ImageId=ami_image,
+            MinCount=1,
+            MaxCount=1,
+            InstanceType=instance_type,
+            KeyName=key_name,
+            SecurityGroupIds=security_group_ids,
+            TagSpecifications=[{
+                'ResourceType': 'instance',
+                'Tags': [{'Key': 'Name', 'Value': name}]
+            }],
             UserData=user_data_script
         )
-        instance = instances[0] # create_instance returns a list of instances, but we only created one, so we take the first element
-        instance.wait_until_running() # Wait until the instance is running
-        instance.load() # Reload the instance attributes
+
+        instance = instances[0]
+        instance.wait_until_running()
+        instance.load()
+
+        return instance.id, instance.public_dns_name
+
+    def create_frontend_instance(self, ami_image, instance_type, key_name, security_group_ids, name='MyFrontend'):
+        user_data_script = r"""#!/bin/bash
+    sudo apt update -y
+    sudo apt install nginx git -y
+
+    # Clone your repo
+    cd /home/ubuntu
+    git clone https://github.com/jordan0726/MyProject.git
+
+    # Copy the frontend files to Nginx default path
+    sudo rm /var/www/html/index.nginx-debian.html
+    sudo cp /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/index.html /var/www/html/index.html
+    # sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/css /var/www/html/
+    # sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/js /var/www/html/
+
+    # [Optional] or you can config a new site conf, but default path is simpler
+    sudo systemctl restart nginx
+    """
+
+        instances = self.ec2.create_instances(
+            ImageId=ami_image,
+            MinCount=1,
+            MaxCount=1,
+            InstanceType=instance_type,
+            KeyName=key_name,
+            SecurityGroupIds=security_group_ids,
+            TagSpecifications=[{
+                'ResourceType': 'instance',
+                'Tags': [{'Key': 'Name', 'Value': name}]
+            }],
+            UserData=user_data_script
+        )
+
+        instance = instances[0]
+        instance.wait_until_running()
+        instance.load()
 
         return instance.id, instance.public_dns_name
 
@@ -154,5 +188,48 @@ class EC2Manager:
     def get_instance_status(self, instance_id):
         instance = self.ec2.Instance(instance_id)
         return instance.state['Name']
+
+    #     user_data_script = r"""#!/bin/bash
+    #         # 1. Update system & install necessary packages
+    #         sudo apt update -y
+    #         sudo apt install python3-venv python3-pip git nginx curl -y
+    #
+    #         # 2. Clone your GitHub repo
+    #         cd /home/ubuntu
+    #         git clone https://github.com/jordan0726/MyProject.git
+    #
+    #         # 3. Setup virtualenv & install Python dependencies
+    #         cd /home/ubuntu/MyProject/CloudComputing/MusicList/backend
+    #         python3 -m venv venv
+    #         /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install --upgrade pip
+    #         /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install -r requirements.txt
+    #
+    #         # 4. Launch FastAPI app (on port 8000)
+    #         nohup /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > /home/ubuntu/nohup.out 2>&1 &
+    #
+    #         # 5. Configure Nginx for reverse proxy
+    #         sudo rm /etc/nginx/sites-enabled/default
+    #         sudo bash -c 'cat > /etc/nginx/sites-available/fastapi <<EOF
+    #         server {
+    #             listen 80;
+    #             server_name jordan0726.duckdns.org;
+    #
+    #             location / {
+    #                 proxy_pass http://127.0.0.1:8000;
+    #                 proxy_http_version 1.1;
+    #                 proxy_set_header Upgrade \$http_upgrade;
+    #                 proxy_set_header Connection "upgrade";
+    #                 proxy_set_header Host \$host;
+    #                 proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    #             }
+    #         }
+    #         '
+    #         sudo ln -s /etc/nginx/sites-available/fastapi /etc/nginx/sites-enabled/fastapi
+    #         sudo nginx -t && sudo systemctl restart nginx
+    #
+    #         # 6. Update DuckDNS to current public IP
+    #         curl "https://www.duckdns.org/update?domains=jordan0726&token=1e2c3ab5-7817-4f6a-9dd6-6a5f608029be
+    # &ip=" >> /home/ubuntu/duckdns.log
+    #         """
 
 

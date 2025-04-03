@@ -1,27 +1,23 @@
-
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse #Default response fro FastAPI is JSONResponse, this can make it response in HTML
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from pathlib import Path
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-FRONTEND_DIR = BASE_DIR/'frontend'
-# Serve static files (html/css/js) locate in the frontend folder
-app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+origins = [
+    "http://前端EC2的PublicDNS",  # e.g. http://ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com
+    "http://前端EC2的IP"         # 或者直接 "*"
+]
 
-# Jinja2 template
-templates = Jinja2Templates(directory=str(FRONTEND_DIR))
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    """
-   Root endpoint that renders and returns the 'index.html' page.
-   The HTML file should be located within the 'frontend' directory.
-   """
-    return templates.TemplateResponse("index.html", {"request": request})
+@app.get("/hello")
+def say_hello():
+    return {"message": "Hello from Backend!"}
 
 
 # Reference:
