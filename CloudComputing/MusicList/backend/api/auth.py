@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 from backend.core.dynamo import DynamoManager
 
-router = APIRouter
+router = APIRouter()
 dynamo = DynamoManager()
 
 #Pydantic model for request body

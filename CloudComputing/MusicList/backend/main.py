@@ -16,6 +16,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
+
 @app.get("/hello")
 def say_hello():
     return {"message": "Hello from Backend!"}

@@ -80,8 +80,8 @@ class EC2Manager:
     # Copy the frontend files to Nginx default path
     sudo rm /var/www/html/index.nginx-debian.html
     sudo cp /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/login.html /var/www/html/login.html
-    sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/css /var/www/html/
-    sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/js /var/www/html/
+    sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/css/style.css /var/www/html/css/style.css
+    sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/js/scripts.js /var/www/html/js/scripts.js
 
     # [Optional] or you can config a new site conf, but default path is simpler
     sudo systemctl restart nginx
