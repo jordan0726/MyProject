@@ -16,13 +16,14 @@ class EC2Manager:
     sudo -u ubuntu git clone https://github.com/jordan0726/MyProject.git
 
     # 3. Setup Python venv & install dependencies
-    cd /home/ubuntu/MyProject/CloudComputing/MusicList/backend
-    python3 -m venv venv
-    /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install --upgrade pip
-    /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/pip install -r requirements.txt
+    cd /home/ubuntu/MyProject/CloudComputing/MusicList
+    python3 -m venv backend/venv
+    source backend/venv/bin/activate
+    backend/venv/bin/pip install --upgrade pip
+    backend/venv/bin/pip install -r backend/requirements.txt
 
     # 4. Run FastAPI on port 8000 (0.0.0.0)
-    nohup /home/ubuntu/MyProject/CloudComputing/MusicList/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > nohup.out 2>&1 &
+    nohup backend/venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 8000 > /home/ubuntu/backend.log 2>&1 &
 
     # 5. Configure Nginx to expose port 80 -> proxy to 127.0.0.1:8000
     sudo rm /etc/nginx/sites-enabled/default
