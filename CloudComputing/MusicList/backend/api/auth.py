@@ -1,7 +1,7 @@
 from fastapi import APIRouter,HTTPException
 from pydantic import BaseModel
 from typing import Optional
-import botocore.exceptions as ClientError
+from botocore.exceptions import ClientError, NoCredentialsError, BotoCoreError
 from backend.core.dynamo import DynamoManager
 
 router = APIRouter()
@@ -44,9 +44,19 @@ def login_user(req:LoginRequest):
             "username": stored_username
         }
 
-    except ClientError as e:
-        raise HTTPException(status_code=500, detail=f"Error querying DynamoDB: {e}")
 
+    except NoCredentialsError as e:
+        raise HTTPException(status_code=500,
+                            detail="No AWS credentials found. Please attach IAM role or configure credentials.")
+
+    except ClientError as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    except BotoCoreError as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
     # 1. Query DynamoDB 'login' table by 'email'
     # 2. Compare password
