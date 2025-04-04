@@ -20,7 +20,7 @@
         async function doLogin(){
             const emailVal = document.getElementById('email').value;
             const passwordVal = document.getElementById('password').value;
-            const backendUrl = 'http://ec2-3-92-216-119.compute-1.amazonaws.com/auth/login'; // replace with backend URL
+            const backendUrl = 'http://ec2-13-218-56-56.compute-1.amazonaws.com/auth/login'; // replace with backend URL
 
             try{
                 const resp = await fetch(backendUrl, {
