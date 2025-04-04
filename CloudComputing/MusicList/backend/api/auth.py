@@ -58,11 +58,6 @@ def login_user(req:LoginRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-    # 1. Query DynamoDB 'login' table by 'email'
-    # 2. Compare password
-    # 3. if fail => raise HTTPException(status_code=401, detail="Invalid email or password")
-    # 4. if success => return {"status": "ok", "message": "Login success", "username": user_name}
-
 @router.post("/register")
 def register_user(req:RegisterRequest):
     pass

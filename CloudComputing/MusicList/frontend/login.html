@@ -53,14 +53,14 @@
                 if (!resp.ok) {
                     alert("❌ Login failed: " + result.detail);
                     console.error("Login failed:", result);
+                    window.location.href = "main.html";
                     return;
                 }
 
                 alert("✅ Login success! Welcome " + result.username);
                 console.log("Login response:", result);
+                window.location.href = "main.html";
 
-                // Optional redirect
-                // window.location.href = "main.html";
             } catch (err) {
                 alert("⚠️ Network error. Check backend URL or EC2 status.");
                 console.error(err);
