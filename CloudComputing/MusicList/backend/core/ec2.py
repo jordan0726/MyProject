@@ -42,8 +42,7 @@ class EC2Manager:
         }
     }
     '
-
-
+    
     sudo ln -s /etc/nginx/sites-available/backend.conf /etc/nginx/sites-enabled/backend.conf
     sudo nginx -t
     sudo systemctl restart nginx

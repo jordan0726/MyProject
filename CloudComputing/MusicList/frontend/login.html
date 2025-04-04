@@ -1,48 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-            Login
-        </title>
-    </head>
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 2rem;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 1rem;
+        }
+        input {
+            padding: 0.5rem;
+            width: 300px;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
 <body>
-    <h1>
-        Login
-    </h1>
-    <label>Email:</label>
-        </input type="text" id="email" />
-    <label>Password:</label>
-        </input type="password" id="password" />
+    <h1>Login</h1>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" value="test@example.com" />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" value="123456" />
+
     <button onclick="doLogin()">Login</button>
-    <a href="register.html">Register</a>
+    <a href="register.html" style="margin-left: 1rem;">Register</a>
 
     <script>
         async function doLogin(){
             const emailVal = document.getElementById('email').value;
             const passwordVal = document.getElementById('password').value;
-            const backendUrl = 'http://ec2-3-83-230-71.compute-1.amazonaws.com/auth/login'; // replace with backend URL
 
-            try{
+            const backendUrl = 'http://http://ec2-52-91-187-119.compute-1.amazonaws.com/auth/login'; // backend login endpoint
+
+            try {
                 const resp = await fetch(backendUrl, {
                     method: 'POST',
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({ email: emailVal, password: passwordVal })
-                })
+                });
+
+                const result = await resp.json();
+
                 if (!resp.ok) {
-                    const errData = await resp.json()
-                    alert(errData.detail) // "email or password is invalid"
-                    return
+                    alert("❌ Login failed: " + result.detail);
+                    console.error("Login failed:", result);
+                    return;
                 }
-                const data = await resp.json()
-                console.log("Login success", data)
-                //redirect to main page
-                window.location.href = "main.html"
+
+                alert("✅ Login success! Welcome " + result.username);
+                console.log("Login response:", result);
+
+                // Optional redirect
+                // window.location.href = "main.html";
             } catch (err) {
-                console.error(err)
-                alert("Network error")
+                alert("⚠️ Network error. Check backend URL or EC2 status.");
+                console.error(err);
             }
         }
     </script>
 </body>
 </html>
-
