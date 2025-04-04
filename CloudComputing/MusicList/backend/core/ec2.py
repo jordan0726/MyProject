@@ -13,7 +13,7 @@ class EC2Manager:
 
     # 2. Clone your repo 
     cd /home/ubuntu
-    git clone https://github.com/jordan0726/MyProject.git
+    sudo -u ubuntu git clone https://github.com/jordan0726/MyProject.git
 
     # 3. Setup Python venv & install dependencies
     cd /home/ubuntu/MyProject/CloudComputing/MusicList/backend
@@ -75,7 +75,7 @@ class EC2Manager:
 
     # Clone your repo
     cd /home/ubuntu
-    git clone https://github.com/jordan0726/MyProject.git
+    sudo -u ubuntu git clone https://github.com/jordan0726/MyProject.git
 
     # Remove Nginx default index
     sudo rm /var/www/html/index.nginx-debian.html
@@ -83,8 +83,27 @@ class EC2Manager:
     # Copy frontend files to Nginx default path
     sudo cp /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/* /var/www/html
 
-
-    sudo systemctl restart nginx
+    # Add redirect config: redirect / to /login.html
+    sudo bash -c 'cat > /etc/nginx/sites-available/default <<EOF
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+    
+        root /var/www/html;
+        index index.html;
+    
+        location = / {
+            return 302 /login.html;
+        }
+    
+        location / {
+            try_files \$uri \$uri/ =404;
+        }
+    }
+    '
+    
+    # Restart Nginx to apply changes
+    sudo nginx -t && sudo systemctl restart nginx
     """
 
         instances = self.ec2.create_instances(
