@@ -65,21 +65,21 @@ def main():
 
     # Task3 Create EC2 to host website
     ec2_manager = EC2Manager()
-    # backend_instance_id, backend_public_dns = ec2_manager.create_backend_instance(
-    #     ami_image= 'ami-084568db4383264d4', # Ubuntu 20.04
-    #     instance_type = 't2.micro', # free tier
-    #     key_name='vockey',
-    #     security_group_ids=['sg-097c28d8eac2a3446']
-    # )
-    # print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
-
-    frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
-        ami_image='ami-084568db4383264d4',
-        instance_type='t2.micro',
+    backend_instance_id, backend_public_dns = ec2_manager.create_backend_instance(
+        ami_image= 'ami-084568db4383264d4', # Ubuntu 20.04
+        instance_type = 't2.micro', # free tier
         key_name='vockey',
-        security_group_ids=['sg-097c28d8eac2a3446'],
+        security_group_ids=['sg-097c28d8eac2a3446']
     )
-    print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
+    print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
+
+    # frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
+    #     ami_image='ami-084568db4383264d4',
+    #     instance_type='t2.micro',
+    #     key_name='vockey',
+    #     security_group_ids=['sg-097c28d8eac2a3446'],
+    # )
+    # print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
 
 
 if __name__ == "__main__":
@@ -96,14 +96,13 @@ if __name__ == "__main__":
 # sudo nginx -t
 # sudo systemctl restart nginx
 
-# 後端uvicorn重跑
-# ps aux | grep uvicorn
-# ubuntu    12345  0.1  ... uvicorn backend.main:app ...
-# kill 12345  # ← 替換成實際的 PID
-# cd /home/ubuntu/MyProject/CloudComputing/MusicList
-# source backend/venv/bin/activate
-# nohup backend/venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 8000 > /home/ubuntu/backend.log 2>&1 &
-# nohup backend/venv/bin/uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000 > /home/ubuntu/backend.log 2>&1 &
+# 前端更新
+#!/bin/bash
+# cd /home/ubuntu/MyProject
+# git pull
+# sudo cp -r CloudComputing/MusicList/frontend/* /var/www/html
+# sudo systemctl restart nginx
+# echo "🚀 Frontend deployed and Nginx restarted!"
 
 
 

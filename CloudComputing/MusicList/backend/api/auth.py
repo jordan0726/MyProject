@@ -1,6 +1,7 @@
 from fastapi import APIRouter,HTTPException
 from pydantic import BaseModel
 from typing import Optional
+import botocore.exceptions as ClientError
 from backend.core.dynamo import DynamoManager
 
 router = APIRouter()
@@ -19,7 +20,34 @@ class RegisterRequest(BaseModel):
 @router.post("/login")
 def login_user(req:LoginRequest):
     table_name = "login"
-    pass
+    try:
+        response = dynamo.client.get_item(
+            TableName=table_name,
+            Key={"email": {"S": req.email}}
+        )
+        if "Item" not in response:
+            raise HTTPException(status_code=401, detail="Invalid email or password")
+
+        item = response["Item"]
+        # from dynamoDB get corresponding password and username
+        stored_password = item["password"]["S"]
+        stored_username = item["username"]["S"]
+
+        # Compare password
+        if stored_password != req.password:
+            raise HTTPException(status_code=401, detail="Invalid email or password")
+
+        # Return success message
+        return {
+            "status": "ok",
+            "message": "Login success",
+            "username": stored_username
+        }
+
+    except ClientError as e:
+        raise HTTPException(status_code=500, detail=f"Error querying DynamoDB: {e}")
+
+
     # 1. Query DynamoDB 'login' table by 'email'
     # 2. Compare password
     # 3. if fail => raise HTTPException(status_code=401, detail="Invalid email or password")
