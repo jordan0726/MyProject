@@ -9,6 +9,7 @@ MusicList/
 │   ├── core/             ← Core logic (e.g., DynamoDB, S3 interactions)
 │   │   ├── __init__.py
 │   │   ├── dynamo.py
+│   │   ├── ec2.py
 │   │   └── s3.py
 │   │
 │   ├── models/           ← Data models (Pydantic models)
@@ -17,8 +18,9 @@ MusicList/
 │   │   └── music.py
 │   │
 │   ├── schemas/          ← API input/output validation schemas
-│   │   ├── login_schema.py
-│   │   └── music_schema.py
+│   │   ├── __init__.py
+│   │   ├── login_table_schema.py
+│   │   └── music_table_schema.py
 │   │
 │   ├── services/         ← Business logic and complex operations
 │   │   ├── __init__.py
@@ -36,7 +38,8 @@ MusicList/
 │   │   └── styles.css
 │   ├── js/
 │   │   └── scripts.js
-│   └── index.html
+│   └── login.html       ← Login page
+│   └── main.html       ← Main page
 │
 ├── data/                 ← Data files (e.g., your 2025a1.json)
 │   └── 2025a1.json
