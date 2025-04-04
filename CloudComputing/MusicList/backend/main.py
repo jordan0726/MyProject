@@ -5,8 +5,8 @@ from backend.api import auth
 app = FastAPI()
 
 origins = [
-    "http://ec2-100-27-26-66.compute-1.amazonaws.com",  # e.g. http://ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com
-    "http://100.27.26.66"        # Frontend IP
+    "http://ec2-54-165-19-130.compute-1.amazonaws.com",  # e.g. http://ec2-xx-xxx-xxx-xxx.compute-1.amazonaws.com
+    "http://54.165.19.130"        # Frontend IP
 ]
 
 app.add_middleware(
