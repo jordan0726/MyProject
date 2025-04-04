@@ -59,7 +59,10 @@ class EC2Manager:
                 'ResourceType': 'instance',
                 'Tags': [{'Key': 'Name', 'Value': name}]
             }],
-            UserData=user_data_script
+            UserData=user_data_script,
+            IamInstanceProfile = {
+                'Arn': 'arn:aws:iam::102358803566:instance-profile/LabInstanceProfile'
+            }
         )
 
         instance = instances[0]
@@ -117,7 +120,10 @@ class EC2Manager:
                 'ResourceType': 'instance',
                 'Tags': [{'Key': 'Name', 'Value': name}]
             }],
-            UserData=user_data_script
+            UserData=user_data_script,
+            IamInstanceProfile={
+                'Arn': 'arn:aws:iam::102358803566:instance-profile/LabInstanceProfile'
+            }
         )
 
         instance = instances[0]
