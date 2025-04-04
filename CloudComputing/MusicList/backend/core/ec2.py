@@ -77,13 +77,14 @@ class EC2Manager:
     cd /home/ubuntu
     git clone https://github.com/jordan0726/MyProject.git
 
-    # Copy the frontend files to Nginx default path
+    # Remove Nginx default index
     sudo rm /var/www/html/index.nginx-debian.html
+    
+    # Copy frontend files to Nginx default path
     sudo cp /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/login.html /var/www/html/login.html
     sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/css/style.css /var/www/html/css/style.css
     sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/js/scripts.js /var/www/html/js/scripts.js
 
-    # [Optional] or you can config a new site conf, but default path is simpler
     sudo systemctl restart nginx
     """
 
