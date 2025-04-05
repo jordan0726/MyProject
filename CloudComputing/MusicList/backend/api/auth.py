@@ -25,6 +25,9 @@ def login_user(req:LoginRequest):
             TableName=table_name,
             Key={"email": {"S": req.email}}
         )
+
+        print("DynamoDB Response:", response)
+
         if "Item" not in response:
             raise HTTPException(status_code=401, detail="Invalid email or password")
 
@@ -32,6 +35,9 @@ def login_user(req:LoginRequest):
         # from dynamoDB get corresponding password and username
         stored_password = item["password"]["S"]
         stored_username = item["username"]["S"]
+
+        print("Stored password:", stored_password)
+        print("Input password:", req.password)
 
         # Compare password
         if stored_password != req.password:
@@ -48,13 +54,10 @@ def login_user(req:LoginRequest):
     except NoCredentialsError as e:
         raise HTTPException(status_code=500,
                             detail="No AWS credentials found. Please attach IAM role or configure credentials.")
-
     except ClientError as e:
         raise HTTPException(status_code=500, detail=str(e))
-
     except BotoCoreError as e:
         raise HTTPException(status_code=500, detail=str(e))
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

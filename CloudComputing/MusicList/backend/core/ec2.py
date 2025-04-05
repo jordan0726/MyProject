@@ -83,8 +83,8 @@ class EC2Manager:
     # Remove Nginx default index
     sudo rm /var/www/html/index.nginx-debian.html
     
-    # Copy frontend files to Nginx default path
-    sudo cp /home/ubuntu/MyProject/CloudComputing/MusicList/frontend/* /var/www/html
+    # Copy frontend_old files to Nginx default path
+    sudo cp /home/ubuntu/MyProject/CloudComputing/MusicList/frontend_old/* /var/www/html
 
     # Add redirect config: redirect / to /login.html
     sudo bash -c 'cat > /etc/nginx/sites-available/default <<EOF
