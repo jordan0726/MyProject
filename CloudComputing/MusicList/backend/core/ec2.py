@@ -84,7 +84,7 @@ class EC2Manager:
     sudo rm /var/www/html/index.nginx-debian.html
     
     # Copy frontend_old files to Nginx default path
-    sudo cp /home/ubuntu/MyProject/CloudComputing/MusicList/frontend_old/* /var/www/html
+    sudo cp /home/ubuntu/MyProject/CloudComputing/MusicList/frontend-react-build/* /var/www/html
 
     # Add redirect config: redirect / to /login.html
     sudo bash -c 'cat > /etc/nginx/sites-available/default <<EOF
@@ -95,12 +95,9 @@ class EC2Manager:
         root /var/www/html;
         index index.html;
     
-        location = / {
-            return 302 /login.html;
-        }
-    
+   
         location / {
-            try_files \$uri \$uri/ =404;
+            try_files \$uri /index.html;
         }
     }
     '
