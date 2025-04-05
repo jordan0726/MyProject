@@ -32,14 +32,14 @@ function Copyright() {
 
 export default function SignIn() {
     const navigate = useNavigate();
-    const [email, setEmail] = useState("s40689590student.rmit.edu.au");
+    const [email, setEmail] = useState("s40689590@student.rmit.edu.au");
     const [password, setPassword] = useState('012345');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try{
-            const response = await fetch('http://ec2-54-173-195-154.compute-1.amazonaws.com/auth/login', {
+            const response = await fetch('http://ec2-44-203-117-16.compute-1.amazonaws.com/auth/login', {
                 method: 'POST',
                 headers:{ 'Content-Type': 'application/json'},
                 body: JSON.stringify({ email, password })
