@@ -65,21 +65,21 @@ def main():
 
     # Task3 Create EC2 to host website
     ec2_manager = EC2Manager()
-    # backend_instance_id, backend_public_dns = ec2_manager.create_backend_instance(
-    #     ami_image= 'ami-084568db4383264d4', # Ubuntu 20.04
-    #     instance_type = 't2.micro', # free tier
-    #     key_name='vockey',
-    #     security_group_ids=['sg-097c28d8eac2a3446']
-    # )
-    # print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
-
-    frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
-        ami_image='ami-084568db4383264d4',
-        instance_type='t2.micro',
+    backend_instance_id, backend_public_dns = ec2_manager.create_backend_instance(
+        ami_image= 'ami-084568db4383264d4', # Ubuntu 20.04
+        instance_type = 't2.micro', # free tier
         key_name='vockey',
-        security_group_ids=['sg-097c28d8eac2a3446'],
+        security_group_ids=['sg-097c28d8eac2a3446']
     )
-    print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
+    print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
+
+    # frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
+    #     ami_image='ami-084568db4383264d4',
+    #     instance_type='t2.micro',
+    #     key_name='vockey',
+    #     security_group_ids=['sg-097c28d8eac2a3446'],
+    # )
+    # print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
 
 
 if __name__ == "__main__":
@@ -103,6 +103,10 @@ if __name__ == "__main__":
 # sudo cp -r CloudComputing/MusicList/frontend_old/* /var/www/html
 # sudo systemctl restart nginx
 # echo "🚀 Frontend deployed and Nginx restarted!"
+
+# React打包
+# cd 履歷/Github_MyProject/CloudComputing/MusicList/frontend-react
+# npm run build
 
 
 
