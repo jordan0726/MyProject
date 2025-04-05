@@ -1,69 +1,134 @@
-// src/Login.js
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/login.css';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
-function Login(){
+function Copyright() {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/"> // 換網址！！！
+        MyMusicList
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}<br />
+      Built with <Link href="https://mui.com/" target="_blank">MUI</Link>. Licensed under <Link href="https://opensource.org/licenses/MIT" target="_blank">MIT License</Link>.
+    </Typography>
+  );
+}
+// Based on MUI template (MIT License): https://mui.com/
+
+
+export default function SignIn() {
     const navigate = useNavigate();
-    const [email, setEmail] = useState("s40689590student.rmit.edu.au");
+    const [email, setEmail] = useState("s40689590@student.rmit.edu.au");
     const [password, setPassword] = useState('012345');
 
-    async function doLogin(){
-        const backendURL = '/auth/login'; // Need to insert the backend URL here
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
         try{
-            const resp = await fetch(backendURL, {
+            const response = await fetch('http://ec2-44-203-117-16.compute-1.amazonaws.com/auth/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
+                headers:{ 'Content-Type': 'application/json'},
                 body: JSON.stringify({ email, password })
             });
-            const result = await resp.json();
 
-            if (!resp.ok){
+            const result = await response.json();
+
+            if(!response.ok){
                 alert("❌ Login failed: Email or password is incorrect, please try again!");
                 console.error("Login failed: ", result);
-                window.location.reload();
                 return;
             }
 
             // Successful login
             alert("✅ Login success! Welcome " + result.username);
-            console.log("Login response:", result);
+            console.log("Login result:", result);
             navigate('/main');
         }
         catch (err){
             alert("⚠️ Network error. Check backend URL or EC2 status.");
-            console.error(err);}
+            console.error(err);
+        }
     }
 
-    return(
-        <div className="login-container">
-            <h1>Login</h1>
 
-            <label htmlFor="email" className="login-label">Email:</label>
-            <input
-                id="email"
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="login-input"
-            />
 
-            <label htmlFor="password" className="login-label">Password:</label>
-            <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="login-input"
-            />
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Log in
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            <button onClick={doLogin} className="login-button" >Login</button>
-            <a href="register.html" style={{ marginLeft: "1rem" }}>Register</a>
-        </div>
-    );
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Log In
+          </Button>
+          <Grid container>
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+    </Container>
+  );
 }
-export default Login;
-
-
-// Reference:
-// https://github.com/mui/material-ui/blob/master/docs/src/pages/premium-themes/onepirate/SignIn.js

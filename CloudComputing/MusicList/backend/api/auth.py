@@ -29,7 +29,7 @@ def login_user(req:LoginRequest):
         print("DynamoDB Response:", response)
 
         if "Item" not in response:
-            raise HTTPException(status_code=401, detail="Invalid email (or password)")
+            raise HTTPException(status_code=401, detail="Invalid email or password")
 
         item = response["Item"]
         # from dynamoDB get corresponding password and username
@@ -41,7 +41,7 @@ def login_user(req:LoginRequest):
 
         # Compare password
         if stored_password != req.password:
-            raise HTTPException(status_code=401, detail="Invalid (email or) password")
+            raise HTTPException(status_code=401, detail="Invalid email or password")
 
         # Return success message
         return {
