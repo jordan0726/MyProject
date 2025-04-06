@@ -1,12 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -50,7 +49,7 @@ export default function SignIn() {
             if(!response.ok){
                 alert("❌ Login failed: Email or password is incorrect, please try again!");
                 console.error("Login failed: ", result);
-                return;
+                navigate('/main');
             }
 
             // Successful login
@@ -119,8 +118,8 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link component={RouterLink} to="/register" variant="body2">
+                {"Don't have an account? Register Here"}
               </Link>
             </Grid>
           </Grid>
