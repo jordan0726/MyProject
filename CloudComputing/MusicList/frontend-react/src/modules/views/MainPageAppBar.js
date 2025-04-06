@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import AppBar from '../components/AppBar';
@@ -20,28 +21,41 @@ function AppAppBar() {
             variant="h6"
             underline="none"
             color="inherit"
-            href="/premium-themes/onepirate/"
+            component={RouterLink}
+            to="/main"
             sx={{ fontSize: 24 }}
           >
-            {'onepirate'}
+            {'My MusicList'}
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Link
               color="inherit"
               variant="h6"
               underline="none"
-              href="/premium-themes/onepirate/sign-in/"
+              component={RouterLink}
+              to="/login"
               sx={rightLink}
             >
-              {'Sign In'}
+              {'Log Out'}
             </Link>
             <Link
+              color="inherit"
               variant="h6"
               underline="none"
-              href="/premium-themes/onepirate/sign-up/"
+              component={RouterLink}
+              to="/login"
+              sx={rightLink}
+            >
+              {'Log In'}
+            </Link>
+            <Link
+              component={RouterLink}
+              to="/register"
+              variant="h6"
+              underline="none"
               sx={{ ...rightLink, color: 'secondary.main' }}
             >
-              {'Sign Up'}
+              {'Register'}
             </Link>
           </Box>
         </Toolbar>
