@@ -1,8 +1,8 @@
 from fastapi import APIRouter,HTTPException
 from pydantic import BaseModel
-from typing import Optional
 from botocore.exceptions import ClientError, NoCredentialsError, BotoCoreError
 from backend.core.dynamo import DynamoManager
+import bcrypt
 
 router = APIRouter()
 dynamo = DynamoManager()
@@ -40,7 +40,7 @@ def login_user(req:LoginRequest):
         print("Input password:", req.password)
 
         # Compare password
-        if stored_password != req.password:
+        if not bcrypt.checkpw(req.password.encode('utf-8'), stored_password.encode('utf-8')):
             raise HTTPException(status_code=401, detail="Invalid email or password")
 
         # Return success message
@@ -63,7 +63,49 @@ def login_user(req:LoginRequest):
 
 @router.post("/register")
 def register_user(req:RegisterRequest):
-    pass
-    # 1. Query DynamoDB 'login' table by 'email' => check if email already exist
-    # 2. if exist => raise HTTPException(status_code=400, detail="Email already exists")
-    # 3. else => Insert new item => return {"status": "ok", "message": "Register success"}
+    table_name = 'login'
+
+    try:
+        existing_user = dynamo.client.get_item(
+            TableName = table_name,
+            Key = {"email": {"S": req.email}}
+        )
+
+        if "Item" in existing_user:
+            # email already exists
+            raise HTTPException(status_code=400, detail="Email already exists")
+
+        # Hash the password
+        hashed_password = bcrypt.hashpw(req.password.encode('utf-8'), bcrypt.gensalt())
+
+        dynamo.client.put_item(
+            TableName = table_name,
+            Item = {
+                "email": {"S": req.email},
+                "username": {"S": req.username},
+                "password": {"S": hashed_password.decode('utf-8')} # Store the hashed password as str
+            }
+        )
+        # ✅ Successfully registered
+        return{
+            "status": "ok",
+            "message": "User registered successfully"
+        }
+    except NoCredentialsError as e:
+        # AWS credentials missing or incorrect
+        raise HTTPException(
+            status_code=500,
+            detail="No AWS credentials found. Please attach IAM role or configure credentials."
+        )
+    except ClientError as e:
+        # Client error (e.g., permissions issue, incorrect parameters)
+        raise HTTPException(status_code=500, detail=f"ClientError: {str(e)}")
+    except BotoCoreError as e:
+        # General AWS SDK error
+        raise HTTPException(status_code=500, detail=f"BotoCoreError: {str(e)}")
+    except Exception as e:
+        # Catch any other unexpected errors
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unexpected error: {str(e)}"
+        )

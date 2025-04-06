@@ -15,12 +15,12 @@ def main():
     # else:
     #     print("⚠️ Login table already exists or failed to create.")
     #
-    # user_dummy_data = seed_data.generate_dummy_login_data()
-    # for user in user_dummy_data:
-    #     if db.insert_data("login", user):
-    #         print(f"✅ Inserted user: {user['email']}")
-    #     else:
-    #         print(f"❌ Failed to insert user: {user['email']}")
+    user_dummy_data = seed_data.generate_dummy_login_data()
+    for user in user_dummy_data:
+        if db.insert_data("login", user):
+            print(f"✅ Inserted user: {user['email']}")
+        else:
+            print(f"❌ Failed to insert user: {user['email']}")
     #
     # # TASK 1.2 -- create a table titled 'music'
     # if db.create_table('music', music_table_schema):
@@ -73,13 +73,13 @@ def main():
     # )
     # print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
 
-    frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
-        ami_image='ami-084568db4383264d4',
-        instance_type='t2.micro',
-        key_name='vockey',
-        security_group_ids=['sg-097c28d8eac2a3446'],
-    )
-    print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
+    # frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
+    #     ami_image='ami-084568db4383264d4',
+    #     instance_type='t2.micro',
+    #     key_name='vockey',
+    #     security_group_ids=['sg-097c28d8eac2a3446'],
+    # )
+    # print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
 
 
 if __name__ == "__main__":

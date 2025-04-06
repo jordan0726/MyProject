@@ -1,4 +1,4 @@
-
+import bcrypt
 
 def generate_dummy_login_data(student_id="s4068959", name="JordanChiou", count=10) -> list:
     """
@@ -14,10 +14,12 @@ def generate_dummy_login_data(student_id="s4068959", name="JordanChiou", count=1
         username = f"{name}{i}"
         password = "".join(str((i+j)%10) for j in range(6))
 
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
         data.append({
             "email": email,
             "username": username,
-            "password": password
+            "password": hashed_password
         })
 
     return data

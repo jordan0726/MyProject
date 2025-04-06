@@ -20,6 +20,7 @@ function SignIn() {
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState(null);
 
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -40,13 +41,17 @@ function SignIn() {
 
     if (Object.keys(validationErrors).length === 0) {
         setSent(true);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
         try{
-            const response = await fetch('http://ec2-13-217-194-95.compute-1.amazonaws.com/auth/login', {
+            const response = await fetch('http://ec2-34-203-225-35.compute-1.amazonaws.com/auth/login', {
                 method: 'POST',
                 headers:{ 'Content-Type': 'application/json'},
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                signal: controller.signal
             });
 
+            clearTimeout(timeoutId); // Clear the timeout if the request completes
             const result = await response.json();
 
             if(!response.ok){
@@ -60,10 +65,18 @@ function SignIn() {
             alert("✅ Login success! Welcome " + result.username);
             console.log("Login result:", result);
             navigate('/main');
+
         }
         catch (err){
-            alert("⚠️ Network error. Check backend URL or EC2 status.");
+            clearTimeout(timeoutId);
+            if (err.name === 'AbortError') {
+                setSubmitError("⏱️ Timeout: Server did not respond in time")
+            }
+            else{
+                setSubmitError('⚠️ Network error, please try again.');
+            }
             console.error(err);
+            setSent(false);
         }
     }
   };
