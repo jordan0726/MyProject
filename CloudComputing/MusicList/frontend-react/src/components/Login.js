@@ -1,46 +1,50 @@
-import React from 'react';
+import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import Typography from '../modules/components/Typography';
+import AppFooter from '../modules/views/AppFooter';
+import AppAppBar from '../modules/views/AppAppBar';
+import AppForm from '../modules/views/AppForm';
+import FormButton from '../modules/form/FormButton';
+import FormFeedback from '../modules/form/FormFeedback';
+import withRoot from '../modules/withRoot';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/"> // 換網址！！！
-        MyMusicList
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}<br />
-      Built with <Link href="https://mui.com/" target="_blank">MUI</Link>. Licensed under <Link href="https://opensource.org/licenses/MIT" target="_blank">MIT License</Link>.
-    </Typography>
-  );
-}
+function SignIn() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: 's40689590@student.rmit.edu.au', password: '012345' });
+  const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState(null);
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-export default function SignIn() {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("s40689590@student.rmit.edu.au");
-    const [password, setPassword] = useState('012345');
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.email) newErrors.email = 'Required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Invalid email';
+    if (!formData.password) newErrors.password = 'Required';
+    return newErrors;
+  };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    setSubmitError(null);
 
+    if (Object.keys(validationErrors).length === 0) {
+        setSent(true);
         try{
-            const response = await fetch('http://ec2-13-217-194-95.compute-1.amazonaws.com/auth/login', { // Change Backend URL
+            const response = await fetch('http://ec2-13-217-194-95.compute-1.amazonaws.com/auth/login', {
                 method: 'POST',
                 headers:{ 'Content-Type': 'application/json'},
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify(formData)
             });
 
             const result = await response.json();
@@ -48,6 +52,7 @@ export default function SignIn() {
             if(!response.ok){
                 alert("❌ Login failed: Email or password is incorrect, please try again!");
                 console.error("Login failed: ", result);
+                setSent(false);
                 return;
             }
 
@@ -61,72 +66,70 @@ export default function SignIn() {
             console.error(err);
         }
     }
-
-
+  };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Log in
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+    <React.Fragment>
+      <AppAppBar />
+      <AppForm>
+        <React.Fragment>
+          <Typography variant="h3" gutterBottom marked="center" align="center">
+            Login
+          </Typography>
+          <Typography variant="body2" align="center">
+            {'Not a member yet? '}
+            <Link component={RouterLink} to="/register" align="center" underline="always">
+              Register here
+            </Link>
+          </Typography>
+        </React.Fragment>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 6 }}>
           <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
             autoComplete="email"
             autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            label="Email"
+            margin="normal"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
+            size="large"
           />
           <TextField
-            margin="normal"
-            required
             fullWidth
+            size="large"
+            required
             name="password"
+            autoComplete="current-password"
             label="Password"
             type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            margin="normal"
+            value={formData.password}
+            onChange={handleChange}
+            error={!!errors.password}
+            helperText={errors.password}
           />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
+          {submitError && (
+            <FormFeedback error sx={{ mt: 2 }}>
+              {submitError}
+            </FormFeedback>
+          )}
+          <FormButton
             sx={{ mt: 3, mb: 2 }}
+            disabled={sent}
+            size="large"
+            color="secondary"
+            fullWidth
           >
-            Log In
-          </Button>
-          <Grid container>
-            <Grid item>
-              <Link component={RouterLink} to="/register" variant="body2">
-                {"Don't have an account? Register Here"}
-              </Link>
-            </Grid>
-          </Grid>
+            {sent ? 'In progress…' : 'Sign In'}
+          </FormButton>
         </Box>
-      </Box>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+      </AppForm>
+      <AppFooter />
+    </React.Fragment>
   );
 }
+
+export default withRoot(SignIn);
