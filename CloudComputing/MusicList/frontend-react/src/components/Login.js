@@ -39,7 +39,7 @@ export default function SignIn() {
         event.preventDefault();
 
         try{
-            const response = await fetch('http://ec2-44-203-136-62.compute-1.amazonaws.com/auth/login', {
+            const response = await fetch('http://ec2-13-217-194-95.compute-1.amazonaws.com/auth/login', { // Change Backend URL
                 method: 'POST',
                 headers:{ 'Content-Type': 'application/json'},
                 body: JSON.stringify({ email, password })
