@@ -52,7 +52,7 @@ function SignUp() {
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
       try{
-        const response = await fetch('${config.backendBaseURL}/auth/register', {
+        const response = await fetch(`${config.backendBaseURL}/auth/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),
