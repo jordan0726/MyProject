@@ -12,10 +12,11 @@ import AppForm from '../modules/views/AppForm';
 import FormButton from '../modules/form/FormButton';
 import FormFeedback from '../modules/form/FormFeedback';
 import withRoot from '../modules/withRoot';
+import config from '../config';
 
 function SignIn() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: 's40689590@student.rmit.edu.au', password: '012345' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [sent, setSent] = useState(false);
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState(null);
@@ -44,7 +45,7 @@ function SignIn() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
         try{
-            const response = await fetch('http://ec2-34-203-225-35.compute-1.amazonaws.com/auth/login', {
+            const response = await fetch('${config.backendBaseURL}/auth/login', {
                 method: 'POST',
                 headers:{ 'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
@@ -136,7 +137,7 @@ function SignIn() {
             color="secondary"
             fullWidth
           >
-            {sent ? 'In progress…' : 'Sign In'}
+            {sent ? 'In progress…' : 'Log in'}
           </FormButton>
         </Box>
       </AppForm>

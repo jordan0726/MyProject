@@ -13,6 +13,7 @@ import AppForm from '../modules/views/AppForm';
 import FormButton from '../modules/form/FormButton';
 import FormFeedback from '../modules/form/FormFeedback';
 import withRoot from '../modules/withRoot';
+import config from '../config';
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -51,7 +52,7 @@ function SignUp() {
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
       try{
-        const response = await fetch('http://ec2-34-203-225-35.compute-1.amazonaws.com/auth/register', {
+        const response = await fetch('${config.backendBaseURL}/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),
