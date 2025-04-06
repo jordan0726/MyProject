@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "markdown-to-jsx": "^7.7.4",
     "react-router-dom": "^7.4.1"
   }
 }

@@ -109,6 +109,23 @@ if __name__ == "__main__":
 # 更新git
 # 啟動frontend ec2
 
+# frontend reset
+# cd 履歷/Github_MyProject/CloudComputing/MusicList/frontend-react
+# npm run build
+# 移動build檔到frontend-react-build
+# cd ..
+# 更新到git
+# 連到ec2主機
+# cd ~/MyProject
+# git pull
+# cd ~/MyProject/CloudComputing/MusicList/frontend-react-build/build
+# sudo rm -rf /var/www/html/*
+# sudo cp -r * /var/www/html/
+# sudo chmod -R 755 /var/www/html
+# sudo systemctl restart nginx
+
+
+
 
 
 

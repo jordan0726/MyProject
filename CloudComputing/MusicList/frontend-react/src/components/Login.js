@@ -26,7 +26,6 @@ function Copyright() {
     </Typography>
   );
 }
-// Based on MUI template (MIT License): https://mui.com/
 
 
 export default function SignIn() {
@@ -49,7 +48,7 @@ export default function SignIn() {
             if(!response.ok){
                 alert("❌ Login failed: Email or password is incorrect, please try again!");
                 console.error("Login failed: ", result);
-                navigate('/main');
+                return;
             }
 
             // Successful login
