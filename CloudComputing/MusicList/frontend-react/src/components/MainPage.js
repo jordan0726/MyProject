@@ -14,31 +14,19 @@ import config from '../config';
 function MainPage() {
     const [username, setUsername] = useState('');
 
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const resp = await fetch(`${config.backendBaseURL}/auth/me`, {
-          credentials: 'include',
-        });
-        const result = await resp.json();
-
-        if (resp.ok) {
-          setUsername(result.username);
-        } else {
-          console.error("❌ Failed to fetch user:", result);
-        }
-      } catch (err) {
-        console.error("⚠️ Error fetching user info:", err);
-      }
+    useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUsername(storedUser.username);
+    } else {
+      console.error("❌ User info not found, please login again.");
     }
-
-    fetchUser();
   }, []);
 
   return (
     <React.Fragment>
       <MainPageAppBar />
-      <ProductHero />
+      <ProductHero username={username}/>
       <ProductValues />
       <ProductCategories />
       <ProductHowItWorks />

@@ -3,7 +3,6 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from botocore.exceptions import ClientError, NoCredentialsError, BotoCoreError
 from backend.core.dynamo import DynamoManager
-from backend.core.auth_utils import create_access_token, decode_access_token
 
 
 router = APIRouter()
@@ -45,25 +44,17 @@ def login_user(req:LoginRequest):
         if stored_password != req.password:
             raise HTTPException(status_code=401, detail="Invalid email or password")
 
-        access_token = create_access_token({"sub": req.email})
-        # Send token as cookie
-        response = JSONResponse(content={
+        user_info = {
+            "username": stored_username,
+            "email": req.email,
+            "subscriptions": []  # 之後從 DynamoDB 查詢填入
+        }
+
+        return JSONResponse(content={
             "status": "ok",
             "message": "Login success",
-            "username": stored_username
+            **user_info
         })
-        response.set_cookie(
-            key="access_token",
-            value=access_token,
-            httponly=True,
-            max_age=1800, # 30 minutes
-            samesite="None",
-            secure=False
-        )
-
-        # Return success message
-        return response
-
 
     except NoCredentialsError as e:
         raise HTTPException(status_code=500,
@@ -89,15 +80,13 @@ def register_user(req:RegisterRequest):
             # email already exists
             raise HTTPException(status_code=400, detail="Email already exists")
 
-        # Hash the password
-        hashed_password = bcrypt.hashpw(req.password.encode('utf-8'), bcrypt.gensalt())
 
         dynamo.client.put_item(
             TableName = table_name,
             Item = {
                 "email": {"S": req.email},
                 "username": {"S": req.username},
-                "password": {"S": hashed_password.decode('utf-8')} # Store the hashed password as str
+                "password": {"S": req.password} # Store the hashed password as str
             }
         )
         # ✅ Successfully registered
@@ -123,31 +112,3 @@ def register_user(req:RegisterRequest):
             status_code=500,
             detail=f"Unexpected error: {str(e)}"
         )
-
-@router.get("/me")
-def get_current_user(request: Request):
-    token = request.cookies.get("access_token")
-    if not token:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-
-    payload = decode_access_token(token)
-    if not payload:
-        raise HTTPException(status_code=401, detail="Invalid token")
-
-    email = payload.get("sub")
-
-    # 你可以自己實作查詢，假設是這樣：
-    user = dynamo.client.get_item(
-        TableName="login",
-        Key={"email": {"S": email}}
-    ).get("Item")
-
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    return {
-        "email": user["email"]["S"],
-        "username": user["username"]["S"],
-        # 這邊 subscriptions 可以先回傳空陣列，之後串音樂資料時補上
-        "subscriptions": []
-    }

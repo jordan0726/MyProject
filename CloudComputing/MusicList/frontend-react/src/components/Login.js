@@ -49,8 +49,7 @@ function SignIn() {
                 method: 'POST',
                 headers:{ 'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
-                signal: controller.signal,
-                credentials: 'include', // Include cookies in the request
+                signal: controller.signal
             });
 
             clearTimeout(timeoutId); // Clear the timeout if the request completes
@@ -62,6 +61,12 @@ function SignIn() {
                 setSent(false);
                 return;
             }
+
+            // Save user data to localStorage
+              localStorage.setItem("user", JSON.stringify({
+                username: result.username,
+                email: result.email,
+              }));
 
             // Successful login
             alert("✅ Login success! Welcome " + result.username);
