@@ -57,7 +57,8 @@ def login_user(req:LoginRequest):
             value=access_token,
             httponly=True,
             max_age=1800, # 30 minutes
-            samesite="Lax"
+            samesite="None",
+            secure=False
         )
 
         # Return success message

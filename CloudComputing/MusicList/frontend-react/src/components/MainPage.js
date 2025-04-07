@@ -9,6 +9,7 @@ import ProductHowItWorks from '../modules/views/ProductHowItWorks';
 import ProductCTA from '../modules/views/ProductCTA';
 import MainPageAppBar from '../modules/views/MainPageAppBar';
 import withRoot from '../modules/withRoot';
+import config from '../config';
 
 function MainPage() {
     const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ function MainPage() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const resp = await fetch('http://your-backend-url/auth/me', {
+        const resp = await fetch(`${config.backendBaseURL}/auth/me`, {
           credentials: 'include',
         });
         const result = await resp.json();
@@ -37,7 +38,7 @@ function MainPage() {
   return (
     <React.Fragment>
       <MainPageAppBar />
-      <ProductHero username={username} />
+      <ProductHero />
       <ProductValues />
       <ProductCategories />
       <ProductHowItWorks />
