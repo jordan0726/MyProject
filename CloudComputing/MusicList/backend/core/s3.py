@@ -143,6 +143,10 @@ class S3Manager:
             print(f"Error while processing JSON file: {e}")
             return False, 0
 
+    def upload_file_to_bucket(self, file_path: str, bucket_name: str, s3_key: str) -> None:
+        with open(file_path, 'rb') as f:
+            self.s3_client.upload_fileobj(f, bucket_name, s3_key)
+
     def enable_block_public_access(self, bucket_name: str) -> bool:
         """
        Enables AWS S3's Block Public Access settings to fully restrict public access to the bucket.

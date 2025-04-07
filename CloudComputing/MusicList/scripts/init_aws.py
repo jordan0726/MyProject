@@ -41,8 +41,8 @@ def main():
 
 
     # # TASK 2 -- Create S3 -- Download from img_url and upload images to S3
-    # s3_manager = S3Manager()
-    # bucket_name = 'media-storage-s4068959'
+    s3_manager = S3Manager()
+    bucket_name = 'media-storage-s4068959'
     # ## Create a bucket
     # if s3_manager.create_s3_bucket(bucket_name):
     #     print(f"✅ Created bucket: {bucket_name}")
@@ -55,7 +55,7 @@ def main():
     # else:
     #     print(f"⚠️ Failed to enable block public access for bucket: {bucket_name}")
     #
-    # ## set a more detailed bucket policy (e.g., enforcing HTTPS access)
+    ## set a more detailed bucket policy (e.g., enforcing HTTPS access)
     # if s3_manager.set_bucket_policy_block_public_access(bucket_name):
     #     print(f"✅ Set bucket policy to block public access for bucket: {bucket_name}")
     # else:
@@ -68,6 +68,16 @@ def main():
     #     print(f"Skipped {skipped_count} images.")
     # else:
     #     print(f"⚠️ Failed to upload images from {json_file} to S3 bucket: {bucket_name}")
+
+    ## Upload a fallback image to S3
+    fallback_img_path = "../data/no_image_available.jpg"
+    fallback_s3_key = "artist-images/no_image_available.jpg"
+    try:
+        s3_manager.upload_file_to_bucket(fallback_img_path, bucket_name, fallback_s3_key)
+        print(f"✅ Uploaded fallback image to S3 as: {fallback_s3_key}")
+    except Exception as e:
+        print(f"❌ Failed to upload fallback image: {e}")
+
 
     # Task3 Create EC2 to host website
     ec2_manager = EC2Manager()
