@@ -130,9 +130,9 @@ if __name__ == "__main__":
 # cd ~/MyProject
 # git pull origin main
 # cd ~/MyProject/CloudComputing/MusicList
-# # pkill -f uvicorn
-# # source backend/venv/bin/activate
-# # nohup uvicorn backend.main:app --host 0.0.0.0 --port 8000 > ~/backend.log 2>&1 &
+# pkill -f uvicorn
+# source backend/venv/bin/activate
+# nohup uvicorn backend.main:app --host 0.0.0.0 --port 8000 > ~/backend.log 2>&1 &
 # tail -f ~/backend.log
 # INFO:     Uvicorn running on http://0.0.0.0:8000 表示成功
 
