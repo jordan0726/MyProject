@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-const ProductHeroLayoutRoot = styled('section')(({ theme }) => ({
+const MusicSearchLayoutRoot = styled('section')(({ theme }) => ({
   color: theme.palette.common.white,
   position: 'relative',
   display: 'flex',
@@ -28,11 +28,11 @@ const Background = styled('div')({
   zIndex: -2,
 });
 
-function ProductHeroLayout(props) {
+function MusicSearchLayout(props) {
   const { sxBackground, children } = props;
 
   return (
-    <ProductHeroLayoutRoot>
+    <MusicSearchLayoutRoot>
       <Container
         sx={{
           mt: 3,
@@ -45,11 +45,11 @@ function ProductHeroLayout(props) {
         {children}
         <Background sx={sxBackground} />
       </Container>
-    </ProductHeroLayoutRoot>
+    </MusicSearchLayoutRoot>
   );
 }
 
-ProductHeroLayout.propTypes = {
+MusicSearchLayout.propTypes = {
   children: PropTypes.node,
   sxBackground: PropTypes.oneOfType([
     PropTypes.arrayOf(
@@ -60,4 +60,4 @@ ProductHeroLayout.propTypes = {
   ]),
 };
 
-export default ProductHeroLayout;
+export default MusicSearchLayout;
