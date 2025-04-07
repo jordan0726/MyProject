@@ -107,7 +107,7 @@ class S3Manager:
                 # Loop through each song in the list to get the image URL
                 for each_song in songs:
                     img_url = each_song.get("img_url", None) # Get the image URL
-                    artist = each_song.get("artist", "unknown").replace(" ", "_") # Get the artist name and replace spaces with underscores
+                    artist = each_song.get("artist", "unknown").replace(" ", "_").lower() # Get the artist name and replace spaces with underscores
 
                     if not img_url:
                         print(f"⚠️ Skipping {artist}: No image URL provided.")
