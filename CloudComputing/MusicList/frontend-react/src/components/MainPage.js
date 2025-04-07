@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import ProductCategories from '../modules/views/ProductCategories';
 import ProductSmokingHero from '../modules/views/ProductSmokingHero';
 import AppFooter from '../modules/views/AppFooter';
@@ -9,11 +10,34 @@ import ProductCTA from '../modules/views/ProductCTA';
 import MainPageAppBar from '../modules/views/MainPageAppBar';
 import withRoot from '../modules/withRoot';
 
-function Index() {
+function MainPage() {
+    const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const resp = await fetch('http://your-backend-url/auth/me', {
+          credentials: 'include',
+        });
+        const result = await resp.json();
+
+        if (resp.ok) {
+          setUsername(result.username);
+        } else {
+          console.error("❌ Failed to fetch user:", result);
+        }
+      } catch (err) {
+        console.error("⚠️ Error fetching user info:", err);
+      }
+    }
+
+    fetchUser();
+  }, []);
+
   return (
     <React.Fragment>
       <MainPageAppBar />
-      <ProductHero />
+      <ProductHero username={username} />
       <ProductValues />
       <ProductCategories />
       <ProductHowItWorks />
@@ -24,7 +48,6 @@ function Index() {
   );
 }
 
-export default withRoot(Index);
+export default MainPage;
 
-//還沒寫接受cookie的code
 

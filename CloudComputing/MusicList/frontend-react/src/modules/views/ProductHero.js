@@ -6,7 +6,7 @@ import ProductHeroLayout from './ProductHeroLayout';
 const backgroundImage =
   'https://images.unsplash.com/photo-1534854638093-bada1813ca19?auto=format&fit=crop&w=1400';
 
-export default function ProductHero() {
+export default function ProductHero({ username }) {
   return (
     <ProductHeroLayout
       sxBackground={{
@@ -15,14 +15,13 @@ export default function ProductHero() {
         backgroundPosition: 'center',
       }}
     >
-      {/* Increase the network loading priority of the background image. */}
       <img
         style={{ display: 'none' }}
         src={backgroundImage}
         alt="increase priority"
       />
       <Typography color="inherit" align="center" variant="h2" marked="center">
-        Upgrade your Sundays
+        Welcome, {username || 'guest'}
       </Typography>
       <Typography
         color="inherit"
@@ -30,7 +29,7 @@ export default function ProductHero() {
         variant="h5"
         sx={{ mb: 4, mt: { xs: 4, sm: 10 } }}
       >
-        Enjoy secret offers up to -70% off the best luxury hotels every Sunday.
+        Discover and manage your favorite music now 🎵
       </Typography>
       <Button
         color="secondary"

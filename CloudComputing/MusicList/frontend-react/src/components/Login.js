@@ -49,7 +49,8 @@ function SignIn() {
                 method: 'POST',
                 headers:{ 'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
-                signal: controller.signal
+                signal: controller.signal,
+                credentials: 'include', // Include cookies in the request
             });
 
             clearTimeout(timeoutId); // Clear the timeout if the request completes
