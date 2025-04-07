@@ -21,7 +21,7 @@ def main():
     #         print(f"✅ Inserted user: {user['email']}")
     #     else:
     #         print(f"❌ Failed to insert user: {user['email']}")
-    #
+
     # # TASK 1.2 -- create a table titled 'music'
     # if db.create_table('music', music_table_schema):
     #     print("✅ Music table created.")
@@ -123,6 +123,43 @@ if __name__ == "__main__":
 # sudo cp -r * /var/www/html/
 # sudo chmod -R 755 /var/www/html
 # sudo systemctl restart nginx
+
+#backend reset
+# git更新
+# ssh進去backend ec2
+# cd ~/MyProject
+# git pull origin main
+# cd ~/MyProject/CloudComputing/MusicList
+# # pkill -f uvicorn
+# # source backend/venv/bin/activate
+# # nohup uvicorn backend.main:app --host 0.0.0.0 --port 8000 > ~/backend.log 2>&1 &
+# tail -f ~/backend.log
+# INFO:     Uvicorn running on http://0.0.0.0:8000 表示成功
+
+
+#Lambda打包
+# cd /Users/chiouder/履歷/Github_MyProject/CloudComputing/MusicList/backend/api
+# mkdir lambda_register && cd lambda_register
+# cp ../lambda_register.py .
+#
+# docker run -it --rm -v "$PWD":/var/task public.ecr.aws/sam/build-python3.11 bash
+# cd /var/task
+# yum install -y python3 python3-devel gcc
+# pip3 install bcrypt -t .
+# ls -l
+# yum install -y unzip
+# zip -r lambda_register.zip .
+# unzip -l lambda_register.zip | grep .so
+#
+# cd /Users/chiouder/履歷/Github_MyProject/CloudComputing/MusicList/backend/api/lambda_register
+# unzip -l lambda_register.zip | grep bcrypt
+
+
+
+
+
+
+
 
 
 

@@ -49,7 +49,6 @@ function SignIn() {
                 method: 'POST',
                 headers:{ 'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
-                credentials: 'include', // Include cookies in the request
                 signal: controller.signal
             });
 

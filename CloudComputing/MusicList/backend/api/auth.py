@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from botocore.exceptions import ClientError, NoCredentialsError, BotoCoreError
 from backend.core.dynamo import DynamoManager
 from backend.core.auth_utils import create_access_token, decode_access_token
-import bcrypt
+
 
 router = APIRouter()
 dynamo = DynamoManager()
@@ -42,7 +42,7 @@ def login_user(req:LoginRequest):
         print("Input password:", req.password)
 
         # Compare password
-        if not bcrypt.checkpw(req.password.encode('utf-8'), stored_password.encode('utf-8')):
+        if stored_password != req.password:
             raise HTTPException(status_code=401, detail="Invalid email or password")
 
         access_token = create_access_token({"sub": req.email})
