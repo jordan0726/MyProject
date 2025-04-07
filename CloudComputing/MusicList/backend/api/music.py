@@ -37,6 +37,16 @@ def query_music(
         FilterExpression=filter_expression
     )
     items = response.get("Items", [])
+
+    s3_bucket = "media-storage-s4068959"
+    s3_base_url = f"https://{s3_bucket}.s3.amazonaws.com/artist-images/"
+
+    for item in items:
+        if "artist" in item:
+            formatted_artist = item["artist"].strip().replace(" ", "_").lower()
+            item["artistImageUrl"] = f"{s3_base_url}{formatted_artist}.jpg"
+
+
     if not items:
         return {"message": "No result is retrieved. Please query again.", "items": []}
     return {"items": items}

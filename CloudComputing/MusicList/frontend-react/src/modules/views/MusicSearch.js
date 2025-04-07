@@ -3,7 +3,7 @@ import Typography from '../components/Typography';
 import MusicSearchLayout from './MusicSearchLayout';
 import MusicSearchField from './MusicSearchField';
 import { Box, Grid } from '@mui/material';
-import MusicCard from './MusicCard';
+import MusicTable from './MusicTable';
 import config from '../../config';
 
 
@@ -64,15 +64,7 @@ export default function MusicSearch({ username }) {
       <MusicSearchField onQuery={handleQuery} />
 
       {/* Searching Results */}
-      <Box sx={{ mt: 4 }}>
-        <Grid container spacing={2}>
-          {searchResults.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <MusicCard music={item} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      {searchResults.length > 0 && <MusicTable data={searchResults} />}
 
     </MusicSearchLayout>
   );
