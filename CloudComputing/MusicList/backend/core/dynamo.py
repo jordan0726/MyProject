@@ -93,6 +93,14 @@ class DynamoManager:
                         if key not in (partition_key, sort_key):  # Avoid duplicating primary keys
                             item_data[key] = value
 
+                    # Add normalized attributes for case-insensitive queries
+                    if "title" in item_data:
+                        item_data["title_lower"] = item_data["title"].strip().lower()
+                    if "artist" in item_data:
+                        item_data["artist_lower"] = item_data["artist"].strip().lower()
+                    if "album" in item_data:
+                        item_data["album_lower"] = item_data["album"].strip().lower()
+
                     # Add the item to the batch
                     batch.put_item(Item=item_data)
             return True

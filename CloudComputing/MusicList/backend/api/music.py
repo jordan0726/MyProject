@@ -27,15 +27,15 @@ def query_music(
 
     filter_expression = None
     if title:
-        filter_expression = Attr("title").contains(title)
+        filter_expression = Attr("title_lower").contains(title.strip().lower())
     if year:
         fe = Attr("year").contains(year)
         filter_expression = fe if filter_expression is None else filter_expression & fe
     if artist:
-        fe = Attr("artist").contains(artist)
+        fe = Attr("artist_lower").contains(artist.strip().lower())
         filter_expression = fe if filter_expression is None else filter_expression & fe
     if album:
-        fe = Attr("album").contains(album)
+        fe = Attr("album_lower").contains(album.strip().lower())
         filter_expression = fe if filter_expression is None else filter_expression & fe
 
     response = music_table.scan(
