@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from backend.api import auth, music
+from backend.api import auth, music, subscription
 
 app = FastAPI()
 
@@ -21,6 +21,8 @@ app.add_middleware(
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(music.router, prefix="/music", tags=["music"])
+app.include_router(subscription.router, prefix="/subscription", tags=["subscription"])
+
 
 
 @app.get("/hello")

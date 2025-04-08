@@ -7,7 +7,7 @@ import MusicTable from './MusicTable';
 import config from '../../config';
 
 
-export default function MusicSearch({ username }) {
+export default function MusicSearch({ username, userEmail }) {
   const [searchResults, setSearchResults] = useState([]);
 
   // Search function to handle the query
@@ -64,7 +64,7 @@ export default function MusicSearch({ username }) {
       <MusicSearchField onQuery={handleQuery} />
 
       {/* Searching Results */}
-      {searchResults.length > 0 && <MusicTable data={searchResults} />}
+      {searchResults.length > 0 && <MusicTable data={searchResults} userEmail={userEmail} />}
 
     </MusicSearchLayout>
   );

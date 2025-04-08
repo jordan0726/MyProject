@@ -13,11 +13,13 @@ import config from '../config';
 
 function MainPage() {
     const [username, setUsername] = useState('');
+    const [userEmail, setUserEmail] = useState('');
 
     useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
       setUsername(storedUser.username);
+      setUserEmail(storedUser.email);
     } else {
       console.error("❌ User info not found, please login again.");
     }
@@ -26,7 +28,7 @@ function MainPage() {
   return (
     <React.Fragment>
       <AppAppBar />
-      <MusicSearch username={username}/>
+      <MusicSearch username={username} userEmail={userEmail}/>
       <ProductValues />
       <ProductCategories />
       <ProductHowItWorks />
