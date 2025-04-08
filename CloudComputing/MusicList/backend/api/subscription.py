@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from backend.core.dynamo import DynamoManager
 from botocore.exceptions import ClientError
+from boto3.dynamodb.conditions import Key
+
 
 router = APIRouter()
 dynamo = DynamoManager()

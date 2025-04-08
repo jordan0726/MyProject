@@ -124,7 +124,11 @@ export default function MusicTable({ data, userEmail }) {
                 Year
               </Typography>
             </TableCell>
-            <TableCell sx={{ width: '10%' }} />
+            <TableCell sx={{ width: '10%' }}>
+              <Typography variant="subtitle1" fontWeight="bold">
+                Subscription
+              </Typography>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
