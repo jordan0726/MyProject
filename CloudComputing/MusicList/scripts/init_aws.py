@@ -62,12 +62,12 @@ def main():
     #     print(f"⚠️ Failed to set bucket policy to block public access for bucket: {bucket_name}")
     #
     ## Download and Upload images to S3
-    succeed_upload, skipped_count = s3_manager.upload_img_from_json(json_file, bucket_name)
-    if succeed_upload:
-        print(f"✅ Uploaded images from {json_file} to S3 bucket: {bucket_name}")
-        print(f"Skipped {skipped_count} images.")
-    else:
-        print(f"⚠️ Failed to upload images from {json_file} to S3 bucket: {bucket_name}")
+    # succeed_upload, skipped_count = s3_manager.upload_img_from_json(json_file, bucket_name)
+    # if succeed_upload:
+    #     print(f"✅ Uploaded images from {json_file} to S3 bucket: {bucket_name}")
+    #     print(f"Skipped {skipped_count} images.")
+    # else:
+    #     print(f"⚠️ Failed to upload images from {json_file} to S3 bucket: {bucket_name}")
 
     ## Upload a fallback image to S3
     # fallback_img_path = "../data/no_image_available.jpg"
@@ -80,14 +80,14 @@ def main():
 
 
     # Task3 Create EC2 to host website
-    # ec2_manager = EC2Manager()
-    # backend_instance_id, backend_public_dns = ec2_manager.create_backend_instance(
-    #     ami_image= 'ami-084568db4383264d4', # Ubuntu 20.04
-    #     instance_type = 't2.micro', # free tier
-    #     key_name='vockey',
-    #     security_group_ids=['sg-097c28d8eac2a3446']
-    # )
-    # print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
+    ec2_manager = EC2Manager()
+    backend_instance_id, backend_public_dns = ec2_manager.create_backend_instance(
+        ami_image= 'ami-084568db4383264d4', # Ubuntu 20.04
+        instance_type = 't2.micro', # free tier
+        key_name='vockey',
+        security_group_ids=['sg-097c28d8eac2a3446']
+    )
+    print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
 
     # frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
     #     ami_image='ami-084568db4383264d4',

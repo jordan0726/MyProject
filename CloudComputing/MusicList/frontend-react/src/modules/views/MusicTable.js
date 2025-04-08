@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Typography
+  TableHead, TableRow, Paper, Typography, Box
 } from '@mui/material';
 
 export default function MusicTable({ data }) {
@@ -13,11 +13,6 @@ export default function MusicTable({ data }) {
             <TableCell>
               <Typography variant="subtitle1" fontWeight="bold">
                 Artist
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="subtitle1" fontWeight="bold">
-                Image
               </Typography>
             </TableCell>
             <TableCell>
@@ -40,17 +35,25 @@ export default function MusicTable({ data }) {
         <TableBody>
           {data.map((music, index) => (
             <TableRow key={index}>
-              <TableCell>{music.artist}</TableCell>
               <TableCell>
-                {music.artistImageUrl ? (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <img
                     src={music.artistImageUrl}
                     alt={music.artist}
-                    style={{ width: 50, height: 50, objectFit: 'cover' }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      marginRight: 10
+                    }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/40'; // fallback 圖片
+                    }}
                   />
-                ) : (
-                  "No image"
-                )}
+                  <Typography>{music.artist}</Typography>
+                </Box>
               </TableCell>
               <TableCell>{music.title}</TableCell>
               <TableCell>{music.album}</TableCell>
