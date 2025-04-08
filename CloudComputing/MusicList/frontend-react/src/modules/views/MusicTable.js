@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Paper, Typography, Box, IconButton
@@ -11,22 +11,47 @@ export default function MusicTable({ data, userEmail }) {
   // Local state to track subscribed music IDs
   const [subscribedItems, setSubscribedItems] = useState([]);
 
-  // Generate a unique musicId using title+album (after trimming any whitespace)
+  // Generate a unique musicId using title+album (after trimming and lowercasing)
   const getMusicId = (music) => {
-    const title = music.title?.trim() || '';
-    const album = music.album?.trim() || '';
+    const title = (music.title || '').trim().toLowerCase();
+    const album = (music.album || '').trim().toLowerCase();
     return `${title}|${album}`;
   };
 
+  // Load current subscription list from the backend when component mounts or userEmail changes
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const response = await fetch(
+          `${config.backendBaseURL}/subscription/list?email=${encodeURIComponent(userEmail)}`,
+          {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+          }
+        );
+        const result = await response.json();
+        // Assuming the API returns {"items": [musicId1, musicId2, ...]}
+        if (result.items) {
+          setSubscribedItems(result.items);
+        }
+      } catch (error) {
+        console.error("Error fetching subscriptions:", error);
+      }
+    };
+
+    if (userEmail) {
+      fetchSubscriptions();
+    }
+  }, [userEmail]);
+
   // Handle click event on the heart icon: subscribe or unsubscribe.
-  // The UI will only update when the API call is successful.
+  // The UI will update only after a successful API call.
   const handleSubscribeClick = async (music) => {
     const musicId = getMusicId(music);
 
-    // If the item is already subscribed, attempt to unsubscribe
     if (subscribedItems.includes(musicId)) {
+      // If already subscribed, attempt to unsubscribe
       try {
-        // DELETE subscription API call. Ensure email and musicId are properly URL encoded.
         const response = await fetch(
           `${config.backendBaseURL}/subscription?email=${encodeURIComponent(userEmail)}&musicId=${encodeURIComponent(musicId)}`,
           {
@@ -35,10 +60,9 @@ export default function MusicTable({ data, userEmail }) {
           }
         );
         if (response.ok) {
-          // Only update the subscribedItems state after successful API response.
+          // Update state only after successful API call
           setSubscribedItems(subscribedItems.filter(id => id !== musicId));
         } else {
-          // If the response is not OK, alert an error and do not update the UI.
           alert('Failed to unsubscribe');
           console.error('Failed to unsubscribe');
         }
@@ -47,9 +71,8 @@ export default function MusicTable({ data, userEmail }) {
         console.error("Unsubscribe error:", error);
       }
     } else {
-      // If the item is not subscribed, attempt to subscribe
+      // If not subscribed, attempt to subscribe
       try {
-        // POST subscription API call with required data fields.
         const response = await fetch(`${config.backendBaseURL}/subscription`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -63,7 +86,7 @@ export default function MusicTable({ data, userEmail }) {
           })
         });
         if (response.ok) {
-          // Only update the subscribedItems state if the subscription API call was successful.
+          // Update state only after successful API call
           setSubscribedItems([...subscribedItems, musicId]);
         } else {
           alert('Failed to subscribe');
@@ -75,7 +98,6 @@ export default function MusicTable({ data, userEmail }) {
       }
     }
   };
-
 
   return (
     <TableContainer component={Paper} sx={{ maxWidth: '100%', mt: 2 }}>
