@@ -3,11 +3,15 @@ from pydantic import BaseModel
 from backend.core.dynamo import DynamoManager
 from botocore.exceptions import ClientError
 from boto3.dynamodb.conditions import Key
+from backend.core.s3 import S3Manager
+
 
 
 router = APIRouter()
 dynamo = DynamoManager()
 subscription_table = dynamo.dynamodb.Table("subscription")
+s3_manager = S3Manager()
+s3_bucket = "media-storage-s4068959"
 
 class SubscriptionRequest(BaseModel):
     email: str
@@ -74,6 +78,28 @@ def get_subscription_details(email: str = Query(...)):
             KeyConditionExpression=Key('email').eq(email)
         )
         items = response.get("Items", [])
+
+        # For each item, add the artist image URL like in music.py
+        for item in items:
+            if "artist" in item:
+                # Normalize the artist name (trim, replace spaces with underscore, lowercase)
+                formatted_artist = item["artist"].strip().replace(" ", "_").lower()
+                s3_key = f"artist-images/{formatted_artist}.jpg"
+                try:
+                    presigned_url = s3_manager.s3_client.generate_presigned_url(
+                        ClientMethod='get_object',
+                        Params={
+                            'Bucket': s3_bucket,
+                            'Key': s3_key
+                        },
+                        ExpiresIn=3600  # URL 有效期 1 小時
+                    )
+                except ClientError as e:
+                    print(f"Failed to generate presigned URL: {e}")
+                    # Fallback image URL
+                    presigned_url = f"https://{s3_bucket}.s3.amazonaws.com/artist-images/no_image_available.jpg"
+                item["artistImageUrl"] = presigned_url
+
         return {"items": items}
     except ClientError as e:
         raise HTTPException(status_code=500, detail=f"Subscription retrieval error: {e}")

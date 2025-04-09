@@ -34,7 +34,7 @@ export default function Subscription({ userEmail }) {
   }, [userEmail]);
 
   return (
-    <TableContainer component={Paper} sx={{ maxWidth: '100%', mt: 4 }}>
+    <TableContainer component={Paper} sx={{ maxWidth: '100%', mt: 4, mb: 4 }}>
       <Typography variant="h4" align="center" sx={{ mt: 2, mb: 2 }}>
         Your Subscriptions
       </Typography>
@@ -42,6 +42,7 @@ export default function Subscription({ userEmail }) {
         <TableHead>
           <TableRow>
             <TableCell sx={{ width: '25%' }}>
+              {/* Artist column header */}
               <Typography variant="subtitle1" fontWeight="bold">
                 Artist
               </Typography>
@@ -75,7 +76,27 @@ export default function Subscription({ userEmail }) {
           ) : (
             subscriptions.map((sub, index) => (
               <TableRow key={index}>
-                <TableCell>{sub.artist}</TableCell>
+                <TableCell>
+                  {/* Display the artist image and name */}
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <img
+                      src={sub.artistImageUrl}
+                      alt={sub.artist}
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        marginRight: 10
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://via.placeholder.com/40';
+                      }}
+                    />
+                    <Typography>{sub.artist}</Typography>
+                  </Box>
+                </TableCell>
                 <TableCell>{sub.title}</TableCell>
                 <TableCell>{sub.album}</TableCell>
                 <TableCell>{sub.year}</TableCell>
