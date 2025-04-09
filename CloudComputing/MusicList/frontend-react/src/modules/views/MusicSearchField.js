@@ -14,10 +14,6 @@ export default function MusicQueryArea({ onQuery }) {
   };
 
   const handleQuery = () => {
-    if (!query.title && !query.year && !query.artist && !query.album) {
-      alert("Please fill in at least one field.");
-      return;
-    }
     onQuery(query);
   };
 

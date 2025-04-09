@@ -2,17 +2,25 @@ import React, { useState } from 'react';
 import Typography from '../components/Typography';
 import MusicSearchLayout from './MusicSearchLayout';
 import MusicSearchField from './MusicSearchField';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import MusicTable from './MusicTable';
 import config from '../../config';
 
 
 export default function MusicSearch({ username, userEmail }) {
   const [searchResults, setSearchResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Search function to handle the query
   const handleQuery = async (query) => {
     console.log("Query parameters:", query);
+    setErrorMessage(''); // Reset error message
+
+    // Check if at least one field is filled
+    if (!query.title && !query.year && !query.artist && !query.album) {
+      setErrorMessage('Please fill in at least one field to search.');
+      return;
+    }
 
     // Build the URL with query parameters
     const params = new URLSearchParams();
@@ -32,13 +40,13 @@ export default function MusicSearch({ username, userEmail }) {
         setSearchResults(data.items);
       } else {
         // If backend responds items: []
-        alert(data.message || "No result is retrieved. Please query again.");
+        setErrorMessage(data.message || "No results found! Please try again.");
         setSearchResults([]);
       }
     }
     catch (error) {
       console.error("Query error:", error);
-      alert("Failed to query. Check console for details.");
+      setErrorMessage("Failed to query from the server. Please try again later.");
     }
   };
 
@@ -60,8 +68,30 @@ export default function MusicSearch({ username, userEmail }) {
       >
         Discover and manage your favorite music now 🎵
       </Typography>
+
+      {/* Displaying error message */}
+     {errorMessage && (
+      <Typography
+        align="center"
+        sx={{
+          mt: 2,
+          fontWeight: 'bold',
+          color: 'error.main',         // 預設的紅色 (MUI theme)
+          backgroundColor: 'white',  // 淺紅背景
+          px: 2,
+          py: 1,
+          borderRadius: 1,
+        }}
+      >
+        {errorMessage}⚠️
+  </Typography>
+)}
+
+
       {/* Searching Fields */}
       <MusicSearchField onQuery={handleQuery} />
+
+
 
       {/* Searching Results */}
       {searchResults.length > 0 && <MusicTable data={searchResults} userEmail={userEmail} />}
