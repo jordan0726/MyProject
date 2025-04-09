@@ -65,3 +65,15 @@ def get_subscriptions(email: str = Query(...)):
         return {"items": music_ids}
     except ClientError as e:
         raise HTTPException(status_code=500, detail=f"Subscription retrieval error: {e}")
+
+@router.get("/details")
+def get_subscription_details(email: str = Query(...)):
+    try:
+        # Query subscriptions by email (partition key)
+        response = subscription_table.query(
+            KeyConditionExpression=Key('email').eq(email)
+        )
+        items = response.get("Items", [])
+        return {"items": items}
+    except ClientError as e:
+        raise HTTPException(status_code=500, detail=f"Subscription retrieval error: {e}")
