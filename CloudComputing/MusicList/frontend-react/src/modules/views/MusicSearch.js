@@ -6,8 +6,7 @@ import { Box } from '@mui/material';
 import MusicTable from './MusicTable';
 import config from '../../config';
 
-
-export default function MusicSearch({ username, userEmail }) {
+export default function MusicSearch({ username, userEmail, subscriptions, refreshSubscriptions }) {
   const [searchResults, setSearchResults] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -29,8 +28,8 @@ export default function MusicSearch({ username, userEmail }) {
     if (query.artist) params.append("artist", query.artist);
     if (query.album) params.append("album", query.album);
 
-    try{
-        // Make the API call
+    try {
+      // Make the API call
       const response = await fetch(`${config.backendBaseURL}/music/music?${params.toString()}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -39,7 +38,7 @@ export default function MusicSearch({ username, userEmail }) {
       if (data.items && data.items.length > 0) {
         setSearchResults(data.items);
       } else {
-        // If backend responds items: []
+        // If backend responds with items: []
         setErrorMessage(data.message || "No results found! Please try again.");
         setSearchResults([]);
       }
@@ -69,33 +68,36 @@ export default function MusicSearch({ username, userEmail }) {
         Discover and manage your favorite music now 🎵
       </Typography>
 
-      {/* Displaying error message */}
-     {errorMessage && (
-      <Typography
-        align="center"
-        sx={{
-          mt: 2,
-          fontWeight: 'bold',
-          color: 'error.main',         // 預設的紅色 (MUI theme)
-          backgroundColor: 'white',  // 淺紅背景
-          px: 2,
-          py: 1,
-          borderRadius: 1,
-        }}
-      >
-        {errorMessage}⚠️
-  </Typography>
-)}
-
+      {/* Display error message */}
+      {errorMessage && (
+        <Typography
+          align="center"
+          sx={{
+            mt: 2,
+            fontWeight: 'bold',
+            color: 'error.main',         // Use the primary error (red) color from MUI theme
+            backgroundColor: 'white',    // White background for contrast
+            px: 2,
+            py: 1,
+            borderRadius: 1,
+          }}
+        >
+          {errorMessage} ⚠️
+        </Typography>
+      )}
 
       {/* Searching Fields */}
       <MusicSearchField onQuery={handleQuery} />
 
-
-
-      {/* Searching Results */}
-      {searchResults.length > 0 && <MusicTable data={searchResults} userEmail={userEmail} />}
-
+      {/* Searching Results: pass refreshSubscriptions to MusicTable */}
+      {searchResults.length > 0 && (
+        <MusicTable
+          data={searchResults}
+          userEmail={userEmail}
+          subscriptions={subscriptions}
+          refreshSubscriptions={refreshSubscriptions}
+        />
+      )}
     </MusicSearchLayout>
   );
 }

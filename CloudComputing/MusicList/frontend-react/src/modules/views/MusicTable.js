@@ -1,56 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Paper, Typography, Box, IconButton
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import config from '../../config';  // assuming config.backendBaseURL is set
+import config from '../../config';
 
-export default function MusicTable({ data, userEmail }) {
-  // Local state to track subscribed music IDs
-  const [subscribedItems, setSubscribedItems] = useState([]);
+export default function MusicTable({ data, userEmail, refreshSubscriptions, subscriptions }) {
+  const [loadingItems, setLoadingItems] = useState([]); // Track loading musicIds
 
-  // Generate a unique musicId using title+album (after trimming and lowercasing)
+  // Generate an array of musicIds from the subscriptions passed from the parent component
+  const subscribedItems = subscriptions ? subscriptions.map(item => item.musicId) : [];
+
+  // Generate a unique musicId (combining title and album after trimming and lowercasing)
   const getMusicId = (music) => {
     const title = (music.title || '').trim().toLowerCase();
     const album = (music.album || '').trim().toLowerCase();
     return `${title}|${album}`;
   };
 
-  // Load current subscription list from the backend when component mounts or userEmail changes
-  useEffect(() => {
-    const fetchSubscriptions = async () => {
-      try {
-        const response = await fetch(
-          `${config.backendBaseURL}/subscription/list?email=${encodeURIComponent(userEmail)}`,
-          {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-          }
-        );
-        const result = await response.json();
-        // Assuming the API returns {"items": [musicId1, musicId2, ...]}
-        if (result.items) {
-          setSubscribedItems(result.items);
-        }
-      } catch (error) {
-        console.error("Error fetching subscriptions:", error);
-      }
-    };
-
-    if (userEmail) {
-      fetchSubscriptions();
-    }
-  }, [userEmail]);
-
-  // Handle click event on the heart icon: subscribe or unsubscribe.
-  // The UI will update only after a successful API call.
+  // Handle subscription or unsubscription
   const handleSubscribeClick = async (music) => {
     const musicId = getMusicId(music);
 
+    // Prevent double click
+    if (loadingItems.includes(musicId)) return;
+
+    setLoadingItems(prev => [...prev, musicId]);  // Add to loading state
+
     if (subscribedItems.includes(musicId)) {
-      // If already subscribed, attempt to unsubscribe
+      // Already subscribed → Unsubscribe
       try {
         const response = await fetch(
           `${config.backendBaseURL}/subscription?email=${encodeURIComponent(userEmail)}&musicId=${encodeURIComponent(musicId)}`,
@@ -60,8 +40,7 @@ export default function MusicTable({ data, userEmail }) {
           }
         );
         if (response.ok) {
-          // Update state only after successful API call
-          setSubscribedItems(subscribedItems.filter(id => id !== musicId));
+          refreshSubscriptions();
         } else {
           alert('Failed to unsubscribe');
           console.error('Failed to unsubscribe');
@@ -71,7 +50,7 @@ export default function MusicTable({ data, userEmail }) {
         console.error("Unsubscribe error:", error);
       }
     } else {
-      // If not subscribed, attempt to subscribe
+      // Not yet subscribed → Subscribe
       try {
         const response = await fetch(`${config.backendBaseURL}/subscription`, {
           method: 'POST',
@@ -86,8 +65,7 @@ export default function MusicTable({ data, userEmail }) {
           })
         });
         if (response.ok) {
-          // Update state only after successful API call
-          setSubscribedItems([...subscribedItems, musicId]);
+          refreshSubscriptions();
         } else {
           alert('Failed to subscribe');
           console.error('Failed to subscribe');
@@ -97,6 +75,8 @@ export default function MusicTable({ data, userEmail }) {
         console.error("Subscribe error:", error);
       }
     }
+
+    setLoadingItems(prev => prev.filter(id => id !== musicId));  // Remove from loading state
   };
 
   return (
@@ -104,37 +84,19 @@ export default function MusicTable({ data, userEmail }) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell sx={{ width: '25%' }}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                Artist
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ width: '25%' }}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                Title
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ width: '25%' }}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                Album
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ width: '15%' }}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                Year
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ width: '10%' }}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                Subscription
-              </Typography>
-            </TableCell>
+            <TableCell sx={{ width: '25%' }}><Typography variant="subtitle1" fontWeight="bold">Artist</Typography></TableCell>
+            <TableCell sx={{ width: '25%' }}><Typography variant="subtitle1" fontWeight="bold">Title</Typography></TableCell>
+            <TableCell sx={{ width: '25%' }}><Typography variant="subtitle1" fontWeight="bold">Album</Typography></TableCell>
+            <TableCell sx={{ width: '15%' }}><Typography variant="subtitle1" fontWeight="bold">Year</Typography></TableCell>
+            <TableCell sx={{ width: '10%' }}><Typography variant="subtitle1" fontWeight="bold">Subscription</Typography></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((music, index) => {
             const musicId = getMusicId(music);
             const isSubscribed = subscribedItems.includes(musicId);
+            const isLoading = loadingItems.includes(musicId); // Check loading state
+
             return (
               <TableRow key={index}>
                 <TableCell>
@@ -161,7 +123,10 @@ export default function MusicTable({ data, userEmail }) {
                 <TableCell>{music.album}</TableCell>
                 <TableCell>{music.year}</TableCell>
                 <TableCell align="center">
-                  <IconButton onClick={() => handleSubscribeClick(music)}>
+                  <IconButton
+                    onClick={() => handleSubscribeClick(music)}
+                    disabled={isLoading}  // Disable when loading
+                  >
                     {isSubscribed ? (
                       <FavoriteIcon sx={{ color: 'red' }} />
                     ) : (
