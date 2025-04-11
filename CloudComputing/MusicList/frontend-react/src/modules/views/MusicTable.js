@@ -33,7 +33,7 @@ export default function MusicTable({ data, userEmail, refreshSubscriptions, subs
       // Already subscribed → Unsubscribe
       try {
         const response = await fetch(
-          `${config.backendBaseURL}/subscription?email=${encodeURIComponent(userEmail)}&musicId=${encodeURIComponent(musicId)}`,
+          `${config.apiGatewayURL}/subscription?email=${encodeURIComponent(userEmail)}&musicId=${encodeURIComponent(musicId)}`,
           {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
@@ -52,7 +52,7 @@ export default function MusicTable({ data, userEmail, refreshSubscriptions, subs
     } else {
       // Not yet subscribed → Subscribe
       try {
-        const response = await fetch(`${config.backendBaseURL}/subscription`, {
+        const response = await fetch(`${config.apiGatewayURL}/subscription`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

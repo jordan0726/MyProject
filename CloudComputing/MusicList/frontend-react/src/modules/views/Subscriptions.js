@@ -18,7 +18,7 @@ export default function Subscription({ userEmail, subscriptions, refreshSubscrip
     const musicId = getMusicId(sub);
     try {
       const response = await fetch(
-        `${config.backendBaseURL}/subscription?email=${encodeURIComponent(userEmail)}&musicId=${encodeURIComponent(musicId)}`,
+        `${config.apiGatewayURL}/subscription?email=${encodeURIComponent(userEmail)}&musicId=${encodeURIComponent(musicId)}`,
         {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' }
