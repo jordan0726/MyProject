@@ -29,8 +29,12 @@ def subscribe(subscription: SubscriptionRequest):
 
         item = subscription.model_dump()
         item["musicId"] = normalized_musicId  # Overwrite original musicId
+        # ensure that a subscription isn’t duplicated
+        subscription_table.put_item(
+            Item=item,
+            ConditionExpression='attribute_not_exists(musicId)'
+        )
 
-        subscription_table.put_item(Item=item)
         return {"message": "Subscription added successfully."}
     except ClientError as e:
         raise HTTPException(status_code=500, detail=f"Subscription error: {e}")
