@@ -32,7 +32,7 @@ def query_music(
     # Determine which query to perform based on provided parameters.
     if artist_norm and album_norm:
         # Use the ArtistAlbumIndex if both artist and album are provided.
-        key_condition = Key("artist_lower").begins_with(artist_norm) & Key("album").begins_with(album_norm)
+        key_condition = Key("artist_lower").eq(artist_norm) & Key("album_lower").begins_with(album_norm)
         try:
             response = music_table.query(
                 IndexName="ArtistAlbumIndex",
@@ -42,7 +42,7 @@ def query_music(
             raise HTTPException(status_code=500, detail=f"Query failed: {e}")
     elif artist_norm and year:
         # Use the ArtistYearIndex if artist and year are provided.
-        key_condition = Key("artist_lower").begins_with(artist_norm) & Key("year").begins_with(year)
+        key_condition = Key("artist_lower").eq(artist_norm) & Key("year").begins_with(year)
         try:
             response = music_table.query(
                 IndexName="ArtistYearIndex",
