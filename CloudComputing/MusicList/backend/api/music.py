@@ -34,9 +34,6 @@ def query_music(
             # Query using ArtistAlbumIndex
             key_condition = Key("artist_lower").eq(artist_norm) & Key("album_lower").begins_with(album_norm)
 
-            print("artist_norm:", artist_norm)
-            print("album_norm:", album_norm)
-
             response = music_table.query(
                 IndexName="ArtistAlbumIndex",
                 KeyConditionExpression=key_condition
@@ -67,8 +64,6 @@ def query_music(
         raise HTTPException(status_code=500, detail=f"Query/Scan failed: {e}")
 
     items = response.get("Items", [])
-
-    print("Raw query items:", response.get("Items"))
 
     # Further strict filtering to ensure all provided query fields must match
     def is_match(item):

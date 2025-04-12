@@ -72,7 +72,7 @@ export default function MusicTable({ data, userEmail, refreshSubscriptions, subs
           console.error('Failed to subscribe');
         }
       } catch (error) {
-        alert('Subscribe error');
+        alert('Subscribe error. Please login or check the connection.');
         console.error("Subscribe error:", error);
       }
     }

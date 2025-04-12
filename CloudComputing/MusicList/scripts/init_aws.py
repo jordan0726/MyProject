@@ -90,13 +90,13 @@ def main():
     )
     print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
 
-    # frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
-    #     ami_image='ami-084568db4383264d4',
-    #     instance_type='t2.micro',
-    #     key_name='vockey',
-    #     security_group_ids=['sg-097c28d8eac2a3446'],
-    # )
-    # print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
+    frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
+        ami_image='ami-084568db4383264d4',
+        instance_type='t2.micro',
+        key_name='vockey',
+        security_group_ids=['sg-097c28d8eac2a3446'],
+    )
+    print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
 
 
 if __name__ == "__main__":
