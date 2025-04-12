@@ -1,7 +1,7 @@
 // src/config.js
 
 const config = {
-  backendBaseURL: "http://ec2-18-233-150-168.compute-1.amazonaws.com",
+  backendBaseURL: "http://ec2-3-89-92-215.compute-1.amazonaws.com",
   apiGatewayURL: "https://z3y9r4o7p9.execute-api.us-east-1.amazonaws.com/prod",
 };
 

@@ -1,23 +1,24 @@
 music_table_schema = {
     "KeySchema": [
         {"AttributeName": "title", "KeyType": "HASH"},  # Partition key
-        {"AttributeName": "album", "KeyType": "RANGE"}    # Sort key
+        {"AttributeName": "album", "KeyType": "RANGE"}  # Sort key
     ],
     "AttributeDefinitions": [
         {"AttributeName": "title", "AttributeType": "S"},
         {"AttributeName": "album", "AttributeType": "S"},
-        {"AttributeName": "artist_lower", "AttributeType": "S"},  # New attribute for artist (normalized)
-        {"AttributeName": "year", "AttributeType": "S"}  # New attribute for year
+        {"AttributeName": "artist_lower", "AttributeType": "S"},  # For GSI
+        {"AttributeName": "album_lower", "AttributeType": "S"},   # For GSI
+        {"AttributeName": "year", "AttributeType": "S"}           # For GSI
     ],
     "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5},
     "GlobalSecondaryIndexes": [
         {
             "IndexName": "ArtistAlbumIndex",
             "KeySchema": [
-                {"AttributeName": "artist_lower", "KeyType": "HASH"},  # Partition key for GSI
-                {"AttributeName": "album", "KeyType": "RANGE"}          # Sort key for GSI
+                {"AttributeName": "artist_lower", "KeyType": "HASH"},
+                {"AttributeName": "album_lower", "KeyType": "RANGE"}
             ],
-            "Projection": {"ProjectionType": "ALL"},  # Projects all attributes into the index
+            "Projection": {"ProjectionType": "ALL"},
             "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
         },
         {
