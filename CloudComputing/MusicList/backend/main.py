@@ -30,7 +30,3 @@ def say_hello():
     return {"message": "Hello from Backend!"}
 
 
-# Reference:
-# S3 creating and upload file: https://docs.aws.amazon.com/code-library/latest/ug/python_3_s3_code_examples.html
-# requests package: https://www.simplilearn.com/tutorials/python-tutorial/python-requests
-# Login page: https://github.com/mui/material-ui/blob/master/docs/src/pages/premium-themes/onepirate/SignIn.js

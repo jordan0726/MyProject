@@ -1,0 +1,15 @@
+Note to Tutor
+To avoid confusion — I have copied all required files (according to the assignment specification) into the submission folder for easy access.
+
+However, for completeness, I have also listed where these files are originally located within my project structure:
+
+For Task 1 and 2:
+The DynamoDB and S3 related code is located in backend/core/.
+The DynamoDB schema definitions are in backend/schemas/.
+The script for running them is in scripts/init_aws.py.
+
+For the code running on my server:
+I deployed my code to the server by cloning my GitHub repository — therefore, the whole project directory is included.
+
+For the Lambda function:
+It is located in backend/api/lambda_function/.

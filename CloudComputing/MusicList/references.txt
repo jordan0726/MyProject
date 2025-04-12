@@ -1,0 +1,2 @@
+Reference:
+1. The UI design of the frontend page includes Login, Register, Main page and most of code in frontend-react/src/modules are adapted from the MUI template: https://github.com/mui/material-ui/blob/master/docs/src/pages/premium-themes/onepirate

@@ -69,7 +69,7 @@ def get_subscriptions(email: str = Query(...)):
             KeyConditionExpression=Key('email').eq(email)
         )
         items = response.get("Items", [])
-        # Return just the musicId list (or full items if needed)
+        # Return just the musicId list
         music_ids = [item["musicId"] for item in items]
         return {"items": music_ids}
     except ClientError as e:
@@ -97,7 +97,7 @@ def get_subscription_details(email: str = Query(...)):
                             'Bucket': s3_bucket,
                             'Key': s3_key
                         },
-                        ExpiresIn=3600  # URL 有效期 1 小時
+                        ExpiresIn=3600  # URL expiration time in seconds
                     )
                 except ClientError as e:
                     print(f"Failed to generate presigned URL: {e}")
