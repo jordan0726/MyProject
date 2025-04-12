@@ -32,7 +32,7 @@ def query_music(
     # Determine which query to perform based on provided parameters.
     if artist_norm and album_norm:
         # Use the ArtistAlbumIndex if both artist and album are provided.
-        key_condition = Key("artist_lower").eq(artist_norm) & Key("album_lower").begins_with(album_norm)
+        key_condition = Key("artist_lower").eq(artist_norm) & Key("album").begins_with(album_norm)
         try:
             response = music_table.query(
                 IndexName="ArtistAlbumIndex",
