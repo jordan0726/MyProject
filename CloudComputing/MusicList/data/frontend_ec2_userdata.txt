@@ -1,0 +1,32 @@
+#!/bin/bash
+    sudo apt update -y
+    sudo apt install nginx git -y
+
+    # Clone your repo
+    cd /home/ubuntu
+    sudo -u ubuntu git clone https://github.com/jordan0726/MyProject.git
+
+    # Remove Nginx default index
+    sudo rm /var/www/html/index.nginx-debian.html
+
+    # Copy frontend_old files to Nginx default path
+    sudo cp -r /home/ubuntu/MyProject/CloudComputing/MusicList/frontend-react-build/build/* /var/www/html
+
+    # Add redirect config: redirect / to /login.html
+    sudo bash -c 'cat > /etc/nginx/sites-available/default <<EOF
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+        index index.html;
+
+
+        location / {
+            try_files \$uri /index.html;
+        }
+    }
+    '
+
+    # Restart Nginx to apply changes
+    sudo nginx -t && sudo systemctl restart nginx

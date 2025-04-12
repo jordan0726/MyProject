@@ -90,34 +90,22 @@ def main():
     )
     print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
 
-    frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
-        ami_image='ami-084568db4383264d4',
-        instance_type='t2.micro',
-        key_name='vockey',
-        security_group_ids=['sg-097c28d8eac2a3446'],
-    )
-    print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
+    # frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
+    #     ami_image='ami-084568db4383264d4',
+    #     instance_type='t2.micro',
+    #     key_name='vockey',
+    #     security_group_ids=['sg-097c28d8eac2a3446'],
+    # )
+    # print(f"Frontend launched at http://{frontend_public_dns} (ID: {frontend_instance_id})")
 
 
 if __name__ == "__main__":
-    main()  # Run the script
+    main()
+
+
 # ssh -i ~/.ssh/vockey.pem ubuntu@
-# cat /var/log/cloud-init-output.log
-#
-# source venv/bin/activate
-# pip list
-# uvicorn main:app --host 0.0.0.0 --port 8000
-# curl http://localhost:8000
-# which nginx
-# sudo nginx -v
-# sudo nginx -t
-# sudo systemctl restart nginx
 
 
-
-# 先啟動backend server
-# 複製網址到Login.js
-# React打包
 
 # React打包
 # cd 履歷/Github_MyProject/CloudComputing/MusicList/frontend-react

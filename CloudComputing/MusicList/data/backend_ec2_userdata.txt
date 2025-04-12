@@ -1,0 +1,40 @@
+#!/bin/bash
+    # 1. Update & install system packages
+    sudo apt update -y
+    sudo apt install python3-pip python3-venv git nginx -y
+
+    # 2. Clone your repo
+    cd /home/ubuntu
+    sudo -u ubuntu git clone https://github.com/jordan0726/MyProject.git
+
+    # 3. Setup Python venv & install dependencies
+    cd /home/ubuntu/MyProject/CloudComputing/MusicList
+    python3 -m venv backend/venv
+    source backend/venv/bin/activate
+    backend/venv/bin/pip install --upgrade pip
+    backend/venv/bin/pip install -r backend/requirements.txt
+
+    # 4. Run FastAPI on port 8000 (0.0.0.0)
+    nohup backend/venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 8000 > /home/ubuntu/backend.log 2>&1 &
+
+    # 5. Configure Nginx to expose port 80 -> proxy to 127.0.0.1:8000
+    sudo rm /etc/nginx/sites-enabled/default
+    sudo bash -c 'cat > /etc/nginx/sites-available/backend.conf <<EOF
+    server {
+        listen 80;
+        server_name _;
+
+        location / {
+            proxy_pass http://127.0.0.1:8000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade \$http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host \$host;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        }
+    }
+    '
+
+    sudo ln -s /etc/nginx/sites-available/backend.conf /etc/nginx/sites-enabled/backend.conf
+    sudo nginx -t
+    sudo systemctl restart nginx
