@@ -80,15 +80,15 @@ def main():
         print(f"❌ Failed to upload fallback image: {e}")
 
 
-    # Task3 Create EC2 to host website
-    ec2_manager = EC2Manager()
-    backend_instance_id, backend_public_dns = ec2_manager.create_backend_instance(
-        ami_image= 'ami-084568db4383264d4', # Ubuntu 20.04
-        instance_type = 't2.micro', # free tier
-        key_name='vockey',
-        security_group_ids=['sg-097c28d8eac2a3446']
-    )
-    print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
+    # # Task3 Create EC2 to host website
+    # ec2_manager = EC2Manager()
+    # backend_instance_id, backend_public_dns = ec2_manager.create_backend_instance(
+    #     ami_image= 'ami-084568db4383264d4', # Ubuntu 20.04
+    #     instance_type = 't2.micro', # free tier
+    #     key_name='vockey',
+    #     security_group_ids=['sg-097c28d8eac2a3446']
+    # )
+    # print(f"Backend launched at http://{backend_public_dns} (ID: {backend_instance_id})")
 
     # frontend_instance_id, frontend_public_dns = ec2_manager.create_frontend_instance(
     #     ami_image='ami-084568db4383264d4',
@@ -103,43 +103,8 @@ if __name__ == "__main__":
     main()
 
 
-# ssh -i ~/.ssh/vockey.pem ubuntu@
 
 
-
-# React打包
-# cd 履歷/Github_MyProject/CloudComputing/MusicList/frontend-react
-# npm run build
-# 移動build到frontend-react-build
-# 更新git
-# 啟動frontend ec2
-
-# frontend reset
-# cd 履歷/Github_MyProject/CloudComputing/MusicList/frontend-react
-# npm run build
-# 移動build檔到frontend-react-build
-# cd ..
-# 更新到git
-# 連到ec2主機
-# cd ~/MyProject
-# git pull
-# cd ~/MyProject/CloudComputing/MusicList/frontend-react-build/build
-# sudo rm -rf /var/www/html/*
-# sudo cp -r * /var/www/html/
-# sudo chmod -R 755 /var/www/html
-# sudo systemctl restart nginx
-
-#backend reset
-# git更新
-# ssh進去backend ec2
-# cd ~/MyProject
-# git pull origin main
-# cd ~/MyProject/CloudComputing/MusicList
-# pkill -f uvicorn
-# source backend/venv/bin/activate
-# nohup uvicorn backend.main:app --host 0.0.0.0 --port 8000 > ~/backend.log 2>&1 &
-# tail -f ~/backend.log
-# INFO:     Uvicorn running on http://0.0.0.0:8000 表示成功
 
 
 
