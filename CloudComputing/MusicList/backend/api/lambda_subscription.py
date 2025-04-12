@@ -2,7 +2,9 @@ import json
 import logging
 from pydantic import BaseModel, ValidationError
 from botocore.exceptions import ClientError
-from backend.core.dynamo import DynamoManager # need to change to from "dynamo import DynamoManager" on the Lambda
+
+# need to change to "from dynamo import DynamoManager" on the Lambda and upload dynamo.py file with this lambda function
+from backend.core.dynamo import DynamoManager
 
 # Initialize DynamoDB manager and subscription table
 dynamo = DynamoManager()

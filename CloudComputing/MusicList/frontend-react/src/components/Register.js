@@ -155,3 +155,8 @@ function SignUp() {
 }
 
 export default withRoot(SignUp);
+/*
+This page is adapted from the MUI example at:
+https://github.com/mui/material-ui/blob/master/docs/src/pages/premium-themes/onepirate/SignUp.js
+It is licensed under the MIT license.
+*/

@@ -21,6 +21,7 @@ class SubscriptionRequest(BaseModel):
     artist: str
     year: str
 
+# This function already moved to AWS Lambda, but still keep it here for local testing
 @router.post("/")
 def subscribe(subscription: SubscriptionRequest):
     try:
@@ -39,7 +40,7 @@ def subscribe(subscription: SubscriptionRequest):
     except ClientError as e:
         raise HTTPException(status_code=500, detail=f"Subscription error: {e}")
 
-
+# This function already moved to AWS Lambda, but still keep it here for local testing
 @router.delete("/")
 def unsubscribe(email: str = Query(...), musicId: str = Query(...)):
     try:

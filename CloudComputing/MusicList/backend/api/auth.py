@@ -66,6 +66,7 @@ def login_user(req:LoginRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Register function already moved to AWS Lambda, but still keep it here for local testing
 @router.post("/register")
 def register_user(req:RegisterRequest):
     table_name = 'login'

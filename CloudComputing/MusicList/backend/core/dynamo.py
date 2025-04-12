@@ -108,7 +108,3 @@ class DynamoManager:
         except Exception as e:
             print(f"❌ Fail to load data from JSON file: {e}")
             return False
-
-
-# To-do:
-# 1. No checking logic for duplicate data in json，後者會覆蓋前者

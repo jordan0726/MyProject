@@ -54,4 +54,8 @@ function MainPage() {
 
 export default withRoot(MainPage);
 
-
+/*
+This page is adapted from the MUI example at:
+https://github.com/mui/material-ui/blob/master/docs/src/pages/premium-themes/onepirate/Home.js
+It is licensed under the MIT license.
+*/
