@@ -52,7 +52,7 @@ function SignUp() {
       const timeoutId = setTimeout(() => controller.abort(), 50000);
 
       try{
-        const response = await fetch("https://suif9v87wk.execute-api.us-east-1.amazonaws.com/prod/register", {
+        const response = await fetch(`${config.apiGatewayURL}/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),

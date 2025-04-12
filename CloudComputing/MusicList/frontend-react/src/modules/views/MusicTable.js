@@ -64,6 +64,7 @@ export default function MusicTable({ data, userEmail, refreshSubscriptions, subs
             year: music.year
           })
         });
+
         if (response.ok) {
           refreshSubscriptions();
         } else {
