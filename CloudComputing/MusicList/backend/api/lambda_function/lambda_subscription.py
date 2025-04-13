@@ -5,11 +5,16 @@ from botocore.exceptions import ClientError
 
 # need to change to "from dynamo import DynamoManager" on the Lambda and upload dynamo.py file with this lambda function
 from backend.core.dynamo import DynamoManager
+from boto3.dynamodb.conditions import Key
+from backend.core.s3 import S3Manager
 
 # Initialize DynamoDB manager and subscription table
 dynamo = DynamoManager()
 subscription_table = dynamo.dynamodb.Table("subscription")
 
+# Initialize S3 manager and bucket name for generating presigned URLs
+s3_manager = S3Manager()
+s3_bucket = "media-storage-s4068959"
 
 # Define subscription request data model
 class SubscriptionRequest(BaseModel):
@@ -106,6 +111,60 @@ def lambda_handler(event, context):
             }
         except Exception as e:
             logging.exception("Error occurred during unsubscription")
+            return {
+                "statusCode": 400,
+                "headers": {"Content-Type": "application/json"},
+                "body": json.dumps({"detail": f"Invalid input or error occurred: {str(e)}"})
+            }
+
+    elif http_method == "GET":
+        try:
+            # Retrieve email from queryStringParameters
+            params = event.get("queryStringParameters", {})
+            email = params.get("email")
+            if not email:
+                return {
+                    "statusCode": 400,
+                    "headers": {"Content-Type": "application/json"},
+                    "body": json.dumps({"message": "Missing required parameter: email"})
+                }
+
+            # Query subscriptions by email (partition key)
+            response = subscription_table.query(
+                KeyConditionExpression=Key('email').eq(email)
+            )
+            items = response.get("Items", [])
+
+            # For each subscription item, add the artist image presigned URL
+            for item in items:
+                if "artist" in item:
+                    formatted_artist = item["artist"].strip().replace(" ", "_").lower()
+                    s3_key = f"artist-images/{formatted_artist}.jpg"
+                    try:
+                        presigned_url = s3_manager.s3_client.generate_presigned_url(
+                            ClientMethod="get_object",
+                            Params={"Bucket": s3_bucket, "Key": s3_key},
+                            ExpiresIn=3600  # URL expiration time in seconds
+                        )
+                    except ClientError as e:
+                        logging.exception("Failed to generate presigned URL")
+                        presigned_url = f"https://{s3_bucket}.s3.amazonaws.com/artist-images/no_image_available.jpg"
+                    item["artistImageUrl"] = presigned_url
+
+            return {
+                "statusCode": 200,
+                "headers": {"Content-Type": "application/json"},
+                "body": json.dumps({"items": items})
+            }
+        except ClientError as e:
+            logging.exception("DynamoDB error occurred during GET")
+            return {
+                "statusCode": 500,
+                "headers": {"Content-Type": "application/json"},
+                "body": json.dumps({"detail": f"Subscription retrieval error: {str(e)}"})
+            }
+        except Exception as e:
+            logging.exception("Error occurred during GET")
             return {
                 "statusCode": 400,
                 "headers": {"Content-Type": "application/json"},

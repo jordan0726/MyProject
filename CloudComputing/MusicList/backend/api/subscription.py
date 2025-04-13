@@ -61,20 +61,7 @@ def unsubscribe(email: str = Query(...), musicId: str = Query(...)):
     except ClientError as e:
         raise HTTPException(status_code=500, detail=f"Unsubscribe error: {e}")
 
-@router.get("/list")
-def get_subscriptions(email: str = Query(...)):
-    try:
-        # Query subscriptions by email (partition key)
-        response = subscription_table.query(
-            KeyConditionExpression=Key('email').eq(email)
-        )
-        items = response.get("Items", [])
-        # Return just the musicId list
-        music_ids = [item["musicId"] for item in items]
-        return {"items": music_ids}
-    except ClientError as e:
-        raise HTTPException(status_code=500, detail=f"Subscription retrieval error: {e}")
-
+# This function already moved to AWS Lambda, but still keep it here for local testing
 @router.get("/details")
 def get_subscription_details(email: str = Query(...)):
     try:

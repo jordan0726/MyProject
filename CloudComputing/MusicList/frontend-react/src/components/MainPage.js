@@ -16,7 +16,7 @@ function MainPage() {
   const fetchSubscriptions = async (email) => {
     try {
       const response = await fetch(
-        `${config.backendBaseURL}/subscription/details?email=${encodeURIComponent(email)}`,
+        `${config.apiGatewayURL}/subscription?email=${encodeURIComponent(email)}`,
         {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
