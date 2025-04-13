@@ -1,3 +1,5 @@
+# The functions in this file are already moved to AWS Lambda, but still keep it here for record.
+
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from backend.core.dynamo import DynamoManager

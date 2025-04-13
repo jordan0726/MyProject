@@ -2,11 +2,9 @@ import json
 import logging
 from pydantic import BaseModel, ValidationError
 from botocore.exceptions import ClientError
-
-# need to change to "from dynamo import DynamoManager" on the Lambda and upload dynamo.py file with this lambda function
-from backend.core.dynamo import DynamoManager
+from dynamo import DynamoManager # Need to upload this file (backend/core/dynamo.py) to the lambda deployment package
 from boto3.dynamodb.conditions import Key
-from backend.core.s3 import S3Manager
+from s3 import S3Manager # Need to upload this file (backend/core/s3.py) to the lambda deployment package as well
 
 # Initialize DynamoDB manager and subscription table
 dynamo = DynamoManager()
@@ -15,6 +13,7 @@ subscription_table = dynamo.dynamodb.Table("subscription")
 # Initialize S3 manager and bucket name for generating presigned URLs
 s3_manager = S3Manager()
 s3_bucket = "media-storage-s4068959"
+
 
 # Define subscription request data model
 class SubscriptionRequest(BaseModel):
@@ -26,19 +25,20 @@ class SubscriptionRequest(BaseModel):
     year: str
 
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+
 def lambda_handler(event, context):
+    logger.info(f"EVENT: {json.dumps(event)}")
     http_method = event.get("httpMethod", "")
 
     if http_method == "POST":
         try:
-            body = event.get("body", "{}")
-            if isinstance(body, str):
-                data = json.loads(body)
-            else:
-                data = body
+            body = json.loads(event.get("body", "{}"))
 
             # Validate the input using the Pydantic model
-            subscription = SubscriptionRequest(**data)
+            subscription = SubscriptionRequest(**body)
 
             # Generate normalized musicId (based on title and album)
             normalized_musicId = f"{subscription.title.strip().lower()}|{subscription.album.strip().lower()}"
@@ -50,12 +50,15 @@ def lambda_handler(event, context):
             # Insert into DynamoDB, avoiding duplicate subscriptions
             subscription_table.put_item(
                 Item=item,
-                ConditionExpression="attribute_not_exists(musicId)"
+                ConditionExpression="attribute_not_exists(email)"
             )
 
             return {
                 "statusCode": 200,
-                "headers": {"Content-Type": "application/json"},
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
                 "body": json.dumps({"message": "Subscription added successfully."})
             }
 
@@ -99,7 +102,10 @@ def lambda_handler(event, context):
 
             return {
                 "statusCode": 200,
-                "headers": {"Content-Type": "application/json"},
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
                 "body": json.dumps({"message": "Unsubscribed successfully."})
             }
         except ClientError as e:
@@ -157,7 +163,7 @@ def lambda_handler(event, context):
 
             return {
                 "statusCode": 200,
-                "headers": {"Content-Type": "application/json"},
+                "headers": {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"},
                 "body": json.dumps({"items": items})
             }
         except ClientError as e:
