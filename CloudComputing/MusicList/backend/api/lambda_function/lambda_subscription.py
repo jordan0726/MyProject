@@ -131,9 +131,13 @@ def lambda_handler(event, context):
 
             # Query subscriptions by email (partition key)
             response = subscription_table.query(
-                KeyConditionExpression=Key('email').eq(email)
+                KeyConditionExpression=Key('email').eq(email),
+                ConsistentRead=True
             )
             items = response.get("Items", [])
+
+            # Log the raw response for debugging
+            logging.info(f"Retrieved items: {items}")
 
             # For each subscription item, add the artist image presigned URL
             for item in items:
