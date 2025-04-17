@@ -1,0 +1,124 @@
+-- ============================================================================
+-- FUNCTION: checkCardStatusActive
+-- PURPOSE : Checks if a Myki card's status is 'active'
+-- RETURNS : 1 if active, 0 otherwise
+-- ============================================================================
+CREATE OR ALTER FUNCTION checkCardStatusActive (
+    @card_id INT
+)
+RETURNS BIT
+WITH RETURNS NULL ON NULL INPUT,
+     SCHEMABINDING
+AS
+BEGIN
+    DECLARE @is_active BIT = 0;
+
+    IF EXISTS (
+        SELECT 1 
+        FROM dbo.MykiCard 
+        WHERE card_id = @card_id AND status = 'active'
+    )
+        SET @is_active = 1;
+
+    RETURN @is_active;
+END;
+GO
+
+-- ============================================================================
+-- FUNCTION: checkCardBalanceValid
+-- PURPOSE : Checks if the balance is non-negative
+-- RETURNS : 1 if balance >= 0, 0 otherwise
+-- ============================================================================
+CREATE OR ALTER FUNCTION checkCardBalanceValid (
+    @card_id INT
+)
+RETURNS BIT
+WITH RETURNS NULL ON NULL INPUT,
+     SCHEMABINDING
+AS
+BEGIN
+    DECLARE @is_valid BIT = 0;
+
+    IF EXISTS (
+        SELECT 1
+        FROM dbo.MykiCard
+        WHERE card_id = @card_id AND balance >= 0
+    )
+        SET @is_valid = 1;
+
+    RETURN @is_valid;
+END;
+GO
+
+-- ============================================================================
+-- FUNCTION: checkLastTripIsTouchOff
+-- PURPOSE : Determines whether the last trip is unfinished (touch_off_time IS NULL)
+-- RETURNS : 1 if still ongoing trip (needs touch off), 0 if no active trip
+-- ============================================================================
+CREATE OR ALTER FUNCTION checkLastTripIsTouchOff (
+    @card_id INT
+)
+RETURNS BIT
+WITH RETURNS NULL ON NULL INPUT,
+     SCHEMABINDING
+AS
+BEGIN
+    DECLARE @needs_touch_off BIT = 0;
+
+    IF EXISTS (
+        SELECT TOP(1) 1
+        FROM dbo.Trip
+        WHERE card_id = @card_id AND touch_off_time IS NULL
+        ORDER BY touch_on_time DESC
+    )
+        SET @needs_touch_off = 1;
+
+    RETURN @needs_touch_off;
+END;
+GO  
+
+-- ============================================================================
+-- PROCEDURE: checkTapCardStatus
+-- PURPOSE   : Coordinates the validation of a tap card event
+-- PARAMETERS:
+--     @card_id     - ID of the card being tapped
+-- RETURNS:
+--     @result OUT  - 'expired', 'insufficient_balance', 'touch_on', or 'touch_off'
+-- ============================================================================
+CREATE OR ALTER PROCEDURE checkTapCardStatus
+    @card_id INT,
+    @result VARCHAR(50) OUTPUT
+WITH EXECUTE AS CALLER
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    -- Parameter validation
+    IF @card_id IS NULL
+    BEGIN
+        THROW 50010, '❌ Card ID cannot be NULL', 1;
+        RETURN;
+    END
+
+    -- Step 1: Check if card is active
+    IF dbo.checkCardStatusActive(@card_id) = 0
+    BEGIN
+        SET @result = 'expired';
+        RETURN;
+    END
+
+    -- Step 2: Check if balance is sufficient
+    IF dbo.checkCardBalanceValid(@card_id) = 0
+    BEGIN
+        SET @result = 'insufficient_balance';
+        RETURN;
+    END
+
+    -- Step 3: Determine if this tap is touch-off or new trip (touch-on)
+    IF dbo.checkLastTripIsTouchOff(@card_id) = 1
+        SET @result = 'touch_off';
+    ELSE
+        SET @result = 'touch_on';
+END;
+GO
