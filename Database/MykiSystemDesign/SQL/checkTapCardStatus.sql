@@ -24,12 +24,21 @@ BEGIN
 END;
 GO
 
--- ============================================================================
--- FUNCTION: udf_CheckCardBalanceValid
--- PURPOSE : Checks if the balance is non-negative
--- RETURNS : 1 if balance >= 0, 0 otherwise
--- ============================================================================
-CREATE OR ALTER FUNCTION udf_CheckCardBalanceValid (
+/*==============================================================================
+  Function : udf_CheckCardBalanceValid
+  Purpose  : Determines whether a Myki card may proceed with a tap event from
+             the perspective of stored‑value balance **and/or** an active pass.
+
+             • If the card has an active Myki Pass (pass_id IS NOT NULL) the
+               function returns 1 (valid) regardless of the monetary balance.
+             • Otherwise the balance must be zero or positive.
+
+  Returns  : BIT
+                1  – card is financially valid to travel
+                0  – balance is negative AND no active pass exists
+==============================================================================*/
+CREATE OR ALTER FUNCTION dbo.udf_CheckCardBalanceValid
+(
     @card_id INT
 )
 RETURNS BIT
@@ -39,16 +48,25 @@ AS
 BEGIN
     DECLARE @is_valid BIT = 0;
 
-    IF EXISTS (
+    /*-----------------------------------------------------------------------
+        Card is valid when
+          – pass_id IS NOT NULL  (active Myki Pass)               OR
+          – balance      >= 0    (sufficient stored value)
+    -----------------------------------------------------------------------*/
+    IF EXISTS
+    (
         SELECT 1
         FROM dbo.MykiCard
-        WHERE card_id = @card_id AND balance >= 0
+        WHERE card_id = @card_id
+          AND ( pass_id IS NOT NULL        -- active pass
+                OR balance >= 0 )          -- or non‑negative balance
     )
         SET @is_valid = 1;
 
     RETURN @is_valid;
 END;
 GO
+
 
 -- ============================================================================
 -- FUNCTION: udf_CheckLastTripIsTouchOff
