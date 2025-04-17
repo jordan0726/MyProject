@@ -1,14 +1,9 @@
 -- ============================================================================
--- FUNCTION: getCurrentStopStationIdByScannerId
+-- FUNCTION: udf_GetCurrentStopStationIdByScannerId
 -- PURPOSE : Retrieves the current stop station ID based on a scanner ID.
---           This function is used to resolve the physical stop where a scanner
---           is currently located, by tracing through its device location.
--- PARAMETERS:
---     @scanner_id - The ID of the scanner device
--- RETURNS:
---     INT - current_stop_station_id (nullable)
+-- RETURNS : INT - current_stop_station_id (nullable)
 -- ============================================================================
-CREATE OR ALTER FUNCTION getCurrentStopStationIdByScannerId (
+CREATE OR ALTER FUNCTION udf_GetCurrentStopStationIdByScannerId (
     @scanner_id INT
 )
 RETURNS INT
@@ -28,16 +23,10 @@ END;
 GO
 
 -- ============================================================================
--- PROCEDURE: insertTripRecord
+-- PROCEDURE: usp_InsertTripRecord
 -- PURPOSE   : Inserts a new Trip record into the database using supplied values.
---             Used to modularise the low-level data insert logic during a touch-on.
--- PARAMETERS:
---     @card_id         - The ID of the card being used
---     @scanner_id      - The scanner where the card was tapped
---     @stop_station_id - The resolved stop station ID from device location
---     @touch_on_time   - The timestamp of touch on
 -- ============================================================================
-CREATE OR ALTER PROCEDURE insertTripRecord
+CREATE OR ALTER PROCEDURE usp_InsertTripRecord
     @card_id INT,
     @scanner_id INT,
     @stop_station_id INT,
@@ -48,7 +37,6 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    -- Parameter validation
     IF @card_id IS NULL OR @scanner_id IS NULL OR @stop_station_id IS NULL OR @touch_on_time IS NULL
     BEGIN
         THROW 50000, '❌ Required parameters cannot be NULL', 1;
@@ -70,13 +58,12 @@ BEGIN
         @touch_on_time,
         @scanner_id,
         @stop_station_id,
-        NULL,  -- will be set on touch off
         NULL,
         NULL,
-        NULL   -- fare_type to be determined later
+        NULL,
+        NULL
     );
-    
-    -- Check if insert was successful
+
     IF @@ROWCOUNT = 0
     BEGIN
         THROW 50001, '❌ Trip record insertion failed', 1;
@@ -85,17 +72,10 @@ END;
 GO
 
 -- ============================================================================
--- PROCEDURE: insertTripOnTouchOn
--- PURPOSE   : Controls the process of inserting a new Trip record when a card
---             is tapped on. It resolves the stop station via helper function,
---             and inserts the Trip via a separate modularised procedure.
--- PARAMETERS:
---     @card_id    - The ID of the Myki card
---     @scanner_id - The scanner being tapped
--- EXCEPTION HANDLING:
---     Raises errors if location cannot be resolved or insert fails.
+-- PROCEDURE: usp_InsertTripOnTouchOn
+-- PURPOSE   : Handles the full touch-on process for a Myki card.
 -- ============================================================================
-CREATE OR ALTER PROCEDURE insertTripOnTouchOn
+CREATE OR ALTER PROCEDURE usp_InsertTripOnTouchOn
     @card_id INT,
     @scanner_id INT
 WITH EXECUTE AS CALLER
@@ -105,9 +85,8 @@ BEGIN
     SET XACT_ABORT ON;
 
     DECLARE @stop_station_id INT;
-    DECLARE @now DATETIME2(0) = SYSUTCDATETIME();  -- Using UTC time is best practice
+    DECLARE @now DATETIME2(0) = SYSUTCDATETIME();
 
-    -- Parameter validation
     IF @card_id IS NULL OR @scanner_id IS NULL
     BEGIN
         THROW 50000, '❌ Required parameters cannot be NULL', 1;
@@ -115,8 +94,7 @@ BEGIN
     END
 
     BEGIN TRY
-        -- Get current stop_station_id from helper function
-        SET @stop_station_id = dbo.getCurrentStopStationIdByScannerId(@scanner_id);
+        SET @stop_station_id = dbo.udf_GetCurrentStopStationIdByScannerId(@scanner_id);
 
         IF @stop_station_id IS NULL
         BEGIN
@@ -124,22 +102,17 @@ BEGIN
             RETURN;
         END
 
-        -- Insert trip using helper procedure 
-        EXEC insertTripRecord @card_id, @scanner_id, @stop_station_id, @now;
+        EXEC usp_InsertTripRecord @card_id, @scanner_id, @stop_station_id, @now;
 
         PRINT CONCAT('✅ Trip record inserted successfully for card ', @card_id, '.');
     END TRY
 
     BEGIN CATCH
-        -- Modern error handling
         DECLARE @error_message NVARCHAR(4000) = ERROR_MESSAGE();
         DECLARE @error_severity INT = ERROR_SEVERITY();
         DECLARE @error_state INT = ERROR_STATE();
-        
-        -- Log error details 
+
         PRINT CONCAT('❌ Error: ', @error_message, ' (Severity: ', @error_severity, ', State: ', @error_state, ')');
-        
-        -- Re-throw with original severity and state
         THROW;
     END CATCH
 END;

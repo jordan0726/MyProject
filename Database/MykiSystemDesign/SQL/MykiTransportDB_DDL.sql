@@ -132,7 +132,7 @@ CREATE TABLE CardTransaction (
                                       CONSTRAINT CK_CardTransaction_Amount CHECK (amount > 0),
     [timestamp]      DATETIME2(0)   DEFAULT GETDATE(),
     [transaction_type] VARCHAR(20)  NOT NULL 
-                                      CONSTRAINT CK_CardTransaction_Type CHECK ([transaction_type] IN ('deduction','top-up','refund')),
+                                      CONSTRAINT CK_CardTransaction_Type CHECK ([transaction_type] IN ('deduction','top-up','refund', 'free')),
     CONSTRAINT FK_CardTransaction_Card
         FOREIGN KEY (card_id) REFERENCES MykiCard(card_id)
         ON DELETE CASCADE,

@@ -1,9 +1,9 @@
 -- ============================================================================
--- FUNCTION: getCurrentStopStationIdByScannerId
+-- FUNCTION: udf_GetCurrentStopStationIdByScannerId
 -- PURPOSE : Resolves the current_stop_station_id linked to a given scanner.
 -- RETURNS : INT - The current stop station ID, or NULL if not found.
 -- ============================================================================
-CREATE OR ALTER FUNCTION getCurrentStopStationIdByScannerId (
+CREATE OR ALTER FUNCTION udf_GetCurrentStopStationIdByScannerId (
     @scanner_id INT
 )
 RETURNS INT
@@ -23,11 +23,11 @@ END;
 GO
 
 -- ============================================================================
--- FUNCTION: getLatestUnfinishedTripIdByCard
+-- FUNCTION: udf_GetLatestUnfinishedTripIdByCard
 -- PURPOSE : Fetches the trip_id of the most recent unfinished trip for a card.
 -- RETURNS : INT - The trip_id if found, otherwise NULL.
 -- ============================================================================
-CREATE OR ALTER FUNCTION getLatestUnfinishedTripIdByCard (
+CREATE OR ALTER FUNCTION udf_GetLatestUnfinishedTripIdByCard (
     @card_id INT
 )
 RETURNS INT
@@ -45,36 +45,36 @@ BEGIN
     RETURN @trip_id;
 END;
 GO
-
-
 -- ============================================================================
--- PROCEDURE: updateTripOnTouchOff
+-- PROCEDURE: usp_UpdateTripOnTouchOff
 -- PURPOSE   : Completes the most recent unfinished trip for a card by updating
---             touch-off time, location and calculated fare type.
--- PARAMETERS:
---     @card_id     - The ID of the card being tapped off
---     @scanner_id  - The scanner used for the tap off event
---     @fare_type OUT - Fare type to be returned for use in transaction logic
+--             touch-off data and determining fare, then outputs all necessary
+--             data for creating a CardTransaction record.
 -- ============================================================================
-CREATE OR ALTER PROCEDURE updateTripOnTouchOff
+CREATE OR ALTER PROCEDURE usp_UpdateTripOnTouchOff
     @card_id INT,
     @scanner_id INT,
-    @fare_type VARCHAR(20) OUTPUT
+    @fare_type VARCHAR(20) OUTPUT,
+    @trip_id INT OUTPUT,
+    @touch_off_scanner_id INT OUTPUT,
+    @daily_cap_used DECIMAL(10,2) OUTPUT,
+    @daily_cap_limit DECIMAL(10,2) OUTPUT,
+    @zone_type VARCHAR(20) = NULL OUTPUT
 WITH EXECUTE AS CALLER
 AS
 BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    DECLARE @now DATETIME2(0) = SYSUTCDATETIME();  -- Using UTC time as best practice
+    DECLARE @now DATETIME2(0) = SYSUTCDATETIME();  
     DECLARE @stop_station_id INT;
-    DECLARE @trip_id INT;
     DECLARE @touch_on_time DATETIME2(0);
     DECLARE @touch_on_stop_station_id INT;
 
     BEGIN TRY
         -- Step 1: Get stop station from scanner
-        SET @stop_station_id = dbo.getCurrentStopStationIdByScannerId(@scanner_id);
+        SET @stop_station_id = dbo.udf_GetCurrentStopStationIdByScannerId(@scanner_id);
+        SET @touch_off_scanner_id = @scanner_id;
 
         IF @stop_station_id IS NULL
         BEGIN
@@ -83,7 +83,7 @@ BEGIN
         END
 
         -- Step 2: Get the most recent unfinished trip
-        SET @trip_id = dbo.getLatestUnfinishedTripIdByCard(@card_id);
+        SET @trip_id = dbo.udf_GetLatestUnfinishedTripIdByCard(@card_id);
 
         IF @trip_id IS NULL
         BEGIN
@@ -98,23 +98,25 @@ BEGIN
         FROM dbo.Trip
         WHERE trip_id = @trip_id;
 
-        -- Step 4: Determine fare_type using the comprehensive fare calculation logic
-        EXEC sp_DetermineFareType 
+        -- Step 4: Determine fare_type, daily_cap_used, daily_cap_limit, zone_type
+        EXEC dbo.usp_DetermineFareType 
             @card_id = @card_id,
             @touch_on_time = @touch_on_time,
             @touch_on_stop_station_id = @touch_on_stop_station_id,
             @touch_off_time = @now,
             @touch_off_stop_station_id = @stop_station_id,
-            @OUT_fare_type = @fare_type OUTPUT;
+            @OUT_fare_type = @fare_type OUTPUT,
+            @OUT_zone_type = @zone_type OUTPUT,
+            @OUT_daily_cap_used = @daily_cap_used OUTPUT,
+            @OUT_daily_cap_limit = @daily_cap_limit OUTPUT;
 
-        -- Step 5: Update the trip
+        -- Step 5: Update the trip with touch-off information
         UPDATE dbo.Trip
         SET
             touch_off_time = @now,
             touch_off_scanner_id = @scanner_id,
             touch_off_stop_station_id = @stop_station_id,
-            fare_type = @fare_type,
-            last_updated = @now  -- Good practice to track modification time
+            fare_type = @fare_type
         WHERE trip_id = @trip_id;
 
         IF @@ROWCOUNT = 0
@@ -123,20 +125,15 @@ BEGIN
             RETURN;
         END
 
-        -- Log success
-        PRINT CONCAT('✅ Trip ', @trip_id, ' updated successfully with touch off details.');
+        PRINT CONCAT('✅ Trip ', @trip_id, ' updated successfully with fare_type = ', @fare_type);
     END TRY
 
     BEGIN CATCH
-        -- More modern error handling with THROW
         DECLARE @error_message NVARCHAR(4000) = ERROR_MESSAGE();
         DECLARE @error_severity INT = ERROR_SEVERITY();
         DECLARE @error_state INT = ERROR_STATE();
-        
-        -- Log error details
+
         PRINT CONCAT('❌ Error: ', @error_message, ' (Severity: ', @error_severity, ', State: ', @error_state, ')');
-        
-        -- Re-throw with original severity and state
         THROW;
     END CATCH
 END;

@@ -1,9 +1,9 @@
 -- ============================================================================
--- FUNCTION: checkCardStatusActive
+-- FUNCTION: udf_CheckCardStatusActive
 -- PURPOSE : Checks if a Myki card's status is 'active'
 -- RETURNS : 1 if active, 0 otherwise
 -- ============================================================================
-CREATE OR ALTER FUNCTION checkCardStatusActive (
+CREATE OR ALTER FUNCTION udf_CheckCardStatusActive (
     @card_id INT
 )
 RETURNS BIT
@@ -25,11 +25,11 @@ END;
 GO
 
 -- ============================================================================
--- FUNCTION: checkCardBalanceValid
+-- FUNCTION: udf_CheckCardBalanceValid
 -- PURPOSE : Checks if the balance is non-negative
 -- RETURNS : 1 if balance >= 0, 0 otherwise
 -- ============================================================================
-CREATE OR ALTER FUNCTION checkCardBalanceValid (
+CREATE OR ALTER FUNCTION udf_CheckCardBalanceValid (
     @card_id INT
 )
 RETURNS BIT
@@ -51,11 +51,11 @@ END;
 GO
 
 -- ============================================================================
--- FUNCTION: checkLastTripIsTouchOff
+-- FUNCTION: udf_CheckLastTripIsTouchOff
 -- PURPOSE : Determines whether the last trip is unfinished (touch_off_time IS NULL)
 -- RETURNS : 1 if still ongoing trip (needs touch off), 0 if no active trip
 -- ============================================================================
-CREATE OR ALTER FUNCTION checkLastTripIsTouchOff (
+CREATE OR ALTER FUNCTION udf_CheckLastTripIsTouchOff (
     @card_id INT
 )
 RETURNS BIT
@@ -78,14 +78,14 @@ END;
 GO  
 
 -- ============================================================================
--- PROCEDURE: checkTapCardStatus
+-- PROCEDURE: usp_CheckTapCardStatus
 -- PURPOSE   : Coordinates the validation of a tap card event
 -- PARAMETERS:
 --     @card_id     - ID of the card being tapped
 -- RETURNS:
 --     @result OUT  - 'expired', 'insufficient_balance', 'touch_on', or 'touch_off'
 -- ============================================================================
-CREATE OR ALTER PROCEDURE checkTapCardStatus
+CREATE OR ALTER PROCEDURE usp_CheckTapCardStatus
     @card_id INT,
     @result VARCHAR(50) OUTPUT
 WITH EXECUTE AS CALLER
@@ -94,7 +94,6 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    -- Parameter validation
     IF @card_id IS NULL
     BEGIN
         THROW 50010, '❌ Card ID cannot be NULL', 1;
@@ -102,21 +101,21 @@ BEGIN
     END
 
     -- Step 1: Check if card is active
-    IF dbo.checkCardStatusActive(@card_id) = 0
+    IF dbo.udf_CheckCardStatusActive(@card_id) = 0
     BEGIN
         SET @result = 'expired';
         RETURN;
     END
 
     -- Step 2: Check if balance is sufficient
-    IF dbo.checkCardBalanceValid(@card_id) = 0
+    IF dbo.udf_CheckCardBalanceValid(@card_id) = 0
     BEGIN
         SET @result = 'insufficient_balance';
         RETURN;
     END
 
     -- Step 3: Determine if this tap is touch-off or new trip (touch-on)
-    IF dbo.checkLastTripIsTouchOff(@card_id) = 1
+    IF dbo.udf_CheckLastTripIsTouchOff(@card_id) = 1
         SET @result = 'touch_off';
     ELSE
         SET @result = 'touch_on';
