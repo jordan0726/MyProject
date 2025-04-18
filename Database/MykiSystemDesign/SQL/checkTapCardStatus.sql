@@ -94,18 +94,16 @@ BEGIN
     RETURN @needs_touch_off;
 END;
 GO  
-
 -- ============================================================================
 -- PROCEDURE: usp_CheckTapCardStatus
 -- PURPOSE   : Coordinates the validation of a tap card event
 -- PARAMETERS:
 --     @card_id     - ID of the card being tapped
--- RETURNS:
 --     @result OUT  - 'expired', 'insufficient_balance', 'touch_on', or 'touch_off'
 -- ============================================================================
 CREATE OR ALTER PROCEDURE usp_CheckTapCardStatus
     @card_id INT,
-    @result VARCHAR(50) OUTPUT
+    @result NVARCHAR(20) OUTPUT  -- Limited to defined status values
 WITH EXECUTE AS CALLER
 AS
 BEGIN
@@ -133,9 +131,15 @@ BEGIN
     END
 
     -- Step 3: Determine if this tap is touch-off or new trip (touch-on)
-    IF dbo.udf_CheckLastTripIsTouchOff(@card_id) = 1
-        SET @result = 'touch_off';
-    ELSE
-        SET @result = 'touch_on';
+    BEGIN TRY
+        IF dbo.udf_CheckLastTripIsTouchOff(@card_id) = 1
+            SET @result = 'touch_off';
+        ELSE
+            SET @result = 'touch_on';
+    END TRY
+    BEGIN CATCH
+        SET @result = 'touch_on'; -- Default to new trip if check fails
+        PRINT '⚠️ Warning: Failed to check last trip status. Defaulting to touch_on.';
+    END CATCH
 END;
 GO
