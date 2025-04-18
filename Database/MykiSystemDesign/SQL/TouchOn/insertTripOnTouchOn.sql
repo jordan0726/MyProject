@@ -89,8 +89,7 @@ BEGIN
 
     IF @card_id IS NULL OR @scanner_id IS NULL
     BEGIN
-        THROW 50000, '❌ Required parameters cannot be NULL', 1;
-        RETURN;
+        THROW 50000, '❌ Required parameters cannot be NULL.', 1;
     END
 
     BEGIN TRY
@@ -98,13 +97,13 @@ BEGIN
 
         IF @stop_station_id IS NULL
         BEGIN
-            THROW 50002, CONCAT('❌ Could not resolve stop station from scanner ID ', @scanner_id), 1;
-            RETURN;
+            PRINT '❌ Could not resolve stop station from scanner ID ' + CAST(@scanner_id AS NVARCHAR);
+            THROW 50002, 'Could not resolve stop station from scanner ID.', 1;
         END
 
         EXEC usp_InsertTripRecord @card_id, @scanner_id, @stop_station_id, @now;
 
-        PRINT CONCAT('✅ Trip record inserted successfully for card ', @card_id, '.');
+        PRINT '✅ Trip record inserted successfully for card ' + CAST(@card_id AS NVARCHAR) + '.';
     END TRY
 
     BEGIN CATCH
@@ -112,8 +111,10 @@ BEGIN
         DECLARE @error_severity INT = ERROR_SEVERITY();
         DECLARE @error_state INT = ERROR_STATE();
 
-        PRINT CONCAT('❌ Error: ', @error_message, ' (Severity: ', @error_severity, ', State: ', @error_state, ')');
-        THROW;
+        PRINT '❌ Error: ' + @error_message 
+              + ' (Severity: ' + CAST(@error_severity AS NVARCHAR) 
+              + ', State: ' + CAST(@error_state AS NVARCHAR) + ')';
+        THROW 50003, 'An error occurred during touch-on.', 1;
     END CATCH
 END;
 GO
