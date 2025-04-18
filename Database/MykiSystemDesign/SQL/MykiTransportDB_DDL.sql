@@ -42,8 +42,8 @@ GO
 CREATE TABLE MykiCard (
     card_id             INT             IDENTITY(1,1) PRIMARY KEY,
     balance             DECIMAL(10,2)   NOT NULL 
-                        CONSTRAINT CK_MykiCard_Balance CHECK (balance >= 0),
-    customer_id         INT             NOT NULL,
+                        CONSTRAINT CK_MykiCard_Balance CHECK (balance >= -10),
+    customer_id         INT             NULL,
     card_type           VARCHAR(20)     NOT NULL,
     pass_id             INT             NULL,
     pass_expiry_date    DATE,
@@ -63,6 +63,7 @@ CREATE TABLE MykiCard (
         REFERENCES MykiPass(pass_id, expiry_date)
 );
 GO
+
 
 -----------------------------------------------------
 -- 4) DeviceLocation Table
@@ -280,29 +281,29 @@ ON ps_Monthly(update_timestamp);
 GO
 
 
-------------------------------------------------------
--- Clean-Up Script: Drop All Foreign Keys and Tables
-------------------------------------------------------
+-- ------------------------------------------------------
+-- -- Clean-Up Script: Drop All Foreign Keys and Tables
+-- ------------------------------------------------------
 
--- Step 1: Temporarily disable all foreign key checks to avoid cyclic dependency issues
-EXEC sp_msforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT ALL";
+-- -- Step 1: Temporarily disable all foreign key checks to avoid cyclic dependency issues
+-- EXEC sp_msforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT ALL";
 
--- Step 2: Drop all foreign keys from the schema
-DECLARE @sql NVARCHAR(MAX) = '';
+-- -- Step 2: Drop all foreign keys from the schema
+-- DECLARE @sql NVARCHAR(MAX) = '';
 
-SELECT @sql += 'ALTER TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) +
-               ' DROP CONSTRAINT ' + QUOTENAME(fk.name) + ';' + CHAR(13)
-FROM sys.foreign_keys fk
-JOIN sys.tables t ON fk.parent_object_id = t.object_id
-JOIN sys.schemas s ON t.schema_id = s.schema_id;
+-- SELECT @sql += 'ALTER TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) +
+--                ' DROP CONSTRAINT ' + QUOTENAME(fk.name) + ';' + CHAR(13)
+-- FROM sys.foreign_keys fk
+-- JOIN sys.tables t ON fk.parent_object_id = t.object_id
+-- JOIN sys.schemas s ON t.schema_id = s.schema_id;
 
-EXEC (@sql);
+-- EXEC (@sql);
 
--- Step 3: Drop all tables in reverse dependency order
-SET @sql = '';
-SELECT @sql += 'DROP TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + ';' + CHAR(13)
-FROM sys.tables t
-JOIN sys.schemas s ON t.schema_id = s.schema_id
-ORDER BY t.name DESC;
+-- -- Step 3: Drop all tables in reverse dependency order
+-- SET @sql = '';
+-- SELECT @sql += 'DROP TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + ';' + CHAR(13)
+-- FROM sys.tables t
+-- JOIN sys.schemas s ON t.schema_id = s.schema_id
+-- ORDER BY t.name DESC;
 
-EXEC (@sql);
+-- EXEC (@sql);

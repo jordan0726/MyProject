@@ -62,8 +62,8 @@ GO
    (Non-partitioned table — stored on PRIMARY)
    =========================================== */
 CREATE UNIQUE NONCLUSTERED INDEX IX_DeviceLocation_ByVehicle
-ON dbo.DeviceLocation (vehicle_id);
-GO
+ON dbo.DeviceLocation (vehicle_id)
+WHERE vehicle_id IS NOT NULL;
 
 /* ===========================================
    VehicleRealTimeLog: Index for retrieving latest GPS logs

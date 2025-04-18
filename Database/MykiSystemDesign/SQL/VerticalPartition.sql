@@ -90,25 +90,4 @@ BEGIN
           AND   n.password_hash = i.password_hash;
 END;
 GO
-/*-----------------------------------------------------------
-  Quick test
------------------------------------------------------------*/
--- Single row
-INSERT dbo.vwCustomer
-        (email, password_hash, full_name, phone_num, address, dob)
-VALUES  ('alice@example.com',
-         HASHBYTES('SHA2_256','P@ssword1!'),
-         'Alice Chen',
-         '0412345678',
-         'Melbourne VIC',
-         '2000-05-20');
 
--- Multiple rows
-INSERT dbo.vwCustomer
-        (email, password_hash, full_name)
-VALUES  ('bob@example.com',   HASHBYTES('SHA2_256','Pw2!'), 'Bob Zhang'),
-        ('carol@example.com', HASHBYTES('SHA2_256','Pw3!'), 'Carol Lee');
-GO
-/* Verify results */
-SELECT * FROM dbo.CustomerAuth    ORDER BY customer_id;
-SELECT * FROM dbo.CustomerProfile ORDER BY customer_id;
