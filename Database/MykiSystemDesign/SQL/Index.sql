@@ -14,7 +14,7 @@
 CREATE NONCLUSTERED INDEX IX_Trip_Card_TouchOn
 ON dbo.Trip (card_id, touch_on_time)
 INCLUDE (touch_off_time)
-ON ps_Monthly (touch_on_time);
+ON ps_Monthly (touch_off_time);
 GO
 
 /* ===========================================
@@ -24,7 +24,7 @@ GO
 CREATE NONCLUSTERED INDEX IX_Trip_UnfinishedTripCheck
 ON dbo.Trip (card_id, touch_on_time DESC)
 WHERE touch_off_time IS NULL
-ON ps_Monthly (touch_on_time);
+ON ps_Monthly (touch_off_time);
 GO
 
 /* ===========================================
@@ -34,7 +34,7 @@ GO
 CREATE NONCLUSTERED INDEX IX_Trip_CompletedTripLookup
 ON dbo.Trip (card_id, touch_on_time DESC)
 WHERE touch_off_time IS NOT NULL
-ON ps_Monthly (touch_on_time);
+ON ps_Monthly (touch_off_time);
 GO
 
 /* ===========================================
@@ -73,3 +73,5 @@ CREATE NONCLUSTERED INDEX IX_VehicleRealTimeLog_ByVehicle_Timestamp
 ON dbo.VehicleRealTimeLog (vehicle_id, log_timestamp)
 ON ps_Monthly (log_timestamp);
 GO
+
+

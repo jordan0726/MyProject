@@ -58,7 +58,7 @@ BEGIN
         @touch_on_time,
         @scanner_id,
         @stop_station_id,
-        NULL,
+        '9999-12-31 23:59:59', -- Placeholder to be updated later
         NULL,
         NULL,
         NULL

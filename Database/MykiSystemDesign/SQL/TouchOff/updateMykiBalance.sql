@@ -52,7 +52,8 @@ BEGIN
     IF LOWER(@transaction_type) = 'deduction'
     BEGIN
         UPDATE dbo.MykiCard
-        SET balance = balance - @amount
+        SET balance = balance - @amount,
+            daily_cap = daily_cap + @amount
         OUTPUT INSERTED.balance INTO @t(balance)
         WHERE card_id = @card_id;
     END

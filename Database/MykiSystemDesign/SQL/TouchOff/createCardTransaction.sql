@@ -23,27 +23,23 @@ CREATE OR ALTER PROCEDURE dbo.usp_CreateCardTransactionFromTripFare
       @fare_type         VARCHAR(20),
       @daily_cap_used    DECIMAL(10,2),
       @daily_cap_limit   DECIMAL(10,2),
-      @final_amount      DECIMAL(10,2) OUTPUT
+      @touch_off_time    DATETIME2(0), 
+      @final_amount      DECIMAL(10,2) OUTPUT,
+      @OUT_transaction_type  VARCHAR(20) OUTPUT
 WITH EXECUTE AS CALLER
 AS
 BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    /*-------------------------------------------------------------------------
-        1. Basic parameter validation
-    -------------------------------------------------------------------------*/
-    IF @card_id IS NULL OR @trip_id IS NULL OR @scanner_id IS NULL OR @fare_type IS NULL
+    /* 1. Basic parameter validation */
+    IF @card_id IS NULL OR @trip_id IS NULL OR @scanner_id IS NULL OR @fare_type IS NULL OR @touch_off_time IS NULL
     BEGIN
         THROW 51000, '❌ usp_CreateCardTransactionFromTripFare: Input parameters must not be NULL', 1;
         RETURN;
     END
 
-    /*-------------------------------------------------------------------------
-        2. Map fare_type to base fare
-           If the type is "free", base fare is set to 0
-           * For future flexibility, consider moving this mapping to a lookup table
-    -------------------------------------------------------------------------*/
+    /* 2. Map fare_type to base fare */
     DECLARE @base_fare DECIMAL(10,2);
 
     SET @base_fare =
@@ -54,14 +50,10 @@ BEGIN
             WHEN 'concession'          THEN 2.75
             WHEN 'concession_weekend'  THEN 2.75
             WHEN 'concession_zone2'    THEN 1.75
-            -- Free / transfer / promotional fares = 0
             ELSE 0.00
         END;
 
-    /*-------------------------------------------------------------------------
-        3. Apply daily cap logic: Only charge the difference up to the cap limit
-           (assuming cap has not been reached)
-    -------------------------------------------------------------------------*/
+    /* 3. Apply daily cap */
     IF @base_fare > 0
     BEGIN
         SET @final_amount = 
@@ -76,31 +68,24 @@ BEGIN
         SET @final_amount = 0.00;
     END
 
-    /*-------------------------------------------------------------------------
-        4. Determine transaction_type
-    -------------------------------------------------------------------------*/
+    /* 4. Determine transaction type */
     DECLARE @txn_type VARCHAR(20) =
         CASE WHEN @final_amount = 0 THEN 'free' ELSE 'deduction' END;
 
-    /*-------------------------------------------------------------------------
-        5. Insert the transaction record into CardTransaction
-    -------------------------------------------------------------------------*/
+    /* 5. Insert into CardTransaction */
     INSERT INTO dbo.CardTransaction
-          (card_id, trip_id, scanner_id, amount, [timestamp], transaction_type)
-    VALUES(@card_id, @trip_id, @scanner_id, @final_amount, SYSUTCDATETIME(), @txn_type);
+          (card_id, trip_id, touch_off_time, scanner_id, amount, [timestamp], transaction_type)
+    VALUES(@card_id, @trip_id, @touch_off_time, @scanner_id, @final_amount, SYSUTCDATETIME(), @txn_type);
 
     IF @@ROWCOUNT = 0
     BEGIN
-        -- This should theoretically never happen
         THROW 51001, '❌ Failed to insert into CardTransaction', 1;
         RETURN;
     END
 
-    /*-------------------------------------------------------------------------
-        6. Return final result to the caller
-    -------------------------------------------------------------------------*/
+    /* 6. Output */
     SET @OUT_transaction_type = @txn_type;
-    SET @OUT_final_amount     = @final_amount;
+    SET @final_amount = @final_amount;
 
     PRINT CONCAT('✅ CardTransaction created, amount = ', @final_amount);
 END;

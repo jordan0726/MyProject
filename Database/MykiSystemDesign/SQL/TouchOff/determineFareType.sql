@@ -3,6 +3,7 @@
 -- =============================================
 CREATE OR ALTER PROCEDURE usp_DetermineFareType
     @card_id INT,
+    @trip_id INT,
     @touch_on_time DATETIME2(0),
     @touch_on_stop_station_id INT,
     @touch_off_time DATETIME2(0),
@@ -40,11 +41,24 @@ BEGIN
         RETURN;
     END
     
+    IF NOT EXISTS (SELECT 1 FROM dbo.Calendar WHERE calendar_date = @travel_date)
+    BEGIN
+        PRINT '❌ Calendar date not found: ' + CONVERT(varchar, @travel_date, 23);
+        THROW 60001, 'Calendar date not found', 1;
+        RETURN;
+    END
+
     SELECT @is_weekend_or_holiday = CASE WHEN is_weekend = 1 OR is_holiday = 1 THEN 1 ELSE 0 END
     FROM dbo.Calendar
     WHERE calendar_date = @travel_date;
+
     
-    EXEC dbo.usp_CheckFree2HourTransfer @card_id, @touch_on_time, @result OUTPUT;
+    EXEC dbo.usp_CheckFree2HourTransfer
+    @card_id = @card_id,
+    @trip_id = @trip_id,
+    @current_touch_on_time = @touch_on_time,
+    @OUT_fare_type = @result OUTPUT;
+
     IF @result IS NOT NULL
     BEGIN
         SET @OUT_fare_type = @result;
@@ -98,6 +112,7 @@ GO
 -- =============================================
 CREATE OR ALTER PROCEDURE usp_CheckFree2HourTransfer
     @card_id INT,
+    @trip_id INT,
     @current_touch_on_time DATETIME2(0),
     @OUT_fare_type VARCHAR(20) OUTPUT
 WITH EXECUTE AS CALLER
@@ -106,16 +121,20 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
     
-    DECLARE @last_touch_off_time DATETIME2(0);
-    
-    SELECT TOP 1 @last_touch_off_time = touch_off_time
+    DECLARE @ref_time DATETIME2(0);
+
+    -- Find the most recent and fare_type not start as 'free_'
+    SELECT TOP 1 @ref_time = touch_off_time
     FROM dbo.Trip
     WHERE card_id = @card_id
       AND touch_off_time IS NOT NULL
+      AND trip_id <> @trip_id
+      AND (fare_type IS NULL OR LEFT(fare_type, 5) <> 'free_')
     ORDER BY touch_off_time DESC;
-    
-    IF @last_touch_off_time IS NOT NULL AND 
-       DATEDIFF(MINUTE, @last_touch_off_time, @current_touch_on_time) <= 120
+
+
+    IF @ref_time IS NOT NULL
+       AND DATEDIFF(MINUTE, @ref_time, @current_touch_on_time) <= 120
     BEGIN
         SET @OUT_fare_type = 'free_2hours';
     END
@@ -125,6 +144,7 @@ BEGIN
     END
 END;
 GO
+
 
 -- =============================================
 -- Function: Check for Active Myki Pass
@@ -222,9 +242,9 @@ BEGIN
         ELSE
         BEGIN
             IF @card_type = 'full-fare'
-                SET @OUT_daily_cap_limit = 7.00;
+                SET @OUT_daily_cap_limit = 7.00; --full-fare zone2
             ELSE
-                SET @OUT_daily_cap_limit = 3.50;
+                SET @OUT_daily_cap_limit = 3.50; -- concession zone2
         END
     END
     ELSE
@@ -232,16 +252,16 @@ BEGIN
         IF @is_weekend_or_holiday = 1
         BEGIN
             IF @card_type = 'full-fare'
-                SET @OUT_daily_cap_limit = 7.60;
+                SET @OUT_daily_cap_limit = 7.60; -- full-fare weekend
             ELSE
-                SET @OUT_daily_cap_limit = 3.80;
+                SET @OUT_daily_cap_limit = 3.80; -- concession weekend
         END
         ELSE
         BEGIN
             IF @card_type = 'full-fare'
-                SET @OUT_daily_cap_limit = 11.00;
+                SET @OUT_daily_cap_limit = 11.00; -- full-fare
             ELSE
-                SET @OUT_daily_cap_limit = 5.50;
+                SET @OUT_daily_cap_limit = 5.50; -- concession
         END
     END
     

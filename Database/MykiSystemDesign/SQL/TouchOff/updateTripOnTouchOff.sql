@@ -39,7 +39,7 @@ BEGIN
 
     SELECT TOP 1 @trip_id = trip_id
     FROM dbo.Trip
-    WHERE card_id = @card_id AND touch_off_time IS NULL
+    WHERE card_id = @card_id AND touch_off_time = '9999-12-31 23:59:59'
     ORDER BY touch_on_time DESC;
 
     RETURN @trip_id;
@@ -57,6 +57,7 @@ CREATE OR ALTER PROCEDURE usp_UpdateTripOnTouchOff
     @fare_type VARCHAR(20) OUTPUT,
     @trip_id INT OUTPUT,
     @touch_off_scanner_id INT OUTPUT,
+    @touch_off_time DATETIME2(0) OUTPUT,
     @daily_cap_used DECIMAL(10,2) OUTPUT,
     @daily_cap_limit DECIMAL(10,2) OUTPUT,
     @zone_type VARCHAR(20) = NULL OUTPUT
@@ -98,9 +99,15 @@ BEGIN
         FROM dbo.Trip
         WHERE trip_id = @trip_id;
 
+        UPDATE dbo.Trip
+        SET
+            touch_off_time = @now
+        WHERE trip_id = @trip_id;
+
         -- Step 4: Determine fare_type, daily_cap_used, daily_cap_limit, zone_type
         EXEC dbo.usp_DetermineFareType 
             @card_id = @card_id,
+            @trip_id = @trip_id,
             @touch_on_time = @touch_on_time,
             @touch_on_stop_station_id = @touch_on_stop_station_id,
             @touch_off_time = @now,
@@ -118,6 +125,7 @@ BEGIN
             touch_off_stop_station_id = @stop_station_id,
             fare_type = @fare_type
         WHERE trip_id = @trip_id;
+        SET @touch_off_time = @now;
 
         IF @@ROWCOUNT = 0
         BEGIN

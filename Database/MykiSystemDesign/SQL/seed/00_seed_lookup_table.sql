@@ -1,8 +1,9 @@
 INSERT INTO CardType (card_type, description) VALUES
-('full_fare', 'Full fare adult'),
+('full-fare', 'Full fare adult'),
 ('concession', 'Concession card holder'),
 ('child', 'Child passenger'),
 ('senior', 'Senior citizen');
+
 
 INSERT INTO FareType (fare_type, description) VALUES
 ('default_fare', 'Default fare (standard condition)'),

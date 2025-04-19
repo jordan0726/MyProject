@@ -16,7 +16,7 @@ BEGIN
     IF EXISTS (
         SELECT 1 
         FROM dbo.MykiCard 
-        WHERE card_id = @card_id AND status = 'active'
+        WHERE card_id = @card_id AND status = 1
     )
         SET @is_active = 1;
 
@@ -86,7 +86,7 @@ BEGIN
     IF EXISTS (
         SELECT TOP(1) 1
         FROM dbo.Trip
-        WHERE card_id = @card_id AND touch_off_time IS NULL
+        WHERE card_id = @card_id AND touch_off_time = '9999-12-31 23:59:59'
         ORDER BY touch_on_time DESC
     )
         SET @needs_touch_off = 1;

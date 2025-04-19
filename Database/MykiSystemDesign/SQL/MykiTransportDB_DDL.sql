@@ -47,7 +47,7 @@ CREATE TABLE MykiCard (
     card_type           VARCHAR(20)     NOT NULL,
     pass_id             INT             NULL,
     pass_expiry_date    DATE,
-    daily_cap           INT             DEFAULT 0,
+    daily_cap           DECIMAL(4,2)    DEFAULT 0,
     status              BIT             DEFAULT 0,
     expiry_date         DATE,
 
@@ -63,6 +63,7 @@ CREATE TABLE MykiCard (
         REFERENCES MykiPass(pass_id, expiry_date)
 );
 GO
+
 
 
 -----------------------------------------------------
@@ -94,7 +95,7 @@ CREATE TABLE Scanner (
 GO
 
 -----------------------------------------------------
--- 6) Trip Table
+-- 6) Trip Table – partitioned on touch_off_time
 -----------------------------------------------------
 CREATE TABLE Trip (
     trip_id                    INT            IDENTITY(1,1),
@@ -107,8 +108,8 @@ CREATE TABLE Trip (
     touch_off_stop_station_id  INT,
     fare_type                  VARCHAR(20),
 
-    CONSTRAINT PK_Trip PRIMARY KEY CLUSTERED (touch_on_time, trip_id)
-        ON ps_Monthly(touch_on_time),
+    CONSTRAINT PK_Trip PRIMARY KEY CLUSTERED (touch_off_time, trip_id)
+        ON ps_Monthly(touch_off_time),
 
     CONSTRAINT FK_Trip_Card 
         FOREIGN KEY (card_id) REFERENCES MykiCard(card_id) ON DELETE CASCADE,
@@ -119,8 +120,9 @@ CREATE TABLE Trip (
     CONSTRAINT FK_Trip_FareType
         FOREIGN KEY (fare_type) REFERENCES FareType(fare_type)
 )
-ON ps_Monthly(touch_on_time);
+ON ps_Monthly(touch_off_time);
 GO
+
 
 -----------------------------------------------------
 -- 7) CardTransaction Table
@@ -129,10 +131,10 @@ CREATE TABLE CardTransaction (
     transaction_id   INT            IDENTITY(1,1),
     card_id          INT            NOT NULL,
     trip_id          INT            NULL,
-    touch_on_time    DATETIME2(0),
+    touch_off_time    DATETIME2(0),
     scanner_id       INT            NULL,
     amount           DECIMAL(10,2)  NOT NULL DEFAULT 0 
-                                      CONSTRAINT CK_CardTransaction_Amount CHECK (amount > 0),
+                                      CONSTRAINT CK_CardTransaction_Amount CHECK (amount >= 0),
     [timestamp]      DATETIME2(0)   NOT NULL DEFAULT GETDATE(),
     transaction_type VARCHAR(20)    NOT NULL 
                                       CONSTRAINT CK_CardTransaction_Type CHECK (transaction_type IN ('deduction','top-up','refund', 'free')),
@@ -144,13 +146,14 @@ CREATE TABLE CardTransaction (
         FOREIGN KEY (card_id) REFERENCES MykiCard(card_id) ON DELETE CASCADE,
 
     CONSTRAINT FK_CardTransaction_Trip
-        FOREIGN KEY (touch_on_time, trip_id ) REFERENCES Trip(touch_on_time, trip_id ),
+        FOREIGN KEY (touch_off_time, trip_id ) REFERENCES Trip(touch_off_time, trip_id ),
 
     CONSTRAINT FK_CardTransaction_Scanner
         FOREIGN KEY (scanner_id) REFERENCES Scanner(scanner_id)
 )
 ON ps_Monthly([timestamp]);
 GO
+
 
 -----------------------------------------------------
 -- 8) Calendar Table

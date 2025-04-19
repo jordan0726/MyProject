@@ -29,15 +29,21 @@ BEGIN
     DECLARE @fare_type         VARCHAR(20),
             @daily_cap_used    DECIMAL(10,2),
             @daily_cap_limit   DECIMAL(10,2),
-            @trip_id           INT;
+            @trip_id           INT,
+            @touch_off_scanner_id INT,
+            @touch_off_time    DATETIME2(0),
+            @zone_type         VARCHAR(20);
 
     EXEC dbo.usp_UpdateTripOnTouchOff
          @card_id               = @card_id,
          @scanner_id            = @scanner_id,
          @fare_type             = @fare_type OUTPUT,
-         @OUT_daily_cap_used    = @daily_cap_used OUTPUT,
-         @OUT_daily_cap_limit   = @daily_cap_limit OUTPUT,
-         @OUT_trip_id           = @trip_id OUTPUT;
+         @trip_id               = @trip_id OUTPUT,
+         @touch_off_scanner_id  = @touch_off_scanner_id OUTPUT,
+         @daily_cap_used        = @daily_cap_used OUTPUT,
+         @daily_cap_limit       = @daily_cap_limit OUTPUT,
+         @zone_type             = @zone_type OUTPUT,
+         @touch_off_time        = @touch_off_time OUTPUT;
 
     /*----------------------------------------------------------
         Step 2: Create CardTransaction for this trip.
@@ -53,8 +59,9 @@ BEGIN
          @fare_type             = @fare_type,
          @daily_cap_used        = @daily_cap_used,
          @daily_cap_limit       = @daily_cap_limit,
-         @OUT_transaction_type  = @txn_type OUTPUT,
-         @OUT_final_amount      = @amount OUTPUT;
+         @touch_off_time        = @touch_off_time,
+         @final_amount          = @amount OUTPUT,
+         @OUT_transaction_type  = @txn_type OUTPUT;
 
     /*----------------------------------------------------------
         Step 3: Update balance if transaction is not 'free'.
