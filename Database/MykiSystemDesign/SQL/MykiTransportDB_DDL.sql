@@ -48,7 +48,7 @@ CREATE TABLE MykiCard (
     pass_id             INT             NULL,
     pass_expiry_date    DATE,
     daily_cap           DECIMAL(4,2)    DEFAULT 0,
-    status              BIT             DEFAULT 0,
+    status              BIT             DEFAULT 1,
     expiry_date         DATE,
 
     CONSTRAINT FK_MykiCard_Customer 
@@ -134,7 +134,7 @@ CREATE TABLE CardTransaction (
     touch_off_time    DATETIME2(0),
     scanner_id       INT            NULL,
     amount           DECIMAL(10,2)  NOT NULL DEFAULT 0 
-                                      CONSTRAINT CK_CardTransaction_Amount CHECK (amount >= 0),
+                                      CONSTRAINT CHECK (amount >= 0),
     [timestamp]      DATETIME2(0)   NOT NULL DEFAULT GETDATE(),
     transaction_type VARCHAR(20)    NOT NULL 
                                       CONSTRAINT CK_CardTransaction_Type CHECK (transaction_type IN ('deduction','top-up','refund', 'free')),
@@ -284,29 +284,4 @@ ON ps_Monthly(update_timestamp);
 GO
 
 
--- ------------------------------------------------------
--- -- Clean-Up Script: Drop All Foreign Keys and Tables
--- ------------------------------------------------------
 
--- -- Step 1: Temporarily disable all foreign key checks to avoid cyclic dependency issues
--- EXEC sp_msforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT ALL";
-
--- -- Step 2: Drop all foreign keys from the schema
--- DECLARE @sql NVARCHAR(MAX) = '';
-
--- SELECT @sql += 'ALTER TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) +
---                ' DROP CONSTRAINT ' + QUOTENAME(fk.name) + ';' + CHAR(13)
--- FROM sys.foreign_keys fk
--- JOIN sys.tables t ON fk.parent_object_id = t.object_id
--- JOIN sys.schemas s ON t.schema_id = s.schema_id;
-
--- EXEC (@sql);
-
--- -- Step 3: Drop all tables in reverse dependency order
--- SET @sql = '';
--- SELECT @sql += 'DROP TABLE ' + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + ';' + CHAR(13)
--- FROM sys.tables t
--- JOIN sys.schemas s ON t.schema_id = s.schema_id
--- ORDER BY t.name DESC;
-
--- EXEC (@sql);

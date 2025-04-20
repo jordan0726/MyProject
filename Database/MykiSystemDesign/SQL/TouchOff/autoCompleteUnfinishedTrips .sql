@@ -1,12 +1,15 @@
 /*==============================================================================
-  Name      : usp_AutoCompleteUnfinishedTrips
-  Purpose   : Automatically completes trips that were touched-on over 6 hours ago
-              and never touched-off. Marks them with a placeholder scanner and
-              stop station, and assigns fallback fare type based on card_type.
-  Notes     :
-      • Fare type will be 'auto_default_fare' or 'auto_concession'.
-      • Touch-off time = current UTC time.
-      • Touch-off scanner_id and stop_station_id = -1
+  PROCEDURE: usp_AutoCompleteUnfinishedTrips
+  PURPOSE  : Automatically completes trips that were touched-on over 6 hours ago
+             and never touched-off. This prevents data inconsistency by closing
+             abandoned trip records.
+  SYSTEM USE:
+      ⚠️ This procedure is intended to be executed by the system every 6 hours
+         (via scheduled job – not yet implemented) to auto-fix unfinished trips.
+  BEHAVIOUR:
+      • Fare type is set to 'auto_default_fare' or 'auto_concession'
+      • Touch-off time is set to current UTC time
+      • Scanner ID and stop station ID are set to -1 (placeholder values)
 ==============================================================================*/
 CREATE OR ALTER PROCEDURE dbo.usp_AutoCompleteUnfinishedTrips
 WITH EXECUTE AS CALLER
@@ -17,7 +20,7 @@ BEGIN
 
     DECLARE @now DATETIME2(0) = SYSUTCDATETIME();
 
-    -- Step 1: Find all trips that were touched-on more than 6 hours ago and are still open
+    -- Step 1: Update all trips that were touched-on 6+ hours ago but never touched-off
     UPDATE t
     SET 
         t.touch_off_time = @now,

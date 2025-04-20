@@ -2,7 +2,7 @@
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 88,
      @scanner_id  = 1,
      @tap_result  = @tap_result OUTPUT,
@@ -17,7 +17,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 89,
      @scanner_id  = 2,
      @tap_result  = @tap_result OUTPUT,
@@ -32,7 +32,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 91,
      @scanner_id  = 1,
      @tap_result  = @tap_result OUTPUT,
@@ -49,7 +49,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 98,
      @scanner_id  = 2,
      @tap_result  = @tap_result OUTPUT,
@@ -64,7 +64,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 99,
      @scanner_id  = 2,
      @tap_result  = @tap_result OUTPUT,
@@ -79,7 +79,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 101,
      @scanner_id  = 2,
      @tap_result  = @tap_result OUTPUT,
@@ -94,7 +94,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 102,
      @scanner_id  = 2,
      @tap_result  = @tap_result OUTPUT,
@@ -110,7 +110,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 107,
      @scanner_id  = 2,
      @tap_result  = @tap_result OUTPUT,
@@ -126,7 +126,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 109,
      @scanner_id  = 2,
      @tap_result  = @tap_result OUTPUT,
@@ -143,7 +143,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 100,
      @scanner_id  = 1,
      @tap_result  = @tap_result OUTPUT,
@@ -156,7 +156,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 100,
      @scanner_id  = 5,
      @tap_result  = @tap_result OUTPUT,
@@ -172,7 +172,7 @@ SELECT @tap_result AS tap_result,
 DECLARE @tap_result NVARCHAR(50);
 DECLARE @new_balance DECIMAL(10,2);
 
-EXEC usp_ProcessTap
+EXEC usp_TouchOn
      @card_id     = 100,
      @scanner_id  = 5,
      @tap_result  = @tap_result OUTPUT,
