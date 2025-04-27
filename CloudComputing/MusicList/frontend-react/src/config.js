@@ -2,7 +2,7 @@
 
 // This file contains the configuration for the frontend application.
 const config = {
-  backendBaseURL: "http://ec2-54-173-65-230.compute-1.amazonaws.com", // Change this to the backend server URL
+  backendBaseURL: "http://ec2-34-227-15-110.compute-1.amazonaws.com", // Change this to the backend server URL
   apiGatewayURL: "https://z3y9r4o7p9.execute-api.us-east-1.amazonaws.com/prod",
 };
 

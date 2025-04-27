@@ -130,7 +130,7 @@ class S3Manager:
                     task = executor.submit(self.upload_from_url_to_bucket, img_url, bucket_name, s3_key)
                     tasks.append(task)
 
-                skipped_count = len(queued_keys) + len(existing_keys)
+                skipped_count = len(queued_keys) + len(existing_keys) #The counting is wrong here, queued_keys should not be directly added to skipped_count
 
                 # Wait for all tasks to complete
                 for future in as_completed(tasks):
