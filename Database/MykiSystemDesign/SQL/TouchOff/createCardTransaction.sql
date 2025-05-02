@@ -72,10 +72,12 @@ BEGIN
     DECLARE @txn_type VARCHAR(20) =
         CASE WHEN @final_amount = 0 THEN 'free' ELSE 'deduction' END;
 
-    /* 5. Insert into CardTransaction */
+    /* 5. Insert into CardTransaction using Melbourne time for [timestamp] */
+    DECLARE @melbourne_now DATETIME2(0) = DATEADD(HOUR, 10, SYSUTCDATETIME());  -- Adjust to +11 if DST
+
     INSERT INTO dbo.CardTransaction
           (card_id, trip_id, touch_off_time, scanner_id, amount, [timestamp], transaction_type)
-    VALUES(@card_id, @trip_id, @touch_off_time, @scanner_id, @final_amount, SYSUTCDATETIME(), @txn_type);
+    VALUES(@card_id, @trip_id, @touch_off_time, @scanner_id, @final_amount, @melbourne_now, @txn_type);
 
     IF @@ROWCOUNT = 0
     BEGIN

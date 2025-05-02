@@ -85,7 +85,9 @@ BEGIN
     SET XACT_ABORT ON;
 
     DECLARE @stop_station_id INT;
-    DECLARE @now DATETIME2(0) = SYSUTCDATETIME();
+    -- Use Melbourne time (AEST = UTC+10, or AEDT = UTC+11)
+    DECLARE @now DATETIME2(0) = DATEADD(HOUR, 10, SYSUTCDATETIME());  -- Adjust to 11 if DST applies
+
 
     IF @card_id IS NULL OR @scanner_id IS NULL
     BEGIN

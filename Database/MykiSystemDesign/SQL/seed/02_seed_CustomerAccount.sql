@@ -1,4 +1,4 @@
-INSERT INTO vwCustomer (email, password_hash, full_name, phone_num, address, dob)
+INSERT INTO vwCustomerAccount (email, password_hash, full_name, phone_num, address, dob)
 VALUES 
 ('user1@example.com', 0x4A8EE394C1E327C76D1DF2C27A0A5272F9C4D9DBEE45B4C1F073C7ED0F5D78F0, 'Alice Wu', '0411111111', '123 Swanston St, Melbourne', '1995-03-01'),
 ('user2@example.com', 0x11AAEF5C2C8BC2D0DD2A89A3C2F162AC4A7F21FEC7BA9D623D55354C11DD29B2, 'Bob Li', '0411222333', '456 Elizabeth St, Melbourne', '1990-07-12'),

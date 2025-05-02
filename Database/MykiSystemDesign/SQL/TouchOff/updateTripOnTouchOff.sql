@@ -43,7 +43,7 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    DECLARE @now DATETIME2(0) = SYSUTCDATETIME();  
+    DECLARE @now DATETIME2(0) = DATEADD(HOUR, 10, SYSUTCDATETIME());    
     DECLARE @stop_station_id INT;
     DECLARE @touch_on_time DATETIME2(0);
     DECLARE @touch_on_stop_station_id INT;

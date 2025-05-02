@@ -15,10 +15,12 @@ INSERT INTO DeviceLocation (vehicle_id, stop_station_id, location_type, current_
 
 -- Scanner
 INSERT INTO Scanner (device_location_id) VALUES
-(18),  
-(18),
-(21),
+(1),  
+(1),
+(2),
 
-(23),  
-(23);  
+(6),  
+(6);  
+
+
 
