@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
+   <content>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+         <children>
+
+            <!-- BELOW IS THE NAV BAR AREA -->
+            <!-- Background Rectangle -->
+            <Rectangle fill="#f8a940" height="40.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1080.0" />
+
+            <!-- Right side of Nav Bar -->
+            <HBox alignment="CENTER_RIGHT" layoutX="744.0" layoutY="6.0" prefHeight="30.0" prefWidth="300.0" spacing="20.0">
+               <children>
+
+                  <!-- Log Out Button -->
+                  <Button fx:id="logoutButton" onAction="#handleLogout" text="Log Out" style="-fx-background-color: transparent; -fx-cursor: hand;"/>
+
+               </children>
+            </HBox>
+
+            <!-- Welcome Message -->
+            <Text fx:id="welcomeMessage" layoutX="452.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Text>
+
+            <!-- Header Title -->
+            <Text fill="WHITE" layoutX="443.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Reading Room!">
+               <font>
+                  <Font name="Brush Script MT Italic" size="32.0" />
+               </font>
+            </Text>
+
+
+
+            <!-- All the Books -->
+            <VBox fx:id="booksContainer" layoutX="32.0" layoutY="100.0" prefHeight="400.0" prefWidth="1005.0" spacing="30.0">
+                <!-- This area is for dynamically displaying books in the selected category -->
+               <padding>
+                  <Insets bottom="30.0" />
+               </padding>
+            </VBox>
+
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

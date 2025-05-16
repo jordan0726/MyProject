@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaymentController">
+   <children>
+      <!-- BELOW IS THE NAV BAR AREA -->
+      <!-- Background Rectangle -->
+      <Rectangle fill="#f8a940" height="40.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1080.0" />
+
+      <!-- Back Icon for returning to Login page -->
+      <ImageView fx:id="backIcon" fitHeight="36.0" fitWidth="36.0" layoutX="10.0" layoutY="3.0" onMouseClicked="#handleBackToShoppingCartView" pickOnBounds="true">
+         <image>
+            <Image url="@/back.png" />
+         </image>
+      </ImageView>
+
+      <!-- Right side of Nav Bar -->
+      <HBox alignment="CENTER_RIGHT" layoutX="744.0" layoutY="6.0" prefHeight="30.0" prefWidth="300.0" spacing="20.0">
+         <children>
+
+            <!-- Log Out Button -->
+            <Button fx:id="logoutButton" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Log Out" />
+
+
+         </children>
+      </HBox>
+
+      <!-- Header Title -->
+      <Text fill="WHITE" layoutX="443.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Reading Room!">
+         <font>
+            <Font name="Brush Script MT Italic" size="32.0" />
+         </font>
+      </Text>
+
+      <!-- Payment form centered inside a VBox -->
+      <VBox alignment="CENTER" layoutX="240.0" layoutY="100.0" prefWidth="600.0" spacing="50.0">
+         <children>
+
+            <!-- Payment Title -->
+            <Text style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Payment" />
+
+            <!-- Card Number -->
+            <VBox alignment="CENTER_LEFT" spacing="10.0">
+               <Label style="-fx-font-size: 18px;" text="Card Number" />
+               <TextField fx:id="cardNumberField" prefHeight="40.0" prefWidth="400.0" promptText="16 Digits Card Number" />
+            </VBox>
+
+            <!-- Expired Date and CVV -->
+            <HBox alignment="CENTER" spacing="216.0">
+               <VBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Label style="-fx-font-size: 18px;" text="Expired Date" />
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <TextField fx:id="monthField" prefHeight="40.0" prefWidth="103.0" promptText="MM" />
+                     <Label style="-fx-font-size: 18px;" text="/" />
+                     <TextField fx:id="yearField" prefHeight="40.0" prefWidth="144.0" promptText="YYYY" />
+                  </HBox>
+               </VBox>
+               <VBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Label style="-fx-font-size: 18px;" text="CVV" />
+                  <TextField fx:id="cvvField" prefHeight="40.0" prefWidth="120.0" promptText="3 Digits CVV" />
+               </VBox>
+            </HBox>
+
+            <!-- Buttons for Cancel and Pay -->
+            <HBox alignment="CENTER" spacing="150.0">
+               <Button fx:id="cancelButton" onAction="#handleCancel" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: lightgrey; -fx-font-size: 18px;" text="Cancel" />
+               <Button fx:id="payButton" onAction="#handlePay" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #f8a940; -fx-font-size: 18px;" text="Pay" />
+            </HBox>
+
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

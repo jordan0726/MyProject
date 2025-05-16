@@ -1,0 +1,105 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%}
+
+<div class="login-container">
+  <h2>User Login</h2>
+  <!-- 登錄標題 -->
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Enter your password"
+      />
+      <a
+        href="#"
+        class="forgot-password"
+        data-bs-toggle="modal"
+        data-bs-target="#forgotPasswordModal"
+        >Forgot password?</a
+      >
+      <!-- 忘記密碼連結 -->
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary" style="font-weight: bold">
+      Login
+    </button>
+    <div class="create-account">
+      Don't have an account? <a href="/sign-up">Sign Up</a>
+      <!-- 註冊連結 -->
+    </div>
+  </form>
+</div>
+
+<!-- 忘記密碼的模態窗口 -->
+<div
+  class="modal fade"
+  id="forgotPasswordModal"
+  tabindex="-1"
+  aria-labelledby="forgotPasswordModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forgotPasswordModalLabel">
+          Reset Password
+        </h5>
+        <!-- 重置密碼標題 -->
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <!-- 關閉按鈕 -->
+      </div>
+      <div class="modal-body">
+        <form>
+          <label for="phone">Enter your phone number:</label>
+          <!-- 輸入電話號碼標籤 -->
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="form-control"
+            required
+          />
+          <!-- 電話號碼輸入框 -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <!-- 關閉按鈕 -->
+            <button type="submit" class="btn btn-primary">Send</button>
+            <!-- 發送按鈕 -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 引入 Bootstrap JS 和 Popper JS 以支持模態窗口的功能 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+{% endblock %}

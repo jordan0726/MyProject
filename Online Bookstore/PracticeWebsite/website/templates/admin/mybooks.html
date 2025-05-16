@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %} {% block title %}Home{% endblock %} {% block
+content %} {% include 'admin/nav.html' %}
+
+<div class="container" style="padding: 30px">
+  <style>
+    .table-transparent {
+      opacity: 0.9; /* Adjust the value as needed, 0.9 means 90% opaque */
+    }
+    .search-form .input-group {
+      margin-bottom: 20px;
+    }
+    .search-form .btn {
+      margin-left: 10px;
+    }
+  </style>
+  <!-- Search Form -->
+  <form class="search-form" method="POST" action="">
+    {{ form.hidden_tag()}}
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        name="search"
+        placeholder="Search by Book Name or Genre or Author"
+        aria-label="Search"
+        aria-describedby="button-addon2"
+      />
+      <button
+        class="btn btn-primary"
+        type="submit"
+        id="button-addon2"
+        style="background-color: #007bff; border-color: #007bff"
+      >
+        Search
+      </button>
+    </div>
+  </form>
+  <table class="table table-striped table-transparent">
+    <thead>
+      <tr>
+        <th scope="col">Book Id</th>
+        <th scope="col">Book Name</th>
+        <th scope="col">Author</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in book_data %}
+      <tr>
+        <th scope="row">{{book.bookid}}</th>
+        <td>{{book.title}}</td>
+        <td>{{book.author}}</td>
+        <td>
+          <a class="btn btn-warning" href="edit/{{book.bookid}}" role="button"
+            >Edit</a
+          >
+        </td>
+        <td>
+          <a class="btn btn-danger" href="delete/{{book.bookid}}" role="button"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+<nav
+  class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top py-2 px-3"
+  style="z-index: 1000"
+>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbar"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbar">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" id="home" href="/">Home</a>
+      {% if not user.is_authenticated %}
+      <a class="nav-item nav-link" id="login" href="/login">Login</a>
+      <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+      {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="navbar-nav ml-auto">
+      <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+    </div>
+    <form
+      action="{{url_for('views.search')}}"
+      method="POST"
+      class="form-inline ml-3 my-2 my-lg-0"
+    >
+      {{ form.hidden_tag()}}
+      <input
+        class="form-control mr-sm-2"
+        type="search"
+        name="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <button
+        class="btn btn-outline-success my-2 my-sm-0"
+        name="submit"
+        type="submit"
+      >
+        Search
+      </button>
+    </form>
+    {% endif %}
+  </div>
+</nav>

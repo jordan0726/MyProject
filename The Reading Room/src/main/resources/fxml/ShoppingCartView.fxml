@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShoppingCartController">
+   <content>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+         <children>
+
+            <!-- BELOW IS THE NAV BAR AREA -->
+            <!-- Background Rectangle -->
+            <Rectangle fill="#f8a940" height="40.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1080.0" />
+
+            <!-- Back Icon for returning to Login page -->
+            <ImageView fx:id="backIcon" fitHeight="36.0" fitWidth="36.0" layoutX="10.0" layoutY="3.0" onMouseClicked="#handleBackToMain" pickOnBounds="true">
+               <image>
+                  <Image url="@/back.png" />
+               </image>
+            </ImageView>
+
+            <!-- Right side of Nav Bar -->
+            <HBox alignment="CENTER_RIGHT" layoutX="744.0" layoutY="6.0" prefHeight="30.0" prefWidth="300.0" spacing="20.0">
+               <children>
+
+                  <!-- Log Out Button -->
+                  <Button fx:id="logoutButton" onAction="#handleLogout" text="Log Out" style="-fx-background-color: transparent; -fx-cursor: hand;"/>
+
+
+               </children>
+            </HBox>
+
+            <!-- Header Title -->
+            <Text fill="WHITE" layoutX="443.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Reading Room!">
+               <font>
+                  <Font name="Brush Script MT Italic" size="32.0" />
+               </font>
+            </Text>
+
+
+            <!-- CartItems -->
+            <Text layoutX="452.0" layoutY="68" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Shopping Cart">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Text>
+            <VBox fx:id="booksContainer" layoutX="290.0" layoutY="100.0" spacing="30.0" alignment="TOP_CENTER">
+               <!-- This area is for dynamically displaying CartItems -->
+
+               <!-- Check Out Button -->
+               <Button fx:id="checkOutButton" />
+
+               <padding>
+                  <Insets top="0" right="0" bottom="30" left="0" />
+               </padding>
+            </VBox>
+
+
+
+            <!-- Empty Message -->
+            <Text fx:id="emptyMessage" layoutX="380.0" layoutY="350.0" text="Your shopping cart is currently empty." visible="false">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Text>
+
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

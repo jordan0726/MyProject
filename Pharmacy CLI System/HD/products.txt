@@ -1,0 +1,10 @@
+P1, vitaminC, 12.0, n
+P2, vitaminE, 14.5, n
+P3, vitaminD, 15.2, n
+P4, coldTablet, 6.4, n
+P5, vaccine, 32.6, y
+P6, fragrance, 25.0, n
+P7, covidTablet, 20.5, y
+B8, multivitamin, P1, P2, P3
+B9, tablet, P4, P7
+B10, beaty, P1, P2, P3, P6

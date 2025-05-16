@@ -1,0 +1,7 @@
+B1, James, 1, 20
+B2, Lily, 1, 36
+V3, Tom, 1, 0.08, 12
+B5, Harry, 1, 61
+V8, Annie, 1, 0.1, 45
+B10, Sarah, 1, 32
+B11, Wilson, 1, 26

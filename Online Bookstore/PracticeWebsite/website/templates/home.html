@@ -1,0 +1,167 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%} {% include 'nav.html' %}
+
+<div class="container" style="padding: 30px">
+  <div class="row container-fluid">
+    {% for book in book_data %}
+    <div
+      class="col-sm-4 d-flex flex-column align-items-center"
+      style="padding-top: 100px"
+    >
+      <div class="card transparent-card" style="width: 18rem">
+        <img
+          src="{{ url_for('views.uploaded_file', filename=book.cover_image_url) }}"
+          alt=""
+          class="mb-3"
+        />
+        <div class="card-body">
+          <center>
+            <p class="card-text" style="font-size: 1.5rem; font-weight: bold">
+              <strong>{{ book.title }}</strong>
+            </p>
+          </center>
+          <center><p class="card-text">{{ book.subtitle }}</p></center>
+        </div>
+        <div class="d-flex justify-content-between w-100" style="padding: 10px">
+          <!-- Button trigger modal -->
+          <button
+            type="button"
+            class="myButton btn btn-primary"
+            data-toggle="modal"
+            data-target="#exampleModalCenter"
+            data-title="{{ book.title }}"
+            data-cover="{{ url_for('views.uploaded_file', filename=book.cover_image_url) }}"
+            data-author="{{ book.author }}"
+            data-description="{{ book.description }}"
+            data-subtitle="{{ book.subtitle }}"
+            data-edition="{{ book.edition }}"
+            data-genre="{{ book.genre }}"
+            data-language="{{ book.language }}"
+            data-year="{{ book.year }}"
+            data-pages="{{ book.pages }}"
+          >
+            Details
+          </button>
+          <a
+            class="btn btn-success"
+            href="/download/{{ book.bookid }}"
+            role="button"
+            >Download</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+              <h5 id="modal-title"></h5>
+              <img
+                id="modal-cover-image"
+                src=""
+                alt="Book Cover"
+                class="img-fluid mb-3 mx-auto d-block"
+                style="max-height: 300px"
+              />
+              <p id="modal-subtitle"></p>
+              <p>
+                <strong class="bold-label">Author:</strong>
+                <span id="modal-author"></span>
+              </p>
+              <p>
+                <strong class="bold-label">Description:</strong>
+                <span id="modal-description" class="description"></span>
+              </p>
+              <p>
+                <strong class="bold-label">Edition:</strong>
+                <span id="modal-edition"></span>
+              </p>
+              <p>
+                <strong class="bold-label">Genre:</strong>
+                <span id="modal-genre"></span>
+              </p>
+              <p>
+                <strong class="bold-label">Language:</strong>
+                <span id="modal-language"></span>
+              </p>
+              <p>
+                <strong class="bold-label">Year:</strong>
+                <span id="modal-year"></span>
+              </p>
+              <p>
+                <strong class="bold-label">Pages:</strong>
+                <span id="modal-pages"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  $("#exampleModalCenter").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var title = button.data("title");
+    var cover = button.data("cover");
+    var author = button.data("author");
+    var description = button.data("description");
+    var subtitle = button.data("subtitle");
+    var edition = button.data("edition");
+    var genre = button.data("genre");
+    var language = button.data("language");
+    var year = button.data("year");
+    var pages = button.data("pages");
+
+    var modal = $(this);
+    modal.find(".modal-title").text(title);
+    modal.find("#modal-cover-image").attr("src", cover);
+    modal.find("#modal-author").text(author);
+    modal.find("#modal-description").text(description);
+    modal.find("#modal-subtitle").text(subtitle);
+    modal.find("#modal-edition").text(edition);
+    modal.find("#modal-genre").text(genre);
+    modal.find("#modal-language").text(language);
+    modal.find("#modal-year").text(year);
+    modal.find("#modal-pages").text(pages);
+  });
+</script>
+
+{% endblock %}

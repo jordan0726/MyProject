@@ -1,0 +1,137 @@
+{% extends "admin/base.html" %} {% block title %}Home{% endblock %} {% block
+content %} {% include 'admin/nav.html' %}
+<div class="register-container">
+  <h2>Add Books</h2>
+  <!-- 註冊標題 -->
+  <form
+    action="{{url_for('views.addBooks')}}"
+    id="addBook"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      <label for="book_title">Book Title</label>
+      <!-- 姓氏標籤 -->
+      <input
+        type="text"
+        id="book_title"
+        name="book_title"
+        class="form-control"
+        required
+      />
+      <!-- 姓氏輸入框 -->
+    </div>
+    <div class="form-group">
+      <label for="subtitle">Subtitle</label>
+      <!-- 名字標籤 -->
+      <input type="text" id="subtitle" name="subtitle" class="form-control" />
+      <!-- 名字輸入框 -->
+    </div>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <!-- 學生證號碼標籤 -->
+      <input
+        type="text"
+        id="author"
+        name="author"
+        class="form-control"
+        required
+      />
+      <!-- 學生證號碼輸入框 -->
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <!-- 密碼標籤 -->
+      <input
+        type="text"
+        id="description"
+        name="description"
+        class="form-control"
+        required
+      />
+      <!-- 密碼輸入框 -->
+    </div>
+    <div class="form-group">
+      <label for="edition">Edition</label>
+      <!-- 密碼標籤 -->
+      <input
+        type="text"
+        id="edition"
+        name="edition"
+        class="form-control"
+        required
+      />
+      <!-- 密碼輸入框 -->
+    </div>
+    <div class="form-group" style="margin-bottom: 40px">
+      <label for="genre">Genre</label>
+      <!-- 電子郵件標籤 -->
+      <input
+        type="text"
+        id="genre"
+        name="genre"
+        class="form-control"
+        required
+      />
+      <!-- 電子郵件輸入框 -->
+    </div>
+    <div class="form-group" style="margin-bottom: 40px">
+      <label for="language">Language</label>
+      <!-- 電子郵件標籤 -->
+      <input
+        type="text"
+        id="language"
+        name="language"
+        class="form-control"
+        required
+      />
+      <!-- 電子郵件輸入框 -->
+    </div>
+    <div class="form-group" style="margin-bottom: 40px">
+      <label for="year">Year</label>
+      <!-- 電子郵件標籤 -->
+      <input type="text" id="year" name="year" class="form-control" required />
+      <!-- 電子郵件輸入框 -->
+    </div>
+    <div class="form-group" style="margin-bottom: 40px">
+      <label for="pages">Pages</label>
+      <!-- 電子郵件標籤 -->
+      <input
+        type="text"
+        id="pages"
+        name="pages"
+        class="form-control"
+        required
+      />
+      <!-- 電子郵件輸入框 -->
+      <div class="form-group">
+        <label for="image">Upload Book Cover Page</label>
+        <input
+          type="file"
+          id="cover_image_url"
+          name="cover_image_url"
+          class="form-control"
+          accept=".png, .jpg, .jpeg"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="pdf">Upload PDF of the Book</label>
+        <input
+          type="file"
+          id="upload_image_name"
+          name="upload_image_name"
+          class="form-control"
+          accept=".pdf"
+          required
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="font-weight: bold">
+      Add
+    </button>
+    <!-- 註冊按鈕 -->
+  </form>
+</div>
+{%endblock%}

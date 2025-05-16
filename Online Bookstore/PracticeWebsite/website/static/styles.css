@@ -1,0 +1,214 @@
+body {
+  font-family: "Noto Sans", sans-serif;
+  background-color: #f7f9fc; /* 設置背景顏色為淡藍色 */
+  display: flex; /* 使用Flexbox佈局 */
+  justify-content: center; /* 水平居中對齊 */
+  align-items: center; /* 垂直居中對齊 */
+  min-height: 100vh; /* 設置高度為視窗高度 */
+  margin: 0; /* 移除外邊距 */
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.transparent-card {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.card-text strong {
+  font-weight: bold;
+}
+
+.bold-label {
+  font-weight: 900; /* Use the heaviest available weight */
+  font-size: 1.1rem; /* Adjust size for emphasis */
+}
+
+.modal-body p {
+  text-align: left; /* Align text to the left */
+  padding: 5px 0; /* Add padding for better spacing */
+}
+.modal-body h5 {
+  margin-bottom: 20px; /* Add margin below the title for spacing */
+}
+.modal-body .bold-label {
+  font-weight: 900; /* Use the heaviest available weight */
+  font-size: 1.1rem; /* Adjust size for emphasis */
+}
+.modal-body .description {
+  text-align: justify; /* Justify the description text for better alignment */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("Images/LibraryBackground.jpeg"); /* 確保路徑正確 */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3; /* 設置透明度 */
+  z-index: -1; /* 確保背景圖片在其他內容之下 */
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../../Images/Library Background.jpeg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.container {
+  width: 100%; /* 確保外層容器佔滿寬度 */
+  max-width: none; /* 取消最大寬度限制 */
+  padding: 0 15px; /* 添加一些內邊距 */
+  box-sizing: border-box;
+}
+
+.login-container,
+.register-container {
+  background-color: #333; /* 背景顏色為深色 */
+  padding: 40px; /* 內邊距為40px */
+  border-radius: 8px; /* 圓角半徑為8px */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 設置陰影 */
+  max-width: 400px; /* 最大寬度為400px */
+  width: 100%; /* 寬度為100% */
+  text-align: center; /* 文字居中對齊 */
+}
+
+.register-container {
+  margin: 100px 0; /* 增加頂部外邊距 */
+}
+
+.login-container h2,
+.register-container h2 {
+  margin-bottom: 20px; /* 底部外邊距為20px */
+  font-size: 24px; /* 字體大小為24px */
+  color: #fff; /* 字體顏色為白色 */
+}
+
+.login-container form .form-group,
+.register-container form .form-group {
+  margin-bottom: 20px; /* 底部外邊距為20px */
+  text-align: left; /* 文字左對齊 */
+}
+
+.login-container form .form-group label,
+.register-container form .form-group label {
+  color: #fff; /* 標籤文字顏色設置為白色 */
+}
+
+.login-container form .form-control,
+.register-container form .form-control {
+  height: 45px; /* 高度為45px */
+  padding: 10px; /* 內邊距為10px */
+  border-radius: 5px; /* 圓角半徑為5px */
+}
+
+.login-container form .btn-primary,
+.register-container form .btn-primary {
+  width: 100%; /* 寬度為100% */
+  height: 45px; /* 高度為45px */
+  border-radius: 5px; /* 圓角半徑為5px */
+  background-color: #f5b642; /* 背景顏色為暖色 */
+  border-color: #f5b642; /* 邊框顏色為暖色 */
+  font-size: 16px; /* 字體大小為16px */
+  color: #fff; /* 字體顏色為白色 */
+}
+
+.login-container form .btn-primary:hover,
+.register-container form .btn-primary:hover {
+  background-color: #e0a832; /* 懸停時背景顏色變為深暖色 */
+  border-color: #e0a832; /* 懸停時邊框顏色變為深暖色 */
+}
+
+.login-container .forgot-password {
+  margin-top: 10px; /* 頂部外邊距為10px */
+  text-align: right; /* 文字右對齊 */
+  display: block; /* 設置為塊級元素 */
+  color: #f5b642; /* 字體顏色為暖色 */
+}
+
+.login-container .create-account,
+.register-container .login-link {
+  margin-top: 20px; /* 頂部外邊距為20px */
+  font-size: 14px; /* 字體大小為14px */
+  color: #f5b642; /* 字體顏色為暖色 */
+}
+
+.login-container .create-account a,
+.register-container .login-link a {
+  color: #f5b642; /* 連結顏色為暖色 */
+}
+
+.error-message {
+  color: red; /* 設置錯誤訊息為紅色 */
+  font-size: 14px; /* 字體大小為14px */
+  margin-top: 10px; /* 頂部外邊距 */
+  margin-bottom: 10px; /* 底部外邊距 */
+}
+
+.alert-container {
+  position: fixed;
+  top: 20px; /* 將其放置在頂部 */
+  width: 100%; /* 佔滿寬度 */
+  display: flex; /* 使用flexbox */
+  justify-content: center; /* 水平居中 */
+  z-index: 1100; /* 確保在頂層顯示 */
+}
+
+.alert {
+  width: 50%; /* 設置警告框的寬度 */
+}
+
+/* 基本按鈕樣式 */
+.btn-primary {
+  position: relative;
+  overflow: hidden; /* 使漣漪效果不會超出按鈕邊界 */
+  background-color: #f5b642; /* 背景顏色為暖色 */
+  border-color: #f5b642; /* 邊框顏色為暖色 */
+  color: #fff; /* 字體顏色為白色 */
+  font-size: 16px; /* 字體大小為16px */
+  transition: background-color 0.3s ease; /* 添加過渡效果 */
+  outline: none; /* 移除默認的藍色邊框 */
+}
+
+/* 懸停效果 */
+.btn-primary:hover {
+  background-color: #e0a832; /* 懸停時背景顏色變為深暖色 */
+  border-color: #e0a832; /* 懸停時邊框顏色變為深暖色 */
+}
+
+/* 點擊時效果 */
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:focus:active {
+  background-color: #e0a832 !important; /* 點擊時背景顏色與懸停時相同 */
+  border-color: #e0a832 !important; /* 點擊時邊框顏色與懸停時相同 */
+  box-shadow: none !important; /* 移除默認的陰影效果 */
+  outline: none !important; /* 移除默認的藍色邊框 */
+  -webkit-box-shadow: none !important; /* 移除默認的藍色邊框 */
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3); /* 漣漪顏色 */
+  transform: scale(0);
+  animation: ripple-animation 1s linear;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}

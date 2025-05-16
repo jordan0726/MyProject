@@ -1,0 +1,129 @@
+{% extends "admin/base.html" %} {% block title %}Home{% endblock %} {% block
+content %} {% include 'admin/nav.html' %}
+<div class="register-container">
+  <h2>Edit Books</h2>
+  <!-- 註冊標題 -->
+  <form
+    action="{{url_for('views.editBooks',id=book.bookid)}}"
+    id="editBookForm"
+    method="POST"
+  >
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      <label for="book_title">Book Title</label>
+      <!-- 姓氏標籤 -->
+      <input
+        type="text"
+        id="book_title"
+        name="book_title"
+        class="form-control"
+        value="{{book.title}}"
+        required
+      />
+      <!-- 姓氏輸入框 -->
+    </div>
+    <div class="form-group">
+      <label for="subtitle">Subtitle</label>
+      <!-- 名字標籤 -->
+      <input
+        type="text"
+        id="subtitle"
+        name="subtitle"
+        class="form-control"
+        value="{{book.subtitle}}"
+      />
+      <!-- 名字輸入框 -->
+    </div>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <!-- 學生證號碼標籤 -->
+      <input
+        type="text"
+        id="author"
+        name="author"
+        value="{{book.author}}"
+        class="form-control"
+      />
+      <!-- 學生證號碼輸入框 -->
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <!-- 密碼標籤 -->
+      <input
+        type="text"
+        id="description"
+        name="description"
+        value="{{book.description}}"
+        class="form-control"
+      />
+      <!-- 密碼輸入框 -->
+    </div>
+    <div class="form-group">
+      <label for="edition">Edition</label>
+      <!-- 密碼標籤 -->
+      <input
+        type="text"
+        id="edition"
+        name="edition"
+        value="{{book.edition}}"
+        class="form-control"
+      />
+      <!-- 密碼輸入框 -->
+    </div>
+    <div class="form-group" style="margin-bottom: 40px">
+      <label for="genre">Genre</label>
+      <!-- 電子郵件標籤 -->
+      <input
+        type="text"
+        id="genre"
+        name="genre"
+        value="{{book.genre}}"
+        class="form-control"
+        required
+      />
+      <!-- 電子郵件輸入框 -->
+    </div>
+    <div class="form-group" style="margin-bottom: 40px">
+      <label for="language">Language</label>
+      <!-- 電子郵件標籤 -->
+      <input
+        type="text"
+        id="language"
+        name="language"
+        value="{{book.language}}"
+        class="form-control"
+        required
+      />
+      <!-- 電子郵件輸入框 -->
+    </div>
+    <div class="form-group" style="margin-bottom: 40px">
+      <label for="year">Language</label>
+      <!-- 電子郵件標籤 -->
+      <input
+        type="text"
+        id="year"
+        name="year"
+        value="{{book.year}}"
+        class="form-control"
+      />
+      <!-- 電子郵件輸入框 -->
+    </div>
+    <div class="form-group" style="margin-bottom: 40px">
+      <label for="pages">Pages</label>
+      <!-- 電子郵件標籤 -->
+      <input
+        type="text"
+        id="pages"
+        name="pages"
+        value="{{book.pages}}"
+        class="form-control"
+      />
+      <!-- 電子郵件輸入框 -->
+    </div>
+    <button type="submit" class="btn btn-primary" style="font-weight: bold">
+      Update
+    </button>
+    <!-- 註冊按鈕 -->
+  </form>
+</div>
+{%endblock%}
