@@ -1,0 +1,46 @@
+.member{
+    h3{
+        font-weight: 600;
+    }
+    &_option li{
+        margin-bottom: 24px;
+        a{
+            font-weight: 600;
+            display: inline;
+            
+            &:hover{
+                color: $primary;
+                border-bottom: 2px solid $primary;
+            }
+        }
+    }
+    form{
+        h3{
+            padding-bottom: 8px;
+        }
+        button{
+            width: 100%;
+        }
+    }
+}
+@include media-breakpoint-down(lg){
+    .member{
+        &_option{
+            li{
+                width: 33.333%;
+                text-align: center;
+                margin-bottom: 0px;
+            }
+            a{
+                font-size: 20px;
+            }
+        }
+    }
+}
+@include media-breakpoint-down(sm){
+    .member{
+            a{
+                font-size: 16px;
+            }
+        }
+}

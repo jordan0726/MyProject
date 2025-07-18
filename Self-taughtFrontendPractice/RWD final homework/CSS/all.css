@@ -1,0 +1,766 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    font-family: sans-serif;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+*, *::before, *::after{
+  box-sizing:border-box;
+}
+img{
+    max-width: 100%;
+    height: auto;
+}
+a{
+	text-decoration: none;
+	color: #3D1101;
+}
+/*前置設定*/
+/*---layout---*/
+.wrap{
+	max-width: 1024px;
+	margin: 0 auto;
+	background: #efe9e7;
+	font-family: Noto Sans TC,'sans-serif';
+}
+/*layout-header*/
+.header {
+	background-image: url(../images/header_desktop.png);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 420px;
+	position: relative;
+	color: white;
+}
+.nav-bar{
+	background-color: rgb(0,0,0,0.7);
+	display: flex;
+	justify-content: space-between;
+	padding: 2% 5%;
+}
+.nav-bar h1 a{
+	background-image: url(../images/logo_w.svg);
+	display: block;
+	height: 24px;
+	width: 120px;
+	background-position: center ;
+	background-size: cover;
+	text-indent: 101%;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.menu{
+	display: flex;
+	align-items: center;
+}
+.nav-bar li a{
+	padding: 0px 18px;
+	display: block;
+	color: white;
+}
+.nav-bar li a:hover{
+	text-decoration: underline;
+}
+.showmenu , .for-mobile-br{
+	display: none;
+}
+.banner{
+	width: 50%;
+	padding: 4% 4% 3% 4%;
+	background-color: rgb(0,0,0,0.5);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+}
+.banner h1{
+	font-size: 36px;
+	margin-bottom: 12px;
+}
+.banner p{
+	line-height: 1.5;
+}
+/*layout-header-RWD*/
+@media(max-width:768px){
+	.nav-bar{
+		background-color: black;
+		position: fixed;
+		width: 100%;
+		height: 58px;
+		padding: 2.1% 2.6% 2.1% 4% ;
+		z-index: 1;
+	}
+	.banner{
+		width: 60%;
+	}
+}
+@media(max-width:650px){
+	.header{
+		background-image: url(../images/header_mobile.png);
+		height: 350px;
+	}
+	.nav-bar h1 a{
+		width: 148px;
+   	 	height: 30px;
+	} 
+	.menu{
+		display: block;
+		position: absolute;
+		top: 58px;
+		right: 0;
+		left: 0;
+		max-height: 0px;
+		overflow: hidden;
+		text-align: center;
+		transition: max-height 1s;
+	}
+	.showmenu,.for-mobile-br{
+		display: block;
+	}
+	.showmenu{
+		color: #FFF;
+		font-size: 32px;
+		padding: 0% 2% 0% 3%;
+	}
+	.menu li{
+		font-size: 16px;
+    	border-bottom: 1px solid #fff;
+	}
+	
+	.menu li a{
+		padding: 15px;
+		font-size: 19px;
+		font-weight: bold;
+		background: #FF5E45;
+	}
+	.menu li a:hover{
+		background: #e63b21;
+		text-decoration: none;
+	}
+	.menu-show .menu {
+		max-height: 200px;
+	}
+	.banner{
+		width: 78%;
+	}
+	
+}
+
+@media(max-width:376px){
+	.banner{
+		width: 85%;
+	}
+}
+
+/*login頁面*/
+.login{
+	color: #3D1101;
+	padding: 5%;
+	
+}
+.login h2{
+	font-size: 48px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 1%;
+}
+.login h3{
+	font-size: 21px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 2.5%;
+}
+.login-form{
+	margin: 0 auto;
+	width: 35%;
+	box-shadow:  3px 3px 4px rgba(0, 0, 0, 0.16);
+	border-top: 4px solid #FF5E45;
+	padding: 1.5% 3% 1.5%;
+}
+.login-form h4{
+	text-align: center;
+	font-size: 21px;
+	font-weight: bold;
+}
+.inputarea{
+	position: relative;
+	margin-bottom: 5%;
+}
+.inputarea i{
+	position: absolute;
+	top: 28%;
+	left: 5%;
+	color: #3D110160;
+}
+.login .login-form .inputarea input {
+	width: 100%;
+	padding: 3% 5% 3% 15%;
+}
+.login-button{
+	width: 44%;
+	margin: 10% 3% 0%;
+	cursor: pointer;
+	float: left;
+}
+
+@media(max-width:768px){
+	.login-form{
+		width: 50%;
+	}
+}
+@media(max-width:650px){
+	.login-form{
+		width: 60%;
+	}
+}
+@media(max-width:376px){
+	.login h2{
+		font-size: 36px;
+		margin-bottom: 2%;
+	}
+	.login h3{
+		font-size: 16px;
+		margin-bottom: 3%;
+	}
+	.login-form{
+		width: 80%;
+		padding: 3% 3% 1.5%;
+	}
+	.login .login-form .login-button{
+		width: 44%;
+		margin: 10% 3% 0%;
+	}
+	
+}
+/*mainpage頁面*/
+.introduction1{
+	padding: 5%;
+	color:#3D1101 ;
+}
+.introduction1  h3{
+	text-align: center;
+	margin-bottom: 5%;
+	line-height: 1.5;
+	position: relative;
+	font-size: 21px;
+}
+.introduction1 h3::before, .introduction1 h3::after {
+    content: '';
+    width: 15%;
+	height: 1px;
+	top: 40%;
+    background-color: #3D1101;
+    position: absolute;
+}
+.introduction1 h3::before {
+ 	left: 20%;
+}
+.introduction1 h3::after{
+	left: 65%;
+}
+.introduction1 ul{
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+}
+.introduction1 h4{
+	font-size: 21px;
+	margin: 5%;
+}
+.introduction1 p{
+	font-size: 16px;
+	padding: 0%7%;
+	line-height: 1.4;
+	text-align: left;
+}
+/*主廚介紹*/
+.introduction2{
+	display: flex;
+	background-color:#3D1101 ;
+	padding: 0% 5%;
+	color: #efe9e7;
+}
+.introduction2-text{
+	padding: 10% 3%;
+}
+.introduction2-text h3{
+	font-size: 21px;
+	margin-bottom: 1.2%;
+}
+.introduction2-text h4{
+	margin-bottom: 5%;
+}
+.introduction2-text p{
+	font-size: 16px;
+	line-height: 1.3;
+}
+/*饕客評論*/
+.comment{
+	padding: 5%;
+	color:#3D1101
+}
+.comment h3{
+	text-align: center;
+	font-size: 28px;
+	margin-bottom: 4%;
+}
+.comment ul{
+	display: flex;
+	justify-content: space-between;
+}
+.comment li{
+	display: flex;
+	width: 31%;
+}
+.comment-text{
+	width: 80%;
+	padding-left: 3%;
+}
+.comment h4{
+	padding: 10% 0%;
+}
+.comment p{
+	line-height: 1.5;
+}
+.comment h5{
+	padding-top: 10%;
+	text-align: right;
+}
+/*線上訂位*/
+.booking{
+	background-color: white;
+	padding: 5%;
+	color: #3D1101 ;
+}
+.booking h3{
+	text-align: center;
+	font-size: 28px;
+	line-height: 1.5;
+	margin-bottom: 5%;
+}
+.booking-form {
+	display: flex;
+}
+.booking-form form{
+	margin-left: 5%;
+	width: 50%;
+}
+.booking .booking-form input{
+	width: 100%;
+	margin: 1% 0% 2.5% 0% ;
+}
+.booking-form .radio{
+	display: flex;
+	width: 50%;
+	align-items: center;
+	margin-top: 3%;
+}
+.booking-form .radio input{
+	margin: 0% 20% 0% 0%;
+	width: 10%;
+}
+.booking .booking-form button{
+	margin: 7% 0% 0% 5%;
+	float: right;
+	padding: 2% 7%;
+}
+
+@media(max-width:768px){
+	.introduction1{
+	padding: 2%;
+	}
+	.introduction2-text{
+		padding: 7% 0% 7% 3%;
+	}
+	.introduction2 h3{
+		font-size: 16px;
+	}
+	.introduction2 h4{
+		font-size: 14px;
+	}
+	.introduction2 p{
+		font-size: 14px;
+	}
+	.comment{
+	padding: 5% 3%;
+	}
+}
+@media(max-width:650px){
+	.introduction1 h3::before, .introduction1 h3::after {
+		display: none;
+	}
+	.introduction1 ul{
+		display: flex;
+		flex-direction: column;
+	}
+	.introduction1 p{
+		padding: 0% 10%;
+		line-height: 1.5;
+		margin-bottom: 7%;
+	}
+	.introduction2{
+	flex-direction: column;
+	}
+	.comment ul{
+		flex-direction: column;
+		
+	}
+	.comment li{
+		margin: 0 auto;
+		padding-top: 2%;
+		width: 80%;
+		justify-content: center;
+		border-bottom: 1px dashed rgb(107, 107, 107);
+	}
+	.comment h4{
+		padding: 5% 0%;
+	}
+	.comment h5{
+		padding: 5% 0%;
+	}
+	.booking-form{
+		flex-direction: column;
+	}
+	.booking-form img{
+		width: 100%;
+	}
+	.booking-form form{
+		width: 90%;
+	}
+}
+@media(max-width:376px){
+	.introduction1 {
+	padding: 5%;
+	}
+}
+/*訂購餐點頁面*/
+.cart{
+	display: flex;
+	padding: 5%;
+	color: #3D1101;
+}
+.sidebar{
+	width: 25%;
+}
+.sidebar h3{
+	font-size: 25px;
+	margin-bottom: 15%;
+}
+.sidebar li a{
+	display: block;
+	padding: 6%;
+	border-bottom: 2px solid #3D1101;
+}
+.sidebar li a:hover{
+	color: #FFF;
+	background: #3D1101;
+}
+.main-content{
+	width: 75%;
+	margin-left: 5%;
+	display: flex;
+	flex-direction: column;
+}
+.function{
+	display: flex;
+	justify-content: space-between;
+}
+.search-bar{
+	width: 65%;
+	display: flex;
+}
+.search-bar input{
+	width: 100%;
+	border: 2px solid #3D1101;
+	outline: 0;
+}
+.search-bar button{
+	padding: 2%;
+	color: white;
+	background: #3D1101;
+	border: 1px solid #3D1101;
+	cursor: pointer;
+}
+.service{
+	padding: 1% 0%;
+}
+.service a{
+	font-size: 21px;
+}
+.service span{
+	margin: 0px 20px 0px 15px;
+	border-right: 2px solid #3D1101;
+}
+.service  i{
+	font-size: 26px;
+}
+.service a:hover{
+	color: #FF5E45;
+	font-weight: bold;
+}
+.product{
+	margin-top: 5%;
+}
+.product ul{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.product li{
+	width: 31%;
+	margin-bottom: 5%;
+	box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.16);
+}
+.pic{
+	position: relative;
+}
+
+.pic a{
+	position: absolute;
+	top: 7%;
+	left: 5%;
+	font-size: 21px;
+	color: white;
+}
+.pic a:hover{
+	color: #FF5E45;
+	transform: scale(1.1);
+}
+.product-block{
+	text-align: center;
+	position: relative;
+}
+.product-block h4{
+	padding: 8% 5% 3%;
+	font-size: 24px;
+}
+.product-block h5{
+	font-size: 14px;
+}
+.price{
+	margin: 7% 26%;
+	padding: 5% 0%;
+	font-size: 21px;
+	font-style: italic;
+	border-top: 1px solid #3D1101;
+}
+.add-cart{
+	width: 90%;
+	margin: 8% auto;
+	padding: 3%;
+	border: 2px solid #FF5E45;
+	border-radius: 3px;
+}
+.add-cart a{
+	font-size: 18px;
+	color: #FF5E45;
+}
+.add-cart:hover{
+	background: #FF5E45;
+}
+.add-cart:hover a{
+	color: #FFF;
+}
+@media(max-width:768px){
+	.product-block h4{
+	font-size: 20px;
+	}
+	.sidebar h3{
+	font-size: 21px;
+	}
+}
+@media(max-width:650px){
+	.cart{
+		flex-direction: column;
+		padding-top: 7%;
+	}
+	.sidebar,.main-content{
+		width: 100%;
+		margin-left: 0%;
+	}
+	.sidebar h3{
+		margin-bottom: 3%;
+	}
+	.sidebar li a{
+		padding: 3%;
+		border-bottom: 1.8px solid #3D1101;
+	}
+	.function{
+		margin-top:5% ;
+		display: block;
+	}
+	.search-bar{
+		width: 100%;
+	}
+	.service{
+		float: right;
+		margin: 2% 0% 0% 0%;
+	}
+	.product ul{
+	justify-content: space-evenly;
+}
+	.product li{
+	width: 40%;
+	}
+}
+@media(max-width:376px){
+	.product li{
+	width: 80%;
+	}
+}
+/*layout-footer*/
+.footer>ul{
+	display: flex;
+	padding: 2.5%;
+	color: #3D1101;
+}
+.footer>ul>li{
+	width: 33.3333%;
+	padding: 1.5%;
+}
+.footer h3{
+	font-size: 24px;
+	padding-bottom: 4%;
+	font-weight: bold;
+}
+.footer p{
+	line-height: 1.5;
+	padding-right: 20%;
+}
+.info li{
+	list-style: disc;
+	margin: 2% 0 1% 8%;
+}
+
+.footer a:hover{
+	color: #a13030;
+}
+.social-info {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+.social-info h2>a{
+	display: block;
+	width: 243px;
+	height: 48px;
+	background-image: url(../images/logo_l.svg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	text-indent: 101%;
+	white-space: nowrap;
+	overflow: hidden;
+	margin-bottom: 5%;
+}
+.social-info>div>a{
+	font-size: 36px;
+  	padding: 0 6px;
+}
+.social-info>div>a:hover{
+	opacity: 0.7;
+}
+
+/*layout-footer-RWD*/
+@media(max-width:768px){
+	.social-info h2>a{
+		width: 200px;
+	}
+	.social-info>div>a{
+		font-size: 44px;
+	}
+}
+@media(max-width:650px){
+	.footer>ul{
+		flex-wrap: wrap;
+		padding: 2%;
+	}
+	.footer>ul>li{
+		width: 100%;
+	}
+	.footer h3{	
+		padding-bottom: 1%;
+	}
+	.footer p{
+		padding: 0% 5%;
+	}
+	.info li{
+		margin: 1% 0 1% 8%;
+	}
+	.footer .social-info{
+		padding: 0px;
+	}
+	.social-info h2>a{
+		display: none;
+	}
+}
+@media(max-width:376px){
+	.footer>ul>li{
+		padding: 2.5% 1.5%;
+	}	
+	.footer h3{	
+		font-size: 21px;
+		padding-bottom: 1%;
+	}
+	.footer p{
+		font-size: 14px;
+	}
+}
+/*回到最上面按鈕*/
+.top-button{
+	background-color: #F56C23;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    right: 10px;
+	bottom: 10px;
+	text-align: center;
+	opacity: 0.85;
+}
+.top-button a{
+	display: block;
+	font-size: 45px;
+	text-decoration: none;
+	color: white;
+	padding-top: 3%;
+}

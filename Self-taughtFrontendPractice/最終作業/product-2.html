@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/perfume-icon.ico">                   
+    <meta name="copyright" content="D'Perfume">
+    <meta name="keywords" content="D'Perfume,香水,CHANEL,JoMalone" >        
+    <meta name="description" content="最齊最划算的香水購物網!">
+    <meta property="og:title" content="D'Perfume香水電商" >
+    <meta property="og:image" content="images/Bitmap.png">
+    <meta property="og:description" content="最齊最划算的香水購物網!" >
+    <title>D'Perfume</title>
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body>
+    <!--navbar-->
+    <div class="container navbar d-flex justify-content-between align-items-center position-relative">
+        <h1><a href="main.html">D'Perfume</a></h1>
+        <ul class="navbar_option d-flex">
+            <li><a href="product-1.html"><span class="material-icons">store</span>Product</a></li>
+            <li><a href="login.html"><span class="material-icons">person</span>log in</a></li>
+            <li><a href="#"><span class="material-icons">favorite</span>Wishlist</a></li>
+            <li><a href="#"><span class="material-icons">shopping_cart</span>Cart(3)</a></li>
+        </ul>
+        <div class="navbar_mb-option align-items-center">
+            <a href="#" class="position-relative mt-1"><span class="material-icons">shopping_cart</span><span class="navbar_mb-option_number position-absolute text-center c-white">3</span></a>
+            <img src="img/bars.svg" alt="漢堡選單">
+        </div>
+    </div>
+    <div class="navbar_mb-menu">
+        <ul class=" flex-column c-white position-absolute">
+            <li><a href="product-1.html">Product</a></li>
+            <li><a href="#">Wishlist</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="login.html">log in</a></li>
+        </ul>
+    </div>
+    
+    <!--品牌選擇-->
+    <div class="brand">
+        <div class="container">
+            <ul class="d-flex content">
+                <li><a href="#">CHANEL</a></li>
+                <li><a href="#">Jo Malone</a></li>
+                <li><a href="#">Curology</a></li>
+                <li><a href="#">Dior</a></li>
+                <li><a href="#">Chloe</a></li>
+                <li><a href="#">ZARA</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+ <!--商品購買-->
+    <div class="container container-padding">
+        <div class="row">
+            <div class="row col-lg-8 product-2_img">
+                <img class="col-12 gx-0 gx-lg-4" src="img/product-2/1.jpg" alt="CHANEL N°5商品圖片">
+                <img class="for-lg col-6 gy-4" src="img/product-2/2.jpg" alt="CHANEL N°5商品圖片">
+                <img class="for-lg col-6 gy-4" src="img/product-2/3.jpg" alt="CHANEL N°5商品圖片">
+                <img class="for-lg col-12 gy-4" src="img/product-2/1.jpg" alt="CHANEL N°5商品圖片">
+            </div>
+            <div class="col-lg-4 text">
+                <div class="text_addcart">
+                    <h3 class="title">CHANEL N°5</h3>
+                    <p class="content mb-8">N°5，女性魅力的極致精髓。散發柔美澄透的乙醛花束香氣。經典傳奇香氛，蘊藏於極簡設計的獨特瓶身。</p>
+                    <p class="content mb-3">NT$4,980</p>
+                    <form action="#" class=" d-flex mb-2">
+                        <input class="col-6 number-input input-area content2 c-gray"type="number" id="mail"  placeholder="0">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="botton-brown c-white" data-bs-toggle="modal" data-bs-target="#cart">
+                        加入購物車
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="cart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header justify-content-center">
+                                        <h5 class="modal-title " id="exampleModalLabel">已加入購物車</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="botton-myfav d-flex align-items-center " data-bs-toggle="modal" data-bs-target="#myfav">
+                    <span class="material-icons">favorite</span>加入我的收藏
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myfav" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header justify-content-center">
+                                    <h5 class="modal-title " id="exampleModalLabel">已加入我的收藏</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text_notice">
+                    <h4 class="content2 mb-2">商品購買須知</h4>
+                    <p class="content2 mb-5">產品因拍攝關係顏色可能略有差異，實際以廠商出貨為主。<br> 商品情境照為示意用，僅商品主體不包含其他配件，請以規格內容物為主。<br> D’Perfume 盡可能確保所列商品備貨充足，但偶爾仍會有產品售罄的情況。如您所訂購的商品庫存不足，我們將盡快以電子郵件通知您。任何訂單變動均會在訂單總額與出貨訊息內更新。</p>
+                    <h4 class="content2 mb-2">退換貨須知</h4>
+                    <p class="content2">依《消費者保護法》的規定，於全站購物皆享有商品到貨【七日猶豫期】（含例假日）之權益。<br> 若收到的商品有任何問題，可於猶豫期內申請退貨。</p>
+                </div>
+            </div>
+            <div class="row  col-12 col-lg-8 product-2_img">
+                <img class=" col-6 gy-4 gx-3 for-md" src="img/product-2/2.jpg" alt="CHANEL N°5商品圖片">
+                <img class=" col-6 gy-4 gx-3 for-md" src="img/product-2/3.jpg" alt="CHANEL N°5商品圖片">
+                <img class=" col-12 gy-3 gx-0 for-md" src="img/product-2/1.jpg" alt="CHANEL N°5商品圖片">
+            </div>
+            <div class="row  for-sm col-12 col-lg-8 product-2_img">
+                <img class=" col gy-4 gx-0 " src="img/product-2/for-sm 1.jpg" alt="CHANEL N°5商品圖片">
+                <img class=" col gy-3 gx-0 " src="img/product-2/for-sm 2.jpg" alt="CHANEL N°5商品圖片">
+                <img class=" col gy-3 gx-0 " src="img/product-2/for-sm 3.jpg" alt="CHANEL N°5商品圖片">
+            </div>
+        </div>
+        
+    </div>
+    <!--Footer-->
+    <div class="footer c-white bg-primary">
+        <div class="container d-flex justify-content-between ">
+            <div class="logo d-flex align-items-center">
+                <img src="img/footer-logo.png" alt="logo">
+                <p>© 2020. All Rights Reserved.</p>
+            </div>
+            <ul class="d-flex">
+                <li><a href="product-1.html">Product</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--置頂按紐-->
+    <div class="top-button">
+            <a href="#" > <span class="material-icons c-white">
+            keyboard_arrow_up
+            </span></a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/all.js"></script>
+</body>
+</html>

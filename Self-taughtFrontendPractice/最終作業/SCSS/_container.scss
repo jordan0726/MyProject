@@ -1,0 +1,22 @@
+.container{
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.container-padding{
+        padding-top: 80px;
+        padding-bottom: 80px;
+}
+@include media-breakpoint-down(lg){
+    .container-padding{
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+}
+@include media-breakpoint-down(md){
+    .container-padding{
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+}

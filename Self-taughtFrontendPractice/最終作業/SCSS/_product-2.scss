@@ -1,0 +1,28 @@
+.number-input{
+    height: 50px;
+}
+
+.text_addcart{
+    margin-bottom: 80px;
+}
+
+.text_notice{
+    h4{
+        font-weight: bold;
+    }
+}
+
+
+@include media-breakpoint-down(lg){
+    .product-2_img{
+        margin: 0 auto;
+    }
+    .text_addcart{
+        margin-bottom: 50px;
+    }
+}
+@include media-breakpoint-down(md){
+    .text_addcart{
+        margin-bottom: 40px;
+    }
+}

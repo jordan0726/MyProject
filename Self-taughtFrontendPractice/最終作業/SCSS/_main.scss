@@ -1,0 +1,163 @@
+/*banner*/
+.banner{
+    background: url(../img/banner.jpg) no-repeat center;
+    background-size: cover;
+    height: 870px;
+    &-text{
+        height: 870px;
+    }
+    h2{
+        font-size: 40px;
+        font-weight: bold;
+    }
+    p{
+        font-size: 24px;
+    } 
+}
+ 
+@include media-breakpoint-down(sm){
+    .banner{
+        background-image: url(../img/banner_mb.jpg);
+        height: 480px;
+        &-text{
+            height: 480px;
+        }
+        h2{
+            font-size: 32px;
+        }
+        p{
+            font-size: 20px;
+            line-height: 1.5;
+        }
+    }
+}
+/*商品介紹*/
+.product-introduction{
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+@include media-breakpoint-down(sm){
+    .product-introduction{
+        padding-top: 40px;
+        padding-bottom: 40px;
+        li{
+            margin-bottom: 32px;
+        }
+    }
+}
+
+/*賣產品區塊*/
+.sell{
+    background-color: #E0E0E0;
+    padding: 40px;
+    &_img{
+        max-width: 350px;
+        height: 540px;
+    }
+    .sold-out{
+        background-color: rgba(0, 0, 0, 0.3);
+        width: 350px;
+        height: 540px;
+        line-height: 540px;
+        top: 0;
+        left: 12px;
+    }
+}
+.img-1{
+    background: url(../img/sell-1.jpg) center no-repeat;
+    background-size: cover;
+}
+.img-2{
+    background: url(../img/sell-2.jpg) center no-repeat;
+    background-size: cover;
+}
+.img-3{
+    background: url(../img/sell-3.jpg) center no-repeat;
+    background-size: cover;
+}
+@include media-breakpoint-down(lg){
+    .sell{
+        &_img{
+            height: 350px;
+        }
+        .sold-out{
+            width: 203.33px;
+            height: 350px;
+            line-height: 350px;
+        }
+    }
+}
+@include media-breakpoint-down(sm){
+    .sell{
+        padding: 32px 0px;
+        li{
+            margin-bottom: 32px;
+        }
+        &_img{
+            max-width: 345px;
+        }
+        .sold-out{
+            width: 345px;
+        }
+    }
+    .img-1{
+        background-position: bottom;
+    }
+    .img-2{
+        background-position: bottom;
+    } 
+}
+/*回收空瓶區塊*/
+.recycle{
+    padding-top: 60px;
+    padding-bottom: 60px;
+    &-img{
+        background: url(../img/recycle.jpg) center no-repeat;
+        background-size: cover;
+        width: 730px;
+        height: 520px;
+        margin: 0 auto;
+    }
+}
+
+@include media-breakpoint-down(sm){
+    .recycle{
+        padding-top: 40px;
+        padding-bottom: 40px;
+        &-img{
+            max-width: 345px;
+            height: 520px;
+        }
+    }
+}
+/*回到最上面按鈕*/
+.top-button{
+	background-color: $primary;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    right: 10px;
+	bottom: 10px;
+	text-align: center;
+	opacity: 0.85;
+    span{
+        font-size: 45px;
+        padding-top: 1px;
+    }
+}
+@include media-breakpoint-down(sm){
+    .top-button{
+        right: 5px;
+	    bottom: 5px;
+        width: 44px;
+        height: 44px;
+    span{
+        font-size: 40px;
+        padding-top: 2px;
+        padding-left: 1px;
+        }
+    }
+
+}

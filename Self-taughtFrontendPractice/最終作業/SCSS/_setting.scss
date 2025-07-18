@@ -1,0 +1,202 @@
+body{
+    font-family: 蘋方-繁, "PingFang TC","SF Pro" , sans-serif;
+    line-height: 1.5;
+}
+*,*::after,*::before{
+    box-sizing: border-box;
+}
+img{
+    display: block;
+    width: 100%;
+}
+a{
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+.link{
+    font-weight: 600;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+.title{
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 2;
+}
+.title2{
+    font-size: 24px;
+    font-weight: bold;
+}
+.content{
+    font-size: 20px;
+}
+.content2{
+    font-size: 16px;
+    line-height: 1.2;
+}
+.botton{
+    border: 2px solid #000000;
+    border-radius: 30px;
+    text-align: center;
+    max-width: 350px;
+    height: 60px;
+    font-size: 20px;
+    color: #000;
+    line-height: 60px;
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+}
+.botton-w{
+    color: white;
+    border-color: white;
+    font-size: 30px;
+    &:hover{
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+}
+.botton-brown{
+    width: 100%;
+    background-color: #916000;
+    border: 2px solid #916000;
+    border-radius: 0 4px 4px 0;
+    &:hover{
+        background-color: #6C4700;
+    }
+}
+.botton-myfav{
+    background-color: white;
+    border: none ;
+    align-items: center;
+    font-weight: 600;
+    span{
+        color: $primary;
+    }
+}
+.input-area{
+    border: 2px solid #916000;
+    border-radius: 4px 0 0 4px;
+    padding-left: 16px;
+}
+.border-btm-b{
+    border-bottom: 2px solid $primary ;
+}
+.border-btm-g{
+    border-bottom: 1px solid #818A91 ;
+}
+.mb-0{
+    margin-bottom: 0;
+}
+.mb-2{
+    margin-bottom: 8px;
+}
+.mb-3{
+    margin-bottom: 12px !important;
+}
+.mb-4{
+    margin-bottom: 16px !important;
+}
+.mb-5{
+    margin-bottom: 20px !important;
+}
+.mb-6{
+    margin-bottom: 24px;
+}
+.mb-7{
+    margin-bottom: 28px;
+}
+.mb-8{
+    margin-bottom: 32px;
+}
+.mb-9{
+    margin-bottom: 36px;
+}
+.mb-10{
+    margin-bottom: 40px;
+}
+.mb-13{
+    margin-bottom: 52px;
+}
+.mb-14{
+    margin-bottom: 56px;
+}
+.mb-15{
+    margin-bottom: 60px;
+}
+.c-white{
+    color: white;
+}
+.c-gray{
+    color: #8D8D8D;
+}
+.c-gray2{
+    color: #818A91;
+}
+.c-gray3{
+    color: #A5A5A5;
+}
+.c-black{
+    color: #000000;
+}
+.count{
+    text-decoration: line-through;
+}
+
+/*更動BS5的modal*/
+.modal{
+    &-dialog{
+        max-width: 45%;
+    }
+    &-content{
+        border: none;
+    }
+    &-header{
+        padding-top: 17px;
+        padding-bottom: 17px;
+        border: none;
+    }
+    &-title{
+        font-size: 20px;
+        color: $primary;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+}
+@include media-breakpoint-down(sm){
+    .modal-dialog{
+        margin: 0 auto;
+    }
+}
+
+/*響應式隱藏*/
+
+.for-md{
+    display: none;
+}
+.for-sm{
+    display: none;
+}
+
+
+@include media-breakpoint-down(lg){
+
+    .for-lg{
+        display: none;
+    }
+    .for-md{
+        display: block;
+    }
+}
+
+
+@include media-breakpoint-down(md){
+
+    .for-md{
+        display: none;
+    }
+    .for-sm{
+        display: block;
+    }
+}

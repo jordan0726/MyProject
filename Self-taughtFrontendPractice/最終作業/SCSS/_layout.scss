@@ -1,0 +1,132 @@
+
+/*navbar*/
+.navbar{
+    height: 56px  ;
+    h1{
+        background: url(../img/d’Perfume.png) center ;
+        width: 128px;
+        height: 38px;
+        cursor: pointer;
+        text-indent: 101%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    &_option a{
+        padding: 4px 16px;
+        font-size: 20px;
+        color: #8D8D8D;
+        display: flex;
+        align-items: center;
+        &:hover{
+            color: #AC8A46;
+        }
+    }
+}
+.navbar_mb-option{
+    display: none;
+    a{
+        color: #8D8D8D;
+    }
+    img{
+        padding: 4px;
+        margin-left: 32px;
+        &:active{
+            outline: 1px solid $secondary;
+        }
+    }
+    &_number{
+        background-color: #916000;
+        border-radius: 7px;
+        font-size: 12px;
+        width: 16px;
+        top: -8px;
+        right: -8px;
+    }
+    
+}
+
+.navbar_mb-menu{
+    display: none;
+}
+@include media-breakpoint-down(sm){
+    .navbar .navbar_option a{
+        display: none;
+    }
+    .navbar_mb-option{
+        display: flex;
+    }
+    .navbar_mb-menu{
+        display: flex;
+        ul{
+            top: 56px;
+            left: 0;
+            right: 0;
+            max-height: 0px;
+            overflow: hidden;
+            text-align: center;
+            transition: max-height 0.8s;
+        }
+        li{
+            height: 56px;
+            font-size: 20px;
+            background-color: #707070;
+            border-bottom: 1px solid #fff;
+            a{
+                line-height: 55px;
+                color: white;
+                &:active{
+                    background-color: #838383;
+                }
+            }
+        }
+    }
+    .menu-show ul{
+		max-height: 280px;
+	}
+}
+
+/*訂閱區塊*/
+.subscribe{
+    background: url(../img/subscribe.jpg) center;
+    background-size: cover;
+    height: 600px;
+    padding-top: 312px;
+    .email-input{
+        width: 220px;
+        height: 60px;
+        line-height: 60px;
+    }
+}
+@include media-breakpoint-down(sm){
+    .subscribe{
+        background-position: left ;
+    }
+}
+
+/*Footer*/
+.footer{
+    background-color: #916000;
+    img{
+        width: 128px;
+        height: 38px;
+    }
+    p{
+        font-size: 14px;
+        margin-left: 20px;
+        padding: 32px 0px;
+    }
+    a{
+        color: white;
+        font-size: 20px;
+        padding: 28px 18px;
+        line-height: 1.2;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+}
+@include media-breakpoint-down(md){
+    .footer a{
+        display: none;
+    }
+}

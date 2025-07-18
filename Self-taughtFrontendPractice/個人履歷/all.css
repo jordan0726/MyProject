@@ -1,0 +1,189 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*全域設定*/
+*,*::after,*::before{
+    box-sizing: border-box;
+}
+body{
+    line-height: 1.5;
+    font-family: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+img{
+    display: block;
+}
+h2,h3{
+    display: inline;
+}
+a{
+    text-decoration: none;
+}
+
+/*容器*/
+.container{
+    width: 1200px;
+    margin: 0 auto;
+}
+.container2{
+    width: 996px;
+    margin: 0 auto;
+}
+
+/*樣式*/
+.full-screen-block{
+    background-color: #415165;
+    color: white;
+    padding: 24px 0px 36px;
+}
+.text-left-border{
+    margin-left: 24px;
+    padding-left: 24px;
+    border-left: 1px solid #96A9C4;
+}
+.title{
+    border-bottom: 2px solid rgb(124, 124, 124);
+    padding-bottom: 8px;
+}
+.title2{
+    border-bottom: 1px solid #FFFFFF;
+    padding-bottom: 8px;
+    margin-bottom: 37px;
+    text-align: center;
+    width: 100%;
+}
+
+/*通用類別*/
+.df{
+    display: flex;
+}
+.fd-c{
+    flex-direction: column;
+}
+.ai-c{
+    align-items: center;
+}
+.jc-c{
+    justify-content: center;
+}
+.mb-1{
+    margin-bottom: 8px;
+}
+.mb-2{
+    margin-bottom: 16px;
+}
+.mb-3{
+    margin-bottom: 24px;
+}
+.mb-4{
+    margin-bottom: 32px;
+}
+.mb-6{
+    margin-bottom: 48px;
+}
+.mb-9{
+    margin-bottom: 72px;
+}
+.ml-2{
+    margin-left: 16px;
+}
+.ml-3{
+    margin-left: 24px;
+}
+.pl-3{
+    padding-left: 24px;
+}
+.c-red{
+    color: #A00404;
+}
+.fs-32{
+    font-size: 32px;
+}
+
+
+
+/*PROFILE區塊*/
+.profile h1{
+    font-size: 80px;
+    border-bottom: 2px solid rgb(0, 0, 0);
+    line-height: 1.2;
+    margin-top: 37px;
+}
+/*技能SKILLS區塊*/
+
+.skill ul{
+    width: 25%;
+    line-height: 2;
+    font-weight: 300;
+}
+
+/*工作經驗部分*/
+
+.exp li{
+    width: 55%;
+    margin-bottom: 24px;
+}
+
+.exp p{
+    font-size: 20px;
+}
+
+/*FOOTER部分*/
+
+.footer li{
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 300;
+}
+.footer a{
+    color: white;
+    cursor: pointer;
+}
+.footer img{
+    padding-left: 24px;
+}
+.footer a:hover{
+    text-decoration: underline;
+}
