@@ -53,15 +53,31 @@ This was a **personal project started during my university years** (Urban Planni
 
 Below are sample views of different pages from the site:
 
-- **Main Page (RWD on PC & mobile)**
+- **Main Page**
+<table>
+  <tr>
+    <td align="center"><b>PC View</b></td>
+    <td align="center"><b>Mobile View</b></td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="Mainpage(large).png" alt="Main Page Desktop" width="500"/></td>
+    <td><img src="Mainpage(mobile).png" alt="Main Page Mobile" width="200"/></td>
+  </tr>
+</table>
 
-<img src="Mainpage(large).png" alt="Main Page Desktop" width="64%" style="vertical-align: top;"/>
-<img src="Mainpage(mobile).png" alt="Main Page Mobile" width="35%" style="vertical-align: top;"/>
 
 - **Product List**
 
-<img src="Products(large).png" alt="Main Page Desktop" width="64%" style="vertical-align: top;"/>
-<img src="Products(mobile).png" alt="Main Page Mobile" width="35%" style="vertical-align: top;"/>
+<table>
+  <tr>
+    <td align="center"><b>PC View</b></td>
+    <td align="center"><b>Mobile View</b></td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="Products(large).png" alt="Product Page Desktop" width="500"/></td>
+    <td><img src="Products(mobile).png" alt="Product Page Mobile" width="200"/></td>
+  </tr>
+</table>
 
 - **Product Detail**
 
