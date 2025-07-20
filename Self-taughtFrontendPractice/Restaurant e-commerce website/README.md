@@ -32,15 +32,15 @@ This project focuses on building a modern restaurant website using **HTML5** and
 
 ### Mainpage width above 768px
 
-<img src="Mainpage(768px).png" alt="Mainpage View"/>
+<img src="Mainpage(768px).png" width=70% alt="Mainpage View"/>
 
 ### Mainpage width between 650px and 768px
 
-<img src="Mainpage(650px).png" alt="Mainpage View"/>
+<img src="Mainpage(650px).png" width=70% alt="Mainpage View"/>
 
 ### Mainpage width below 376px
 
-<img src="Mainpage(376px).png" alt="Mainpage View"/>
+<img src="Mainpage(376px).png" width=70% alt="Mainpage View"/>
 
 ---
 
