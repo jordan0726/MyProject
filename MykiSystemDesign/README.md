@@ -63,7 +63,7 @@ This project replicates the core logic of Myki for public transport, including:
 - See full schema and field details in: [`specification.pdf`](s4068959_Database%20Specifications.pdf)  
 
 **Entity-Relationship Diagram:**  
-![ER Diagram](MykiSystemDesign/ER_Diagram_s4068959.jpeg)
+![ER Diagram](ER_Diagram_s4068959.jpeg)
 
 ---
 
@@ -79,7 +79,7 @@ This project replicates the core logic of Myki for public transport, including:
   Deterministic—recreate via version-controlled SQL scripts (`.sql` files in this repo).
 
 **Physical Structure Diagram:**  
-![Physical Structure](MykiSystemDesign/PhysicalStructure.png)
+![Physical Structure](PhysicalStructure.png)
 
 ---
 
@@ -94,7 +94,7 @@ This project replicates the core logic of Myki for public transport, including:
 - All logic is described in the [specification, Appendix B](s4068959_Database%20Specifications.pdf).
 
 **Touch-On Process Flow:**  
-![Touch-On Process Diagram](MykiSystemDesign/TouchOnProcessDiagram.jpeg)
+![Touch-On Process Diagram](TouchOnProcessDiagram.jpeg)
 
 ---
 
