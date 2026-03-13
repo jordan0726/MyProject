@@ -1,0 +1,125 @@
+/* ============================================================
+ * Preview Page CSS Module
+ * Centralizes layout and responsive styles for Preview page.
+ * Keep component logic in TS; use classes for state variants.
+ * ============================================================
+ *
+ * NOTE: The rail is styled via a local class (.floatingActionsRail) to satisfy CSS Modules purity rules.
+ */
+
+/* --- Containers --- */
+.page { /* Main page container */
+  padding: 16px;
+}
+
+.wrapper { /* Content wrapper around image and actions */
+  max-width: min(420px, 95vw);
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* --- Error / Notice --- */
+.errorBox { /* Generic error box */
+  color: crimson;
+  margin-top: 8px;
+  padding: 12px;
+}
+
+/* --- Buttons --- */
+.btnRow { /* Horizontal row for action buttons */
+  display: flex;
+  gap: 20px;            /* spacing between buttons */
+  margin-top: 16px;     /* spacing from image area */
+  width: 100%;          /* lock to wrapper width */
+}
+
+.btn { /* Base button */
+  flex: 1 1 0;          /* 50/50 width in the row */
+  min-width: 0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnSecondary { /* Back button visual */
+  background: #fff;
+  color: #000;
+  border: 1px solid #d9d9d9;
+}
+
+.btnPrimary { /* Confirm button (enabled) */
+  background: #F1773B;
+  color: #fff;
+  border: none;
+}
+
+.btnPrimaryDisabled { /* Confirm button (disabled state) */
+  background: #bfbfbf;
+  color: #fff;
+  border: none;
+}
+
+.btnDisabled { /* Generic disabled look (add in addition to variant) */
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: grayscale(40%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.btnIcon { /* Icon container inside buttons */
+  display: inline-flex;
+}
+
+/* Hide icons on very small screens */
+@media (max-width: 420px) {
+  .btnIcon { display: none !important; }
+}
+
+/* --- Floating actions rail (portaled to body) --- */
+.floatingActionsRail {
+  position: fixed;
+  flex-direction: column;
+  gap: 10px;
+  width: auto;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* Desktop ≥768px: position beside preview; vertically centered */
+@media (min-width: 768px) {
+  .floatingActionsRail {
+    display: flex !important;
+    /* Reset mobile-first anchors */
+    bottom: auto;
+    right: auto;
+
+    /* Desktop position: vertically centered at the right side of the preview */
+    left: calc(50% + min(210px, 47.5vw) + 28px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+/* Mobile <768px: pin rail to bottom-right */
+@media (max-width: 767.98px) {
+  .floatingActionsRail {
+    display: flex !important;
+    bottom: 16px;   /* anchor to bottom edge */
+    right: 12px;    /* small padding from right edge */
+    left: auto;
+    top: auto;
+    transform: none;
+  }
+}
+
+/* --- Desktop/Mobile visibility toggles --- */
+.actionsDesktop { display: block; }
+.actionsMobile { display: none; }
+
+@media (max-width: 767.98px) {
+  .actionsDesktop { display: none; }
+  .actionsMobile { display: block; }
+}

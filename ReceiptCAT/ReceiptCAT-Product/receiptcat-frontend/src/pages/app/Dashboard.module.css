@@ -1,0 +1,95 @@
+/* src/pages/Dashboard.module.css */
+
+/* Inner container: limit max width and add horizontal padding on small screens */
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px; /* page gutter lives here */
+}
+
+/* ===== HERO (Greeting + Topline) ===== */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile: stacked */
+  gap: 12px;
+  margin: 8px 0 0;
+  align-items: end;
+}
+
+.greeting {
+  margin: 0; /* Let grid control spacing; avoid extra horizontal margins */
+  max-width: 100%; /* Do not shrink available width with calc(...) */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
+  /* removed: margin: 0px 30px; */ /* Avoid double gutters on small screens */
+}
+
+/* Topline layout */
+.topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 8px 0 0; /* removed asymmetric left/right margins */
+}
+
+/* Topline layout for Details page */
+.historyTopline {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.topLeft { display: flex; flex-direction: column; padding: 10px 10px 10px 0px; }
+.month { color: #F1773B; font-weight: 700; font-size: 24px;  line-height: 32px;}
+.total { color: #F1773B; font-weight: 400; font-size: 16px; line-height: 20px; }
+
+/* Right stats */
+.stats { display: flex; gap: 10px; margin-left: auto; }
+.statBox {
+  min-width: 84px;
+  padding: 8px 8px;
+  border-radius: 10px;
+  text-align: center;
+}
+.statValue { font-weight: 700; font-size: 22px; color: #676879; }
+.statLabel { font-size: 12px; font-weight: 400; color: #676869; }
+
+.divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 12px 0 6px; /* only vertical spacing */
+}
+
+/* ===== CARDS GRID (cards are laid out by <DashboardGrid>) =====
+   Keep this class only as a semantic wrapper; no layout styles here to avoid
+   fighting with DashboardGrid’s multi-column masonry. */
+.cards {
+  margin: 0;                 /* rely on container padding for horizontal gutters */
+}
+
+/* ===== Desktop breakpoint ===== */
+@media (min-width: 1024px) {
+  .container { padding: 0 24px; } /* slightly larger gutter on desktop */
+  .hero {
+    grid-template-columns: 1fr 1fr; /* greeting | topline side-by-side */
+    gap: 24px;
+    margin: 12px 0 0;
+  }
+  .divider { margin: 16px 0 8px; }
+  /* Card layout is handled by <DashboardGrid> at this breakpoint as well. */
+}
+
+/* ===== Narrow phones (extra tightening under ~420px) ===== */
+@media (max-width: 420px) {
+  .container { padding: 0 12px; }                  /* slightly smaller gutter */
+  .statBox { min-width: 72px; padding: 6px 6px; }  /* avoid overflow in stats row */
+  .month { font-size: 22px; line-height: 28px; }   /* tiny font tweak for fit */
+}

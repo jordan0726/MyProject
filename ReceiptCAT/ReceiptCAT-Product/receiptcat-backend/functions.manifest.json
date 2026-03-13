@@ -1,0 +1,23 @@
+{
+  "presign-upload": {
+    "entry": "src/lambda/presign-upload/index.ts"
+  },
+  "receiptExtractor": {
+    "entry": "src/lambda/receipt-extractor/index.ts"
+  },
+  "receiptCategorizer": {
+    "entry": "src/lambda/receipt-categorizer/index.ts"
+  },
+  "dashboard": {
+    "entry": "src/lambda/dashboard/index.ts"
+  },
+  "receipt-details": {
+    "entry": "src/lambda/receipt-details/index.ts"
+  },
+  "receipt-history": {
+    "entry": "src/lambda/receipt-history/index.ts"
+  },
+  "update-receipt": {
+    "entry": "src/lambda/update-receipt/index.ts"
+  }
+}

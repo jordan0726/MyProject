@@ -1,0 +1,43 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - printf "Installing dependencies for Build stage\n"
+      - npm ci --no-audit --no-fund
+
+  build:
+    commands:
+      - printf "Preparing build-time environment from SSM\n"
+      - set -e
+      - |
+        if [ -z "${STAGE:-}" ]; then
+          printf "STAGE env var is not set (expected dev|prod).\n";
+          exit 1;
+        fi
+      - PARAM_PREFIX="/receiptcat/${STAGE}/frontend/env"
+      - KEYS="NEXT_PUBLIC_OIDC_AUTHORITY NEXT_PUBLIC_COGNITO_DOMAIN NEXT_PUBLIC_COGNITO_CLIENT_ID NEXT_PUBLIC_OIDC_REDIRECT_URI NEXT_PUBLIC_POST_LOGOUT_URL NEXT_PUBLIC_API_BASE USER_POOL_ID CYPRESS_TEST_USERNAME CYPRESS_TEST_PASSWORD"
+      - rm -f .env.production
+      - |
+        for K in $KEYS; do
+          VAL=$(aws ssm get-parameter --name "${PARAM_PREFIX}/${K}" --with-decryption --query 'Parameter.Value' --output text);
+          if [ -z "$VAL" ] || [ "$VAL" = "None" ]; then
+            printf "Missing value for %s at %s/%s\n" "$K" "$PARAM_PREFIX" "$K";
+            exit 1;
+          fi
+          echo "${K}=${VAL}" >> .env.production;
+        done
+      - printf "Wrote $(wc -l < .env.production) entries to .env.production\n"
+      - printf "Building frontend\n"
+      - npm run build
+      - printf "Build complete. Static site is in ./out\n"
+
+artifacts:
+  base-directory: out
+  files:
+    - '**/*'
+  discard-paths: no
+  exclude-paths:
+    - node_modules/**/

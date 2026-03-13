@@ -1,0 +1,79 @@
+/* src/pages/app/History.module.css */
+
+/* Inner container: limit max width and add horizontal padding on small screens */
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px; /* page gutter lives here */
+}
+
+/* ===== HERO (Greeting + Topline) ===== */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile: stacked */
+  gap: 12px;
+  margin: 8px 0 0;
+  align-items: end;
+}
+.historyTopline {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 0;
+  margin: 8px 0 0;
+}
+
+.topLeft {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 10px 0px;
+}
+
+.total {
+  color: #F1773B;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.month {
+  color: #F1773B;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.stats {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.statBox {
+  min-width: 84px;
+  padding: 8px 8px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.statValue {
+  font-weight: 700;
+  font-size: 22px;
+  color: #676879;
+}
+
+.statLabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: #676869;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 12px 0 6px; /* only vertical spacing */
+}

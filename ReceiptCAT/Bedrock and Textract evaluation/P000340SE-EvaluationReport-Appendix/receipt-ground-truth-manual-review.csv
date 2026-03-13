@@ -1,0 +1,135 @@
+﻿Receipt ID,File name,Receipt Format,Phone Model,Image Quality of Photo,Receipt Condition in Photo,Angle of receipt in Photo,Vendor Name Printed in Receipt,Format of Vendor Name in Receipt,Vendor that Issued the Receipt,Vendor Type,Extracted Vendor Name,Does Extracted Vendor Name contain additional characters apart from the Original Vendor Name?,Extracted Date,Does the Extracted Date match the date in Receipt?,Date Printed in Receipt,Are Items Extracted?,No. of Unique Items in Receipt,Language used in Receipt?,Extracted Item Count
+6756129d-c358-4dc3-9414-c10c232527e6,receipt1_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Skewed,smiggle,Logo,Smiggle,Stationery & Office,smiggle,N,16-Apr-25,Y,Wed 16 Apr 2025,Y,3,English,3
+f2a3f0c6-6e61-4441-9cba-0947b23b9609,receipt1_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,NIKULAND,Text,Nikuland,Eating out & takeaway,NIKULAND,N,01 Aug. 2025,Y,Fri 01 Aug.2025,Y,2,English,2
+432343dc-df03-4fb9-81ad-bd2cb50635fb,receipt1_J.jpg,E-receipt,NA,NA,NA,NA,BIGW,Logo,BIGW,Department Store,BIGW,N,4/7/2025,N,7/4/2025,Y,2,English,2
+6df9f979-81b4-41ea-af1e-c0c34fdf2fb4,receipt1_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Skewed,metro,Logo,Woolworths Metro,Groceries,metro,N,22/8/2025,Y,22/8/2025,Y,1,English,1
+16a15894-edde-48b3-a6c2-7ba6dd956d26,receipt10_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Skewed,"MAD
+MEX",Logo,Mad Mex,Eating out & takeaway,MAD\nMEX,Y,16/8/2025,Y,16/8/2025,Y,1,English,1
+aa36ebb6-23bd-4522-864a-389992a1898d,receipt10_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,"NIKU
+SHIKI",Logo,Niku Shiki,Eating out & takeaway,NIKU\nSHIKI,Y,9/5/2025,N,5/9/2025,Y,1,English,1
+9becbfb2-0cb8-459e-b5a6-be6bf2912108,receipt10_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,7/4/2025,N,4/7/2025,Y,7,English,7
+9eac0a11-3bbb-4aed-89a3-83b89934b2fd,receipt10_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Skewed,IGA,Logo,IGA,Groceries,IGA,N,9/11/2025,N,11/9/2025,Y,6,English,6
+d882d965-33e6-40cb-be97-0e19056506ac,receipt11_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Crumpled,Skewed,"ALDI STORES
+LIMITED PARTNERSHIP",Text,Aldi,Groceries,ALDI STORES,N,25.03.25,Y,25.03.25,Y,2,English,2
+370ef667-1738-479f-8e54-19fa3743bf2e,receipt11_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Blurred,Flat,Skewed,Unknown,NA,Pepper Lunch,Eating out & takeaway,Unknown,NA,9/5/2025,N,5/9/2025,N,1,English,0
+9aee0161-6d7d-4646-aea6-91ca2c93b0f1,receipt11_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,8/6/2025,N,6/8/2025,Y,7,English,7
+90b29a92-7f01-44db-9b08-c1e96bb0b2db,receipt11_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Skewed,IGA,Logo,IGA,Groceries,IGA®,Y,"""SEP 10, 25""",Y,Wed 10/09/25,Y,2,English,2
+7305a5c7-25e2-4a7f-bd92-8edc2f2fc3cb,receipt12_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Levelled,coles,Text,Coles,Groceries,coles,N,30/8/2025,Y,30/8/2025,Y,22,English,22
+8d8f6117-77f6-4dac-a497-f10a299447e5,receipt12_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Blurred ,Flat,Skewed,Unknown,NA,Inasal Express,Eating out & takeaway,Unknown,NA,9/12/2025,N,Sep-06,Y,2,English,4
+8b06bd55-268e-4a17-bb74-eda88ade5900,receipt12_J.jpg,E-receipt,NA,NA,NA ,NA ,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,6/10/2025,N,10/6/2025,Y,4,English,4
+40f9d776-e281-4759-a891-aa2d92ff5daa,receipt12_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Folded,Skewed,IGA,Logo,IGA,Groceries,IGA,N,31-Aug-25,Y,31/8/2025,Y,3,English,3
+cafe00d0-fd85-4535-927a-4711e07062c7,receipt13_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Flat,Skewed,coles,Text,Coles,Groceries,coles,N,28/8/2025,Y,28/8/2025,Y,11,English,11
+359f13e5-95ff-44b4-bfba-33bfd126821b,receipt13_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,Unknown,NA,Omi,Eating out & takeaway,Unknown,NA,9/7/2025,N,7/9/2025,Y,3,English,3
+6d0d4f7e-952a-4798-bfe1-081a083082e4,receipt13_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,15/8/2025,Y,15/8/2025,Y,5,English,5
+be39a4b2-d644-4ae0-bf68-a52c3699f7de,receipt13_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Skewed,IGA,Logo,IGA,Groceries,IGA,N,30/8/2025,Y,30/8/2025,Y,4,English,4
+8259c230-217d-48e1-9a98-2e6f712c2919,receipt14_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Flat,Skewed,"Hu Food Fried Skewers
+MEL Central",Text,Hu Food Fried Skewers,Eating out & takeaway,Skewers\nFried\nFood\nHu\nCentral\nMEL,Y,28 Aug.2025,Y,Thu 28 Aug.2025,N,8,"English, Chinese",3
+a2bb0b7f-37dd-4326-bf81-1829e82f0225,receipt14_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,coles,Text,Coles,Groceries,coles,N,26/8/2025,Y,26/8/2025,Y,4,English,4
+fe715454-339e-48d4-ac3c-d4ff15ea7c5c,receipt14_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,16/7/2025,Y,16/7/2025,Y,7,English,7
+6659fb97-27e7-4af3-90b4-c4559936ef83,receipt14_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Skewed,"ALDI STORES
+A LIMITED PARTNERSHIP",Text,Aldi,Groceries,ALDI STORES,N,07.08.25,Y,07.08.25,Y,2,English,2
+2e16b238-a80a-46a0-b05d-58968c856662,receipt15_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Skewed,COTTON:ON,Text,Cotton On,Clothing & Footwear,COTTON: ON,N,12-May-25,Y,Mon 12 May 2025,N,5,English,4
+93414ad3-7039-4e3b-83b5-9edca2c82892,receipt15_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,Papion Bites,Text,Papion Bites,Eating out & takeaway,Papion Bites,N,9/2/2025,N,2/9/2025,N,2,English,5
+96dcb75b-43a9-4fac-b3c5-3ee7251ffbd0,receipt15_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,16/6/2025,Y,16/6/2025,Y,6,English,6
+31551e84-cb9b-41c2-9016-9ab6fa093d3b,receipt15_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Folded,Skewed,"ALDI STORES
+A LIMITED PARTNERSHIP",Text,Aldi,Groceries,ALDI STORES,N,20.08.25,Y,20.08.25,Y,2,English,2
+7dfad196-18de-4fab-aa1d-7244560ad7fb,receipt16_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2 ",Clear,Crumpled,Skewed,Terry White Chemmart Armstrong Creek,Text,Terry White Chemmart,Pharmacy,Terry White Chemmart Armstrong Creek,N,27/8/2025,Y,27/8/2025,Y,3,English,3
+27d05f53-8f0c-407b-86c1-b15aac451b7d,receipt16_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Levelled,MR ELBY PTY LTD,Text,Halaya,Eating out & takeaway,MR ELBY PTY LTD,N,30-Aug-25,Y,30-Aug-25,Y,2,English,2
+62df5f82-1204-4b93-b548-cae25ce39c45,receipt16_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,19/8/2025,Y,19/8/2025,N,4,English,5
+3b418522-56ce-46dc-850e-34da87e3835f,receipt16_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Skewed,"ALDI STORES
+A LIMITED PARTNERSHIP",Text,Aldi,Groceries,ALDI\nA STORES\nLIMITED\nPARTNERSHIP,Y,30.07.25,Y,30.07.25,N,2,English,1
+c142be24-b36f-4ab9-afa0-ea57065f6594,receipt17_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Skewed,"COSTCO
+WHOLESALE",Logo,Costco,Groceries,COSTCO\nWHOLESALE,Y,25/8/2025,Y,25/8/2025,Y,2,English,2
+df5b48b6-486c-4a14-b7b9-3b2352d848c7,receipt17_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Levelled,Balikbayan Groceries,Text,Balikbayan Groceries,Groceries,Balikbayan Groceries,N,"""August 30, 2025""",Y,"August 30, 2025",Y,6,English,6
+a20933f0-3e99-42e7-98b9-7e158b59c530,receipt17_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,25/7/2025 17:47,Y,25/7/2025,N,24,English,21
+6800d08f-57ab-498c-b00c-fe4f0b129801,receipt17_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Levelled,Kmart,Logo,Kmart,Department Store,KMART,N,7/6/2025,N,6/7/2025,Y,4,English,4
+f8778ecc-9c82-4373-bda0-0552d8f1f4d1,receipt18_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Blurred,Crumpled,Skewed,Unknown,NA,Kebab Connection,Eating out & takeaway,DoorDash,NA,"""Fri, Aug 29, 2126""",N,"Fri, Aug 29",Y,1,English,1
+a5e34b85-df97-4b20-a7f4-c9e4f69bb257,receipt18_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Blurred,Folded,Skewed,"PAULA'S CHOICE
+SKINCARE",Logo,Paula's Choice Skincare,Personal Care & Beauty,CHOICE\nPAULA'S\nSKINCARE,Y,9/12/2025,N,5/8/2025,Y,1,English,1
+d6738150-8672-46ee-aacf-cee6603ffbbd,receipt18_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,29/6/2025,Y,29/6/2025,Y,8,English,8
+7c80c0f0-8e53-492b-8dec-22c6998467b1,receipt18_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Folded,Skewed,"CHEMIST
+WAREHOUSE",Logo,Chemist Warehouse,Pharmacy,CHEMIST\nWV AREHOUSE,Y,25-Aug-25,Y,25-Aug-25,Y,3,English,3
+09854269-e8db-4dfb-8737-aae8189f5778,receipt19_C.jpg,E-receipt,NA,NA,NA,NA,Blacktown Tennis Academy,Text,Blacktown Tennis Academy,Sports & Fitness,Blacktown Tennis Academy,N,18/7/2025,Y,18/7/2025,Y,1,English,1
+a3cb377e-a09c-4565-b88c-adf67b55d851,receipt19_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Crumpled,Skewed,"CHEMIST
+WAREHOUSE",Logo,Chemist Warehouse,Pharmacy,CHEMIST\nWAREHOUSE,Y,25-Jun-25,Y,25-Jun-25,Y,2,English,2
+bc3a5320-e30b-4c9c-b07c-672896cf4d2e,receipt19_J.jpg,E-receipt,NA,NA,NA,NA,WOOLWORTHS GROUP LIMITED,Text,Woolworths,Groceries,Woolworths,Y,30/8/2025,Y,30/8/2025,Y,3,English,3
+0ca5d0ec-3961-4ced-960c-0267278ca40d,receipt19_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Skewed,Joy Market,Text,Joy Market,Groceries,Joy Market,N,9/1/2025,N,1/9/2025,Y,2,English,2
+afb944b2-35fe-4121-8746-3cd6221e7bd0,receipt2_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Skewed,SEPHORA MELBOURNE CENTRAL,Text,Sephora,Personal Care & Beauty,SEPHORA MELBOURNE CENTRAL,N,21/5/2025,Y,21/5/2025,Y,1,English,1
+0db3786c-7c5b-41f5-9175-faffe2a1d05d,receipt2_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,SEPHORA MELBOURNE CENTRAL,Text,Sephora,Personal Care & Beauty,SEPHORA MELBOURNE CENTRAL,N,27/7/2025,Y,27/7/2025,Y,3,English,3
+ead9ace1-c773-490a-9747-ff278b8d9be8,receipt2_J.jpg,E-receipt,NA,NA,NA,NA,BIGW,Logo,BIGW,Department Store,BIGW,N,4/11/2025,N,11/4/2025,Y,1,English,1
+581f5b8f-db41-4e4c-b5ce-22062848e6f1,receipt2_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Skewed,metro,Text,Woolworths Metro,Groceries,metro,N,22/8/2025,Y,22/8/2025,N,10,English,9
+7ef8aec5-4abc-4069-b664-c46afb8d8b8d,receipt20_C.jpg,E-receipt,NA,NA,NA,NA,Unknown,NA,Apple,Electronics & Tech,Unknown,N,2-Aug-25,Y,2-Aug-25,Y,1,English,1
+314c9d08-03d6-4126-bb4c-878aaa634b60,receipt20_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,SEPHORA MELBOURNE CENTRAL,Text,Sephora,Personal Care & Beauty,SEPHORA MELBOURNE CENTRAL,N,9/12/2025,N,NA,Y,3,English,3
+d6993253-d06c-4b65-9d9f-cb94f310f539,receipt20_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Folded,Skewed,Joy Market,Text,Joy Market,Groceries,Joy Market,N,27/8/2025,Y,27/8/2025,Y,2,English,2
+a612ee6e-555f-48df-85a0-24f3e5d1626b,receipt21_C.jpg,E-receipt,NA,NA,NA,NA,Unknown,NA,Harvey Norman Photo Centre Online,Stationery & Office,Unknown,NA,9/12/2025,N,10-Aug-25,Y,2,English,2
+e0006d00-6604-4ac0-8ebd-4192ea95aadb,receipt21_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,Stalactites Restaurant,Text,Stalactites Restaurant,Eating out & takeaway,Stalactites Restaurant,N,16/7/2025,Y,16/7/2025,Y,4,English,4
+5fc2513c-38c0-43e0-af23-0d4d4d39d49b,receipt21_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Folded,Skewed,Desi Dhaba,Text,Desi Dhaba,Eating out & takeaway,Desi Dhaba,N,9/8/2025,N,8/9/2025,Y,6,English,6
+6f82ed8b-5e72-48b9-846d-3a8b88c02564,receipt22_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,KOI Dessert Bar Melbourne,Text,KOI Dessert Bar Melbourne,Eating out & takeaway,KOI Dessert Bar Melbourne,N,15-Jul-25,Y,15-Jul-25,Y,4,English,4
+2cd433db-816f-4986-a187-92b132dc6ebf,receipt22_J.png,E-receipt,NA,NA,NA,NA,"Aussie
+Broadband",Text,Aussie Broadband,Utilities & Bills,Aussie\nBroadband,Y,9/12/2025,N,16-Aug-25,N,NA,English,0
+6721c2ce-e025-439d-b18e-27d93be9116b,receipt22_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Folded,Skewed,MIGUELITOS ICE CREAM,Logo,Miguelitos Ice Cream,Eating out & takeaway,NOUELITOS\nICE CREAM,Y,"""Aug 20, 2025""",Y,"Aug 20, 2025",N,3,English,2
+3c0dcbd3-0b2d-478c-993c-25ff42fd5753,receipt23_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,SEPHORA MELBOURNE CENTRAL,Text,Sephora,Personal Care & Beauty,SEPHORA MELBOURNE CENTRAL,N,18/8/2025,Y,18/8/2025,Y,1,English,1
+bb0e932b-07b4-4d2c-a7b4-c3c93832208e,receipt23_J.png,E-receipt,NA,NA,NA,NA,"Aussie
+Broadband",Text,Aussie Broadband,Utilities & Bills,Aussie\nBroadband,Y,16-Jul-25,Y,16-Jul-25,N,NA,English,0
+654671ec-897f-4a87-ac3d-a4d151da83b0,receipt23_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Flat,Levelled,SARAVANAA BHAVAN MELBOURNE,Text,Saravanaa Bhavan Melbourne,Eating out & takeaway,SARAVANAA BHAVAN MELBOURNE,N,9/12/2025,N,25/8/2025,Y,2,English,2
+63cd021d-6c56-4caf-aa1f-c2ded47f1f87,receipt24_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Flat,Skewed,SOT,Text,SOT,Eating out & takeaway,SOT,N,2025\n25 August,Y,25-Aug-25,Y,3,English,3
+df81d080-a72d-45eb-8825-b51002a681a2,receipt24_J.png,E-receipt,NA,NA,NA,NA,"Aussie
+Broadband",Text,Aussie Broadband,Utilities & Bills,Aussie\nBroadband,Y,16-Jun-25,N,20-Jun-25,N,1,English,0
+b8d5d1a6-33c3-4157-aa4b-eef318b6421c,receipt24_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Blurred,Flat,Levelled,Unknown,NA,Dominos,Eating out & takeaway,SHREYA,NA,23/8/2025,Y,8/23/2025,Y,4,English,4
+3bcf2485-21cd-4696-8a7b-a8e9209a6437,receipt25_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,"Shop LTL 255, QV Centre",Text,San Churro,Eating out & takeaway,Unknown,NA,29/8/2025,Y,29/8/2025,Y,4,English,1
+fa794033-216a-436f-b0ab-950b2464825a,receipt25_J.png,E-receipt,NA,NA,NA,NA,"Everyday Mobile
+from Woolworths",Text,Everyday Mobile from Woolworths,Utilities & Bills,everyday mobile,N,21-Aug-25,Y,Thu 21 Aug 2025,N,1,English,0
+82ef7c71-d131-4f16-97d6-79efa23cd78b,receipt25_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Flat,Levelled,Grill'd,Logo,Grill'd,Eating out & takeaway,Grill'd,N,9/9/2025,Y,9/9/2025,Y,2,English,2
+b2060080-e956-4b33-bf57-62bfc107293a,receipt26_G.png,Physical,"Google Pixel 7 Pro, Android version 16",Blurred,Flat,Skewed,MR ELBY PTY LTD,Text,Halaya,Eating out & takeaway,MR ELBY PTY LTD,N,30-Aug-25,Y,30-Aug-25,Y,3,English,3
+5fd08b5a-4b36-4d63-8c9e-8ead0fe6672f,receipt26_J.png,E-receipt,NA,NA,NA,NA,HungryPanda,Text,Hungry Panda,Eating out & takeaway,HungryPanda,N,21-Aug-25,Y,Thu 21 Aug 2025,N,1,English,0
+e877ce34-11e4-43f6-8d37-c3a672fccc52,receipt26_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Blurred,Crumpled,Skewed,Brunetti Oro Flinders Lane,Text,Brunetti Oro,Eating out & takeaway,Brunetti,N,15-Aug-25,Y,15-Aug-25,Y,1,English,1
+5be57a0a-be48-440d-9081-c4274d3342c3,receipt27_G.png,Physical,"Google Pixel 7 Pro, Android version 16",Blurred,Flat,Skewed,MR ELBY PTY LTD,Text,Halaya,Eating out & takeaway,MR ELBY PTY LTD,N,30-Aug-25,Y,30-Aug-25,Y,2,English,2
+0635cbbe-33df-4cd4-978a-7efc8c478461,receipt27_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Flat,Levelled,"Bath&Body
+Works",Text,Bath&Body Works,Personal Care & Beauty,Bath&Body\nWorks,Y,9/3/2025,Y,3/9/2025,Y,1,English,1
+0d397f9f-f930-445e-9386-2414aa186fd3,receipt28_G.png,E-receipt,NA,NA,NA,NA,Miyama Melbourne,Text,Miyama Melbourne,Eating out & takeaway,Miyama Melbourne,N,9/12/2025,N,29th Jul 2025,Y,3,English,4
+d1b522c3-a81b-4596-b255-c589f464eb6b,receipt28_J.png,E-receipt,NA,NA,NA,NA,Woolworths,Logo,Woolworths,Gifts & Occasions,Woolworths,N,28-Jul-25,Y,Mon 28 Jul 2025,N,1,English,0
+b36cc053-cae4-49da-b78a-4100f1367b97,receipt28_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Blurred,Crumpled,Levelled,"Chemist Warehouse Melbourne Midtowi, Plaza",Text,Chemist Warehouse,Pharmacy,CHEMIST\nWAREHOUSE,Y,6-Sep-25,Y,6-Sep-25,Y,2,English,2
+a8be2a74-ccc0-4a83-82ee-9686b6df7ee6,receipt29_G.png,E-receipt,NA,NA,NA,NA,"Puffing Billy Railway, Australia's favourite steam train",Text,Puffing Billy Railway,Travel & Holidays,"""Puffing Billy Railway,""",Y,9/12/2025,N,5-Jun-25,N,1,English,0
+25a9fbf6-ce81-4025-be78-6ae9fc5e2d5d,receipt29_J.jpg,E-receipt,NA,NA,NA,NA,Medical Hub RMIT,Text,Medical Hub RMIT,Professional Services,Medical Hub RMIT,N,10/10/2024,Y,10/10/2024,Y,1,English,1
+a049c2fa-d355-4ac7-90e0-1879f1d7b6ee,receipt29_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Levelled,metro,Logo,Woolworths Metro,Groceries,metro,N,9/7/2025,Y,7/9/2025,Y,5,English,5
+7277b1a5-b92a-4fe3-9e74-c7784e90643d,receipt3_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Blurred,Folded,Levelled,I AM Boutique,Text,I AM Boutique,Gifts & Occasions,-,NA,29/8/2025,Y,29/8/2025,Y,1,English,1
+f31fd718-4215-4793-8f1b-f7d85387a065,receipt3_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,Locale Coffee Roasters,Text,Locale Coffee Roasters,Eating out & takeaway,Locale Coffee Roasters,N,"""July 5, 2025""",Y,"July 5, 2025",Y,2,English,2
+aa38aaa4-746d-4a50-a223-26f9451160b6,receipt3_J.jpg,E-receipt,NA,NA,NA,NA,BIGW,Logo,BIGW,Home & Cleaning,BIGW,Y,13/5/2025,Y,13/5/2025,Y,1,English,1
+5d1edd25-27eb-4638-9f97-bf6126d85206,receipt3_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Levelled,metro,Logo,Woolworths Metro,Groceries,metro,N,9/9/2025,Y,9/9/2025,Y,3,English,3
+1cd61b17-ed1a-4de3-8b38-ff5ab8e65da4,receipt30_G.png,E-receipt,NA,NA,NA,NA,Bilue Pty Ltd,Text,Bilue,Professional Services,Bilue Pty Ltd,N,"""Aug 1st, 2025.""",Y,1/8/2025,N,1,English,0
+16e9eb65-553a-4adf-a5c9-f7398470de57,receipt30_J.jpg,E-receipt,NA,NA,NA,NA,Medical Hub RMIT,Text,Medical Hub RMIT,Professional Services,Medical Hub RMIT,N,16/10/2024,Y,16/10/2024,Y,1,English,1
+bc91b367-1a39-4859-b06f-035e5995f278,receipt30_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Levelled,metro,Logo,Woolworths Metro,Groceries,metro,N,9/6/2025,Y,6/9/2025,Y,2,English,2
+4d4e48a2-9a7a-4fd0-825f-8d0f6756f96c,receipt31_G.png,E-receipt,NA,NA,NA,NA,scape,Logo,scape,Utilities & Bills,scape\nStudent Living,Y,9/12/2025,N,9-Sep-25,N,1,English,0
+9867bb8d-0710-4f1b-9997-f830cdd9066c,receipt31_J.jpg,E-receipt,NA,NA,NA,NA,Medical Hub RMIT,Text,Medical Hub RMIT,Professional Services,Medical Hub RMIT,N,18/3/2025,Y,18/3/2025,Y,2,English,2
+8f29da3d-e72e-4423-b5b7-8dbbc80cf731,receipt31_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Flat,Levelled,metro,Logo,Woolworths Metro,Groceries,metro,N,9/5/2025,Y,5/9/2025,Y,6,English,6
+8d3da230-1259-4343-9d41-de1b365fbda4,receipt32_J.jpg,E-receipt,NA,NA,NA,NA,Medical Hub RMIT,Text,Medical Hub RMIT,Professional Services,Medical Hub RMIT,N,5/8/2025,Y,8/5/2025,Y,1,English,1
+d8c5296c-9f82-4b72-8b57-35ee90c6e5ae,receipt32_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Flat,Levelled,coles,Logo,Coles,Groceries,coles,N,9/5/2025,Y,5/9/2025,Y,7,English,7
+f98d10a9-a008-4160-b6c6-cead0f6fcf7b,receipt33_J.jpg,E-receipt,NA,NA,NA,NA,Medical Hub RMIT,Text,Medical Hub RMIT,Professional Services,Medical Hub RMIT,N,8/11/2025,Y,11/8/2025,Y,1,English,1
+b440722d-fb04-48cf-9457-d9cfb331ab17,receipt33_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Levelled,metro,Logo,Woolworths Metro,Groceries,metro,N,19/8/2025,Y,19/8/2025,Y,2,English,2
+e7278281-5e07-48ed-ac1b-350cc3e2300d,receipt34_J.jpg,E-receipt,NA,NA,NA,NA,Medical Hub RMIT,Text,Medical Hub RMIT,Professional Services,Medical Hub RMIT,N,8/11/2025,Y,11/8/2025,Y,1,English,1
+ecfdbbe3-75c2-4f2e-8d53-0374fedf5aa9,receipt35_J.jpg,E-receipt,NA,NA,NA,NA,Woolworths Online,Text,Woolworths,Groceries,Woolworths Online,N,11-Jun-25,Y,11-Jun-25,Y,13,English,13
+3b22b8db-f7bb-47e8-b237-1f414387e6eb,receipt36_J.jpg,E-receipt,NA,NA,NA,NA,Woolworths Online,Text,Woolworths,Groceries,Woolworths Group,N,14-May-25,Y,14-May-25,Y,9,English,9
+a889daf9-dbb6-4986-a7fb-64a682175e90,receipt4_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Levelled,Jay Jays,Logo,Jay Jays,Clothing & Footwear,Jay\nJays,Y,12-May-25,Y,12-May-25,Y,1,English,1
+e26439db-9816-462f-8742-614318bcbee0,receipt4_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,Snow Monkey Ramen,Text,Snow Monkey Ramen,Eating out & takeaway,Snow Monkey Ramen,N,20/6/2025,Y,20/6/2025,Y,5,English,5
+cb822596-f54d-4f44-bbf2-de748897432a,receipt4_J.jpg,E-receipt,NA,NA,NA,NA,BIGW,Logo,BIGW,Department Store,BIGW,N,13/5/2025,Y,13/5/2025,Y,1,English,1
+cbd57a5e-beac-4ede-8d0c-d31d15671079,receipt4_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Levelled,metro,Logo,Woolworths Metro,Groceries,metro,N,21/8/2025,Y,21/8/2025,Y,1,English,1
+443979fe-6ebf-4177-b0a3-77eb0facd0ac,receipt5_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Crumpled,Levelled,woolworths,Text,Woolworths,Groceries,woolworths,N,27/2/2025,Y,27/2/2025,Y,11,English,11
+60e14017-1d90-4578-8f4e-d070a4fbcd2a,receipt5_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,IKEA,Logo,IKEA,Home & Cleaning,R\nIKEA,Y,24/6/2025,Y,24/6/2025,Y,3,English,3
+b6772e11-99d5-4102-a85e-45d36d0d4dbe,receipt5_J.jpg,E-receipt,NA,NA,NA,NA,Unknown,Logo,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,8/12/2025,Y,12/8/2025,Y,4,English,4
+6e38d556-b1be-4118-a40f-c8e36345043d,receipt5_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Blurred,Crumpled,Levelled,metro,Logo,Woolworths Metro,Groceries,metro,N,30/8/2025,Y,30/8/2025,Y,4,English,4
+dd5d184c-d5d6-49e7-8db3-58f17c6b0ade,receipt6_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Skewed,Chemist Warehouse Spencer Outlet Centre,Logo,Chemist Warehouse,Pharmacy,CHEMIST\nW A R HOUSE,Y,21-Aug-25,Y,21-Aug-25,Y,1,English,1
+8ffb2ea8-2265-4e5b-b67e-6927d58e2902,receipt6_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Folded,Skewed,JB HIFI,Logo,JB HIFI,Electronics & Tech,JBHI-FI,N,4/7/2025,Y,7/4/2025,Y,1,English,1
+227f4f88-c699-4a7d-b163-d23cf3766580,receipt6_J.jpg,E-receipt,NA,NA,NA,NA,Unknown,Logo,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,19/6/2025,Y,19/6/2025,Y,6,English,6
+0e667d21-ac60-4dee-8904-2ba7b2ea196b,receipt6_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Flat,Levelled,metro,Logo,Woolworths Metro,Groceries,metro,N,9/11/2025,Y,11/9/2025,Y,2,English,2
+a5eb9b11-beb9-4054-a44c-8d5b5861240d,receipt7_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Blurred,Folded,Skewed,Subway#29334-0,Text,Subway,Eating out & takeaway,Unknown,NA,4/10/2025,Y,10/4/2025,Y,3,English,3
+1621bc0e-aa6b-46dc-97ea-52b834cfef2a,receipt7_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Blurred,Flat,Skewed,TGI Fridays Melbourne,Text,TGI Fridays,Eating out & takeaway,TGI Fridays Melbourne,N,26/8/2025,Y,26/8/2025,Y,4,English,4
+64619608-7cec-4c1f-8388-0638691bfa74,receipt7_J.jpg,E-receipt,NA,NA,NA,NA,Unknown,Logo,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,27/7/2025,Y,27/7/2025,Y,5,English,5
+90d54da0-ff1f-4fef-af65-07f2249d85d8,receipt7_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Clear,Crumpled,Levelled,coles,Logo,Coles,Groceries,coles,N,14/8/2025,Y,14/8/2025,Y,2,English,2
+f46d282d-9e2a-4101-881a-ce9120b84e9b,receipt8_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Folded,Skewed,BIGW,Logo,BIGW,Department Store,BIGW,N,20/5/2025,Y,20/5/2025,Y,3,English,3
+1fabc5a7-421c-4649-8065-29ca47fc3da4,receipt8_G.png,E-receipt,NA,NA,NA,NA,Kare,Text,Kare,Eating out & takeaway,THE\nVictoria\nS,Y,"""05/07/2025,""",Y,5/7/2025,Y,3,English,3
+7e6bc934-c40e-4612-bb4c-58449e723749,receipt8_J.jpg,E-receipt,NA,NA,NA,NA,Unknown,Logo,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,29/7/2025,Y,29/7/2025,Y,2,English,2
+1a06aef5-73ed-4468-bac7-8212192c0a90,receipt8_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Blurred,Crumpled,Levelled,coles,Logo,Coles,Groceries,coles,N,26/8/2025,Y,26/8/2025,Y,1,English,1
+862ce901-6b8f-4696-843f-8e62f5107f28,receipt9_C.jpg,Physical,"iPhone 13 Pro, iOS version 18.6.2",Clear,Flat,Levelled,Typo,Logo,Typo,Stationery & Office,Typo,N,12-May-25,Y,Mon 12 May 2025,Y,1,English,1
+1c0480d4-d351-4631-a488-dd91960edbbf,receipt9_G.jpg,Physical,"Google Pixel 7 Pro, Android version 16",Clear,Flat,Skewed,LUPICIA Fresh Tea,Text,LUPICIA Fresh Tea,Eating out & takeaway,Australia Pty Ltd.\nL'Epicier,Y,9/9/2025,Y,9/9/2025,Y,1,English,1
+ed2c29bb-fab9-4b32-9aaf-ffb7500d6443,receipt9_J.jpg,E-receipt,NA,NA,NA,NA,Unknown,Logo,Woolworths,Groceries,WOOLWORTHS GROUP LIMITED,N,30/7/2025,Y,30/7/2025,Y,2,English,2
+eff7ef5f-156d-4394-8f71-890a844742b8,receipt9_S.jpg,Physical,"Samsung Galaxy A52, Android version 14",Blurred,Flat,Levelled,coles,Logo,Coles,Groceries,coles,N,20/8/2025,Y,20/8/2025,Y,1,English,1

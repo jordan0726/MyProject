@@ -1,0 +1,22 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "Installing dependencies..."
+      - npm ci --no-audit --no-fund
+
+  build:
+    commands:
+      - echo "Building backend..."
+      - npm run build
+      - echo "Build complete."
+
+artifacts:
+  files:
+    - dist/**/*
+    - package.json
+    - package-lock.json
+  exclude-paths:
+    - node_modules/**/*

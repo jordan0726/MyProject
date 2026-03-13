@@ -1,0 +1,39 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "Installing dependencies..."
+      - npm ci --no-audit --no-fund
+
+  build:
+    commands:
+      - echo "Building Lambdas..."
+      - node scripts/build-lambdas.mjs
+      - node scripts/zip-lambdas.cjs
+
+  post_build:
+    commands:
+      - |
+        echo "Validating target Lambda functions exist..."
+        for ZIP in out/*.zip; do
+          NAME=$(basename "$ZIP" .zip)
+          aws lambda get-function --function-name "$NAME" >/dev/null || {
+            echo "ERROR: Target Lambda not found: $NAME"
+            exit 2
+          }
+        done
+
+        echo "Deploying Lambda zips..."
+        for ZIP in out/*.zip; do
+          NAME=$(basename "$ZIP" .zip);
+          echo "Deploying $NAME from $ZIP";
+          aws lambda update-function-code --function-name "$NAME" --zip-file "fileb://$ZIP" --publish;
+        done
+        echo "Done Deploying Lambda zips."
+
+artifacts:
+  files:
+    - out/**/*.zip

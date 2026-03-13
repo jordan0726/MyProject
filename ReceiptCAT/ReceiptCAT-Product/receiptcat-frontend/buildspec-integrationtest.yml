@@ -1,0 +1,58 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - printf "Installing dependencies for Integration Test stage\n"
+      - npm ci
+      - npx cypress install
+      - sed -i 's|http://archive.ubuntu.com/ubuntu|http://mirror.aarnet.edu.au/ubuntu|g' /etc/apt/sources.list
+      - apt-get update
+      - apt-get install -y bc jq
+
+  build:
+    build:
+    commands:
+      - |
+        set -eu
+        ( set -o pipefail ) 2>/dev/null && set -o pipefail || true
+
+        printf "Running Cypress tests\n" | tee cypress_test_results.txt
+        printf "Rebuilding static export for e2e tests\n" | tee -a cypress_test_results.txt
+        ( npm run build 2>&1 ) | tee -a cypress_test_results.txt
+
+        printf "Static export generated. Running tests\n" | tee -a cypress_test_results.txt
+
+        bash -o pipefail -c 'npm run test:e2e:summary 2>&1 | tee -a cypress_test_results.txt'
+        echo $? > /tmp/e2e_exit_code
+
+        printf "Collecting metadata for report upload...\n" | tee -a cypress_test_results.txt
+        printf "Environment: %s\n" "${ENVIRONMENT:-unknown}" | tee -a cypress_test_results.txt       
+  
+  post_build:
+    commands:
+      - |
+        COMMIT_ID="${CODEBUILD_RESOLVED_SOURCE_VERSION:-unknown}"
+        TS="$(date -u +%Y-%m-%dT%H-%M-%SZ)"
+        printf "Commit: %s @ %s\n" "$COMMIT_ID" "$TS" | tee -a cypress_test_results.txt
+        SHORT_SHA="$(printf '%.7s' "$COMMIT_ID")"
+        DEST="s3://${REPORTS_BUCKET}/${REPORTS_PREFIX}/${TS}-${SHORT_SHA}/"
+        
+        printf "Uploading test results to S3 bucket\n" | tee -a cypress_test_results.txt
+        aws s3 cp "cypress_test_results.txt" "${DEST}cypress_test_results.txt" || true
+
+        E2E_EXIT="$(cat /tmp/e2e_exit_code 2>/dev/null || echo 0)"
+        exit "$E2E_EXIT"
+
+reports:
+  jest-junit:
+    files:
+      - reports/junit/junit.xml
+    file-format: JUNITXML
+
+artifacts:
+  files:
+    - coverage/**/*
+    - reports/**/*

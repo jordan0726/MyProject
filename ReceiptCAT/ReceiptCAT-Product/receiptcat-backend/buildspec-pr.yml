@@ -1,0 +1,124 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "Installing dependencies..."
+      - npm ci
+      - sed -i 's|http://archive.ubuntu.com/ubuntu|http://mirror.aarnet.edu.au/ubuntu|g' /etc/apt/sources.list
+      - apt-get update
+      - apt-get install -y bc jq
+
+  pre_build:
+    commands:
+      - |
+        echo "PR context: PR_ID=${PR_ID} SRC_REF=${SRC_REF} DST_REF=${DST_REF}"
+
+        # Derive a slug from source ref (e.g., refs/heads/feature/xyz -> feature-xyz)
+        BRANCH_SLUG="${SRC_REF#refs/heads/}"
+        BRANCH_SLUG="$(printf '%s' "$BRANCH_SLUG" | sed 's|/|-|g')"
+        export BRANCH_SLUG
+        
+        # Check out the PR merge ref to test exactly what would be merged
+        if [ -n "${PR_ID}" ]; then
+          MERGE_REF="refs/pull-request/${PR_ID}/merge"
+          echo "Fetching merge ref: ${MERGE_REF}"
+          git fetch origin "${MERGE_REF}"
+          git checkout FETCH_HEAD
+        else
+          echo "PR_ID is empty; falling back to current HEAD"
+        fi
+
+  build:
+    commands:
+      - |
+        echo "Building..."
+        npm run build
+
+        echo "Running Jest with coverage..."
+        npm run test:ci
+
+        echo "Collecting metadata for report upload..."
+        echo "Environment: $ENVIRONMENT"
+        export COMMIT_ID="${CODEBUILD_RESOLVED_SOURCE_VERSION:-unknown}"
+        export TS="$(date -u +%Y-%m-%dT%H-%M-%SZ)"
+
+        echo "Commit: $COMMIT_ID @ $TS"
+        SHORT_SHA="$(printf '%.7s' "$COMMIT_ID")"
+        export DEST="s3://${REPORTS_BUCKET}/${REPORTS_PREFIX}/pr-${PR_ID}-${BRANCH_SLUG}/${TS}-${SHORT_SHA}/"
+
+  post_build:
+    commands:
+      - |
+        echo "Determining repository name from git origin..."
+        REPO_URL=$(git config --get remote.origin.url)
+        # Extract repo name from common URL forms, preferring CodeCommit /v1/repos/<name>
+        REPO_NAME=$(printf '%s' "$REPO_URL" | sed -E 's#^.*/v1/repos/([^/]+)(\.git)?$#\1#;t; s#^.*/([^/]+)(\.git)?$#\1#')
+        [ -n "$REPO_NAME" ] || REPO_NAME="unknown-repo"
+        echo "Repository name: $REPO_NAME"
+
+        COVERAGE_MIN=${COVERAGE_MIN:-85}
+        COVERAGE=0
+
+        if [ -f "coverage/coverage-summary.json" ]; then
+          echo "Parsing coverage-summary.json for coverage percentage..."
+          COVERAGE=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+        else
+          echo "No coverage report found, defaulting coverage to 0"
+          COVERAGE=0
+        fi
+
+        COVERAGE_INT=${COVERAGE%.*}
+        PASS=0
+        if (( $(echo "$COVERAGE >= $COVERAGE_MIN" | bc -l) )); then
+          PASS=1
+        fi
+
+        echo "Coverage: $COVERAGE% (Minimum required: $COVERAGE_MIN%)"
+        echo "PASS=$PASS"
+
+        echo "Posting PR comment to CodeCommit..."
+        COMMENT_BODY="Coverage report for branch '${BRANCH_SLUG}':\n- Coverage: ${COVERAGE}%\n- Minimum threshold: ${COVERAGE_MIN}%\n- Result: $( [ $PASS -eq 1 ] && echo 'PASS' || echo 'FAIL' )\n- Artifacts path: ${DEST}"
+
+        aws codecommit post-comment-for-pull-request \
+          --pull-request-id "${PR_ID}" \
+          --repository-name "${REPO_NAME}" \
+          --before-commit-id "${COMMIT_ID}" \
+          --after-commit-id "${COMMIT_ID}" \
+          --content "$COMMENT_BODY" || echo "Failed to post PR comment"
+
+        echo "Uploading test artifacts to ${DEST}"
+        # Always upload JUnit
+        aws s3 cp reports/junit/junit.xml "${DEST}junit.xml" || true
+
+        # Upload coverage-final.json if present
+        if [ -f "coverage/coverage-final.json" ]; then
+          aws s3 cp coverage/coverage-final.json "${DEST}coverage-final.json" || true
+        fi
+
+        # Upload LCOV
+        aws s3 cp coverage/lcov.info "${DEST}lcov.info" || true
+
+        # Upload HTML coverage if present (requires 'html' reporter)
+        if [ -d "coverage/lcov-report" ]; then
+          aws s3 sync coverage/lcov-report "${DEST}coverage-html" --delete
+        fi
+        echo "Done."
+
+        if [ "$PASS" -eq 0 ]; then
+          echo "Coverage check failed. Exiting with error."
+          exit 1
+        fi
+
+reports:
+  jest-junit:
+    files:
+      - reports/junit/junit.xml
+    file-format: JUNITXML
+
+artifacts:
+  files:
+    - coverage/**/*
+    - reports/**/*

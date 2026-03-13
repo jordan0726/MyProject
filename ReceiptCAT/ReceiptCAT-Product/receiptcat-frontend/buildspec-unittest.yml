@@ -1,0 +1,95 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - printf "Installing dependencies for Unit Test stage\n"
+      - npm ci
+      - sed -i 's|http://archive.ubuntu.com/ubuntu|http://mirror.aarnet.edu.au/ubuntu|g' /etc/apt/sources.list
+      - apt-get update
+      - apt-get install -y bc jq
+
+  build:
+    commands:
+      - |
+        printf "Running Jest with coverage...\n"
+        npm run test:ci
+
+        printf "Collecting metadata for report upload...\n"
+        printf "Environment: %s\n" "$ENVIRONMENT"
+        export COMMIT_ID="${CODEBUILD_RESOLVED_SOURCE_VERSION:-unknown}"
+        export TS="$(date -u +%Y-%m-%dT%H-%M-%SZ)"
+        printf "Commit: %s @ %s\n" "$COMMIT_ID" "$TS"
+        SHORT_SHA="$(printf '%.7s' "$COMMIT_ID")"
+        export DEST="s3://${REPORTS_BUCKET}/${REPORTS_PREFIX}/${TS}-${SHORT_SHA}/"
+  
+  post_build:
+    commands:
+      - |
+        SUMMARY=$(cat coverage/coverage-summary.json)
+        COVERAGE_FAILED=0
+
+        # function to check coverage
+        check_coverage() {
+          local metric=$1
+          local percent=$(echo "$SUMMARY" | jq ".total[\"$metric\"].pct")
+          local threshold=$2
+          local soft_check=$3
+          local result=$(echo "$percent < $threshold" | bc -l)
+
+          if [ "$result" -eq 1 ]; then
+            if [ "$soft_check" = "true" ]; then
+              printf "[WARN] %s coverage below %s%% (actual: %s%%)\n" "$metric" "$threshold" "$percent"
+            else
+              printf "[ERROR] %s coverage below %s%% (actual: %s%%)\n" "$metric" "$threshold" "$percent"
+              COVERAGE_FAILED=1
+            fi
+          else
+            printf "[OK] %s coverage: %s%%\n" "$metric" "$percent"
+          fi
+        }
+
+        printf "Running Test Coverage on %s: enforcing %s%%+ coverage\n" "$ENVIRONMENT" "$COVERAGE_MIN"
+        for metric in branches functions lines statements; do
+          check_coverage "$metric" $COVERAGE_MIN false
+        done
+
+        if [ "$COVERAGE_FAILED" -eq 1 ]; then
+          printf "Coverage check FAILED: one or more metrics are below %s%%\n" "$COVERAGE_MIN"
+        else
+          printf "Coverage check PASSED: all metrics are >= %s%%\n" "$COVERAGE_MIN"
+        fi
+        printf "Done Test Coverage on %s.\n\n" "$ENVIRONMENT"
+
+        printf "Uploading test artifacts to %s\n" "$DEST"
+        # Always upload JUnit
+        aws s3 cp reports/junit/junit.xml "${DEST}junit.xml" || true
+
+        # Upload coverage-final.json if present
+        if [ -f "coverage/coverage-final.json" ]; then
+          aws s3 cp coverage/coverage-final.json "${DEST}coverage-final.json" || true
+        fi
+
+        # Upload LCOV
+        aws s3 cp coverage/lcov.info "${DEST}lcov.info" || true
+
+        # Upload HTML coverage if present (requires 'html' reporter)
+        if [ -d "coverage/lcov-report" ]; then
+          aws s3 sync coverage/lcov-report "${DEST}coverage-html" --delete
+        fi
+        printf "Uploading Unit Test Reports Done.\n"
+
+        if [ "$COVERAGE_FAILED" -eq 1 ]; then exit 1; fi
+
+reports:
+  jest-junit:
+    files:
+      - reports/junit/junit.xml
+    file-format: JUNITXML
+
+artifacts:
+  files:
+    - coverage/**/*
+    - reports/**/*

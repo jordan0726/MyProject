@@ -1,0 +1,48 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - |
+        if [ -z "${SITE_BUCKET:-}" ] || [ -z "${DISTRIBUTION_ID:-}" ]; then
+          printf "Missing SITE_BUCKET or DISTRIBUTION_ID\n"; 
+          exit 1;
+        fi
+        export DEST="s3://$SITE_BUCKET/"
+        export SOURCE_DIRECTORY="$CODEBUILD_SRC_DIR_BuildOut"
+        printf "Deploying from: $SOURCE_DIRECTORY\n"
+        printf "S3 bucket:      $SITE_BUCKET\n"
+        printf "CloudFront:     $DISTRIBUTION_ID\n"
+
+  build:
+    commands:
+      - set -e
+      - |
+        # Pass 1: sync immutable assets (exclude HTML + SW), long cache
+        aws s3 sync "$SOURCE_DIRECTORY" "$DEST" \
+          --delete \
+          --exclude "*.html" \
+          --exclude "service-worker.js" \
+          --cache-control "public,max-age=31536000,immutable" \
+          --only-show-errors
+
+        # Pass 2: upload HTML with no-cache
+        aws s3 cp "$SOURCE_DIRECTORY" "$DEST" --recursive \
+          --exclude "*" --include "*.html" \
+          --cache-control "no-cache" \
+          --only-show-errors
+
+        # Pass 3: upload service worker with no-cache (if present)
+        if [ -f "$SOURCE_DIRECTORY/service-worker.js" ]; then
+          aws s3 cp "$SOURCE_DIRECTORY/service-worker.js" "${DEST}service-worker.js" \
+            --cache-control "no-cache" --only-show-errors
+        fi
+
+        # Invalidate CloudFront
+        aws cloudfront create-invalidation \
+          --distribution-id "$DISTRIBUTION_ID" \
+          --paths $CF_INVALIDATION_PATHS \
+          --output text
+        
+        printf "Deployment complete.\n"
+        printf "CloudFront URL: https://$CF_DOMAIN \n"
