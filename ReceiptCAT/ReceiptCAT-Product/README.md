@@ -42,7 +42,7 @@ Finally, connect the UI to your deployed backend.
 ---
 
 ## 🔑 Data & Security Notes
-- **Environment Secrets**: Sensitive data management (database endpoints, service credentials, etc.) is documented in `data.txt` located in this directory. 
+- **Environment Secrets**: Sensitive data management (database endpoints, service credentials, etc.) is documented in [DATA_MANAGEMENT](https://github.com/jordan0726/MyProject/blob/master/ReceiptCAT/ReceiptCAT-Product/DATA_MANAGEMENT.md) located in this directory. 
 - **User Authentication**: All modules rely on the centralized **Cognito User Pool** created by the infra module.
 
 ---
